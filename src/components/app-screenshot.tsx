@@ -18,6 +18,7 @@ export function AppScreenshot({ src, alt, title, description }: AppScreenshotPro
             width={300}
             height={600}
             alt={alt}
+            rotate={-10}
           />
         </div>
       </div>
