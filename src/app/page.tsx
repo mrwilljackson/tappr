@@ -66,7 +66,7 @@ export default function Home() {
                   <div className="absolute -left-4 -top-4 h-72 w-72 bg-orange-500/20 rounded-full blur-3xl" />
                   <div className="absolute -bottom-4 -right-4 h-72 w-72 bg-amber-600/20 rounded-full blur-3xl" />
                   <Image
-                    src="/placeholder.svg?height=600&width=300"
+                    src="/images/app/api_list.png"
                     width={300}
                     height={600}
                     alt="TAPPR App Screenshot"
@@ -148,7 +148,7 @@ export default function Home() {
                 </div>
                 <TabsContent value="dashboard" className="mt-0">
                   <AppScreenshot
-                    src="/placeholder.svg?height=600&width=300"
+                    src="/images/app/brew_list.png"
                     alt="TAPPR Dashboard"
                     title="Your Brewing Dashboard"
                     description="Get a quick overview of all your active brews, keg levels, and recent ratings."
@@ -156,7 +156,7 @@ export default function Home() {
                 </TabsContent>
                 <TabsContent value="tracking" className="mt-0">
                   <AppScreenshot
-                    src="/placeholder.svg?height=600&width=300"
+                    src="/images/app/keg_list.png"
                     alt="TAPPR Keg Tracking"
                     title="Real-time Keg Monitoring"
                     description="See exactly how much beer is left in each keg and estimate when you&apos;ll need to brew again."
@@ -164,7 +164,7 @@ export default function Home() {
                 </TabsContent>
                 <TabsContent value="tasting" className="mt-0">
                   <AppScreenshot
-                    src="/placeholder.svg?height=600&width=300"
+                    src="/images/app/serving_list.png"
                     alt="TAPPR Tasting Notes"
                     title="Detailed Tasting Notes"
                     description="Record and share comprehensive tasting notes with flavor profiles and ratings."
@@ -297,15 +297,25 @@ export default function Home() {
                   TAPPR will be available on iOS and Android soon. Join our waitlist to be notified when we launch.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button variant="outline" className="flex items-center gap-2" disabled>
-                  <Image src="/placeholder.svg?height=24&width=24" width={24} height={24} alt="Apple logo" />
-                  App Store
-                </Button>
-                <Button variant="outline" className="flex items-center gap-2" disabled>
-                  <Image src="/placeholder.svg?height=24&width=24" width={24} height={24} alt="Google Play logo" />
-                  Google Play
-                </Button>
+              <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center items-center">
+                <div className="flex items-center">
+                  <Image
+                    src="/images/buttons/app-store-greyed.svg"
+                    width={120}
+                    height={40}
+                    alt="Download on App Store - Coming Soon"
+                    className="opacity-70"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <Image
+                    src="/images/buttons/play-store-greyed.svg"
+                    width={135}
+                    height={40}
+                    alt="Get it on Google Play - Coming Soon"
+                    className="opacity-70"
+                  />
+                </div>
               </div>
             </div>
           </SiteContainer>
