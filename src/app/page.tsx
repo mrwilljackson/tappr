@@ -4,6 +4,7 @@ import { ArrowRight, Beer, BookOpen, Download, MessageSquare, Scale, Share2, Sma
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PhoneFrame } from "@/components/phone-frame"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Testimonial } from "@/components/testimonial"
 import { FeatureCard } from "@/components/feature-card"
@@ -65,13 +66,14 @@ export default function Home() {
                 <div className="relative w-full max-w-sm">
                   <div className="absolute -left-4 -top-4 h-72 w-72 bg-orange-500/20 rounded-full blur-3xl" />
                   <div className="absolute -bottom-4 -right-4 h-72 w-72 bg-amber-600/20 rounded-full blur-3xl" />
-                  <Image
-                    src="/images/app/api_list.png"
-                    width={300}
-                    height={600}
-                    alt="TAPPR App Screenshot"
-                    className="relative z-10 mx-auto rounded-2xl border shadow-xl"
-                  />
+                  <div className="relative z-10">
+                    <PhoneFrame
+                      src="/images/app/api_list.png"
+                      width={300}
+                      height={600}
+                      alt="TAPPR App Screenshot"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

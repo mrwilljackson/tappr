@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { PhoneFrame } from "./phone-frame"
 
 interface AppScreenshotProps {
   src: string
@@ -12,13 +12,14 @@ export function AppScreenshot({ src, alt, title, description }: AppScreenshotPro
     <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-start">
       <div className="relative w-full max-w-[300px] flex-shrink-0">
         <div className="absolute -left-4 -top-4 h-72 w-72 bg-orange-500/10 rounded-full blur-3xl" />
-        <Image
-          src={src || "/placeholder.svg"}
-          width={300}
-          height={600}
-          alt={alt}
-          className="relative z-10 mx-auto rounded-2xl border shadow-xl"
-        />
+        <div className="relative z-10">
+          <PhoneFrame
+            src={src || "/placeholder.svg"}
+            width={300}
+            height={600}
+            alt={alt}
+          />
+        </div>
       </div>
       <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
         <h3 className="text-2xl font-bold font-patua">{title}</h3>
