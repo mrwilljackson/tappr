@@ -19,6 +19,8 @@ export function AppScreenshot({ src, alt, title, description }: AppScreenshotPro
             height={600}
             alt={alt}
             rotate={-10}
+            shadow={true}
+            shadowOffset={-15}
           />
         </div>
       </div>

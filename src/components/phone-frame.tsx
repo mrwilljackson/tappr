@@ -25,7 +25,7 @@ export function PhoneFrame({
   // Calculate shadow styles if shadow is enabled
   const shadowStyle = shadow
     ? {
-        boxShadow: `${shadowOffset}px ${shadowOffset}px 30px rgba(100, 116, 139, 0.4)`,
+        boxShadow: `${shadowOffset}px ${Math.abs(shadowOffset)}px 30px rgba(100, 116, 139, 0.4)`,
       }
     : {};
 
