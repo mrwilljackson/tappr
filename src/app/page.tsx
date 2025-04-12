@@ -229,7 +229,7 @@ export default function Home() {
                   What Our Beta Testers Say
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  Hear from homebrewers who've already experienced the TAPPR difference.
+                  Hear from homebrewers who have already experienced the TAPPR difference.
                 </p>
               </div>
             </div>
