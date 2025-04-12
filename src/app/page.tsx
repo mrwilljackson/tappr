@@ -72,6 +72,9 @@ export default function Home() {
                       width={300}
                       height={600}
                       alt="TAPPR App Screenshot"
+                      rotate={20}
+                      shadow={true}
+                      shadowOffset={15}
                     />
                   </div>
                 </div>
