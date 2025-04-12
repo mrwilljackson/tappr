@@ -1,17 +1,6 @@
 import type React from "react"
-import { Patua_One, Montserrat } from "next/font/google"
+import { patuaOne, montserrat } from "./fonts"
 import "./globals.css"
-
-const patuaOne = Patua_One({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-patua-one",
-})
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-})
 
 export const metadata = {
   title: "TAPPR - The Ultimate Homebrewer's Companion",
@@ -25,8 +14,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${patuaOne.variable} ${montserrat.variable} font-montserrat`}>{children}</body>
+    <html lang="en" className={`${patuaOne.variable} ${montserrat.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="font-montserrat">{children}</body>
     </html>
   )
 }

@@ -119,4 +119,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  .font-patua {
+    font-family: 'Patua One', cursive;
+  }
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
 }

@@ -16,26 +16,25 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <SiteContainer>
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2">
+            <Link href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Beer className="h-6 w-6 text-amber-600 transform rotate-15" />
               <span className="text-xl font-bold tracking-tight font-patua">TAPPR</span>
-            </div>
+            </Link>
             <nav className="hidden md:flex gap-6">
-              <Link href="#features" className="text-sm font-medium hover:text-amber-600 transition-colors">
+              <Link href="#features" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
                 Features
               </Link>
-              <Link href="#how-it-works" className="text-sm font-medium hover:text-amber-600 transition-colors">
+              <Link href="#how-it-works" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
                 How It Works
               </Link>
-              <Link href="#testimonials" className="text-sm font-medium hover:text-amber-600 transition-colors">
+              <Link href="#testimonials" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
                 Testimonials
               </Link>
             </nav>
             <div>
-              <Button variant="outline" className="hidden md:inline-flex mr-4">
-                Log In
-              </Button>
-              <Button className="bg-amber-600 hover:bg-amber-700">Sign Up</Button>
+              <Link href="#cta">
+                <Button className="bg-amber-600 hover:bg-amber-700">Sign Up</Button>
+              </Link>
             </div>
           </div>
         </SiteContainer>
@@ -312,26 +311,26 @@ export default function Home() {
           </SiteContainer>
         </section>
       </main>
-      <footer className="border-t bg-background">
+      <footer className="border-t bg-black text-gray-300">
         <SiteContainer>
           <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
-            <div className="flex items-center gap-2">
-              <Beer className="h-6 w-6 text-amber-600 transform rotate-15" />
-              <span className="text-xl font-bold tracking-tight font-patua">TAPPR</span>
-            </div>
+            <Link href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <Beer className="h-6 w-6 text-amber-500 transform rotate-15" />
+              <span className="text-xl font-bold tracking-tight font-patua text-gray-200">TAPPR</span>
+            </Link>
             <nav className="flex gap-4 sm:gap-6">
-              <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+              <Link href="#" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
                 Privacy Policy
               </Link>
-              <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+              <Link href="#" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
                 Terms of Service
               </Link>
-              <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+              <Link href="#" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
                 Contact
               </Link>
             </nav>
             <div className="flex items-center gap-4">
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-montserrat">
+              <p className="text-sm text-gray-400 font-montserrat">
                 © 2024 TAPPR. All rights reserved.
               </p>
             </div>
