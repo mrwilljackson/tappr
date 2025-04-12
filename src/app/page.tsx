@@ -243,19 +243,19 @@ export default function Home() {
                 quote="TAPPR has completely changed how I manage my homebrew. No more guessing how much beer is left!"
                 author="Mike Johnson"
                 role="Homebrewer for 8 years"
-                avatarSrc="/placeholder.svg?height=80&width=80"
+                avatarSrc="/images/testimonials/mike-johnson.svg"
               />
               <Testimonial
                 quote="The Brewfather integration is seamless. All my recipes and brew data sync perfectly."
                 author="Sarah Miller"
                 role="Craft Beer Enthusiast"
-                avatarSrc="/placeholder.svg?height=80&width=80"
+                avatarSrc="/images/testimonials/sarah-miller.svg"
               />
               <Testimonial
                 quote="My friends love rating my beers in the app. It&apos;s turned brewing into a fun, social experience."
                 author="David Chen"
                 role="Home Brewing Club President"
-                avatarSrc="/placeholder.svg?height=80&width=80"
+                avatarSrc="/images/testimonials/david-chen.svg"
               />
             </div>
           </SiteContainer>
