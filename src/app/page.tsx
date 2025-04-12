@@ -159,7 +159,7 @@ export default function Home() {
                     src="/placeholder.svg?height=600&width=300"
                     alt="TAPPR Keg Tracking"
                     title="Real-time Keg Monitoring"
-                    description="See exactly how much beer is left in each keg and estimate when you'll need to brew again."
+                    description="See exactly how much beer is left in each keg and estimate when you&apos;ll need to brew again."
                   />
                 </TabsContent>
                 <TabsContent value="tasting" className="mt-0">
@@ -229,7 +229,7 @@ export default function Home() {
                   What Our Beta Testers Say
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  Hear from homebrewers who've already experienced the TAPPR difference.
+                  Hear from homebrewers who&apos;ve already experienced the TAPPR difference.
                 </p>
               </div>
             </div>
@@ -247,7 +247,7 @@ export default function Home() {
                 avatarSrc="/placeholder.svg?height=80&width=80"
               />
               <Testimonial
-                quote="My friends love rating my beers in the app. It's turned brewing into a fun, social experience."
+                quote="My friends love rating my beers in the app. It&apos;s turned brewing into a fun, social experience."
                 author="David Chen"
                 role="Home Brewing Club President"
                 avatarSrc="/placeholder.svg?height=80&width=80"

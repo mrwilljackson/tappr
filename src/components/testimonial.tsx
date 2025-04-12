@@ -17,7 +17,7 @@ export function Testimonial({ quote, author, role, avatarSrc }: TestimonialProps
           <div className="relative h-16 w-16 overflow-hidden rounded-full">
             <Image src={avatarSrc || "/placeholder.svg"} alt={author} fill className="object-cover" />
           </div>
-          <blockquote className="text-lg font-medium leading-relaxed font-montserrat">"{quote}"</blockquote>
+          <blockquote className="text-lg font-medium leading-relaxed font-montserrat">&ldquo;{quote}&rdquo;</blockquote>
           <div>
             <div className="font-semibold font-patua">{author}</div>
             <div className="text-sm text-gray-500 dark:text-gray-400 font-montserrat">{role}</div>
