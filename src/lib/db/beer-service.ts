@@ -17,6 +17,13 @@ export async function getBeerById(id: number): Promise<Beer | undefined> {
   return result[0];
 }
 
+// Get a beer by brewUuid
+export async function getBeerByBrewUuid(brewUuid: string): Promise<Beer | undefined> {
+  const db = getDb();
+  const result = db.select().from(beers).where(eq(beers.brewUuid, brewUuid)).all();
+  return result[0];
+}
+
 // Create a new beer
 export async function createBeer(data: BeerCreateInput): Promise<Beer> {
   const db = getDb();

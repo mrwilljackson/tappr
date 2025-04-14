@@ -7,8 +7,13 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/api/')) {
     console.log(`[API] ${request.method} ${request.nextUrl.pathname}`);
 
-    // Skip API key check for documentation and OPTIONS requests (CORS preflight)
-    if (request.nextUrl.pathname === '/api/docs' || request.method === 'OPTIONS') {
+    // Skip API key check for documentation, public endpoints, and OPTIONS requests (CORS preflight)
+    if (
+      request.nextUrl.pathname === '/api/docs' ||
+      request.nextUrl.pathname.startsWith('/api/reviews/public/') ||
+      request.nextUrl.pathname.startsWith('/api/beers/public/') ||
+      request.method === 'OPTIONS'
+    ) {
       return NextResponse.next();
     }
 
