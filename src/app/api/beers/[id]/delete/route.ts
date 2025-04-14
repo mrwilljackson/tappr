@@ -6,30 +6,40 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = parseInt(params.id);
-    
+    // Use await to ensure params is fully resolved
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
+
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'Invalid ID format' },
         { status: 400 }
       );
     }
-    
+
     // Delete the beer
     const success = await deleteBeer(id);
-    
+
     if (!success) {
       return NextResponse.json(
         { error: 'Beer not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({
       message: 'Beer deleted successfully'
     });
   } catch (error) {
-    console.error(`Error deleting beer with ID ${params.id}:`, error);
+    // Use a try-catch block to safely access params.id
+    let id;
+    try {
+      id = params.id;
+    } catch (e) {
+      id = 'unknown';
+    }
+
+    console.error(`Error deleting beer with ID ${id}:`, error);
     return NextResponse.json(
       { error: 'Failed to delete beer' },
       { status: 500 }

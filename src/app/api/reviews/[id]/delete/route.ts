@@ -6,23 +6,32 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const reviewId = params.id;
-    
+    // Use await to ensure params is fully resolved
+    const { id } = await params;
+
     // Delete the review
-    const success = await deleteReview(reviewId);
-    
+    const success = await deleteReview(id);
+
     if (!success) {
       return NextResponse.json(
         { error: 'Review not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({
       message: 'Review deleted successfully'
     });
   } catch (error) {
-    console.error(`Error deleting review with ID ${params.id}:`, error);
+    // Use a try-catch block to safely access params.id
+    let id;
+    try {
+      id = params.id;
+    } catch (e) {
+      id = 'unknown';
+    }
+
+    console.error(`Error deleting review with ID ${id}:`, error);
     return NextResponse.json(
       { error: 'Failed to delete review' },
       { status: 500 }

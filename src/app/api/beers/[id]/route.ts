@@ -6,7 +6,9 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = parseInt(params.id);
+    // Use await to ensure params is fully resolved
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
 
     if (isNaN(id)) {
       return NextResponse.json(
@@ -26,7 +28,15 @@ export async function GET(
 
     return NextResponse.json(beer);
   } catch (error) {
-    console.error(`Error fetching beer with ID ${params.id}:`, error);
+    // Use a try-catch block to safely access params.id
+    let id;
+    try {
+      id = params.id;
+    } catch (e) {
+      id = 'unknown';
+    }
+
+    console.error(`Error fetching beer with ID ${id}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch beer' },
       { status: 500 }
