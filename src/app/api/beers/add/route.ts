@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { Beer, BeerCreateInput } from '@/types/beer';
+import { BeerCreateInput } from '@/types/beer';
+import { createBeer } from '@/lib/db/beer-service';
 
 export async function POST(request: Request) {
   try {
@@ -14,14 +15,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // In a real app, you would save this to a database
-    // For now, we'll just return the data with a fake ID
-    const newBeer: Beer = {
-      id: Math.floor(Math.random() * 1000) + 4, // Generate a random ID
-      ...body,
-      brewDate: body.brewDate || new Date().toISOString().split('T')[0],
-      kegLevel: body.kegLevel || 100, // New keg is full
-    };
+    // Save to the database
+    const newBeer = await createBeer(body);
 
     return NextResponse.json(
       { message: 'Beer added successfully', beer: newBeer },
@@ -30,8 +25,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error adding beer:', error);
     return NextResponse.json(
-      { error: 'Invalid request body' },
-      { status: 400 }
+      { error: 'Failed to add beer' },
+      { status: 500 }
     );
   }
 }

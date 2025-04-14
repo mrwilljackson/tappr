@@ -7,6 +7,7 @@ export interface Beer {
   description?: string;
   brewDate: string;
   kegLevel: number;
+  brewUuid: string;
 }
 
 export interface BeerCreateInput {
@@ -17,4 +18,5 @@ export interface BeerCreateInput {
   description?: string;
   brewDate?: string;
   kegLevel?: number;
+  brewUuid?: string;
 }
