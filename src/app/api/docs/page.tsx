@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { quickReviewExample, standardReviewExample, expertReviewExample, reviewResponseExample } from './review-examples';
 
 export default function ApiDocsPage() {
   return (
@@ -179,6 +180,122 @@ export default function ApiDocsPage() {
                     {JSON.stringify(
                       {
                         message: 'Beer deleted successfully',
+                      },
+                      null,
+                      2
+                    )}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b pb-6 mt-8">
+          <h2 className="text-2xl font-bold mb-4 font-patua">Review Endpoints</h2>
+
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get All Reviews</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>GET /api/reviews</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns a list of all reviews.</p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get Review by ID</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>GET /api/reviews/{'{id}'}</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns a specific review by ID.</p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get Reviews by Brew UUID</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>GET /api/reviews/brew/{'{brewUuid}'}</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns all reviews for a specific brew.</p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Add Quick Review</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>POST /api/reviews/add</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Adds a new quick review.</p>
+              <div className="mb-2">
+                <h4 className="font-semibold font-patua">Request Body:</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm overflow-auto">
+                    {JSON.stringify(quickReviewExample, null, 2)}
+                  </pre>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold font-patua">Response:</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm overflow-auto">
+                    {JSON.stringify(reviewResponseExample, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Add Standard Review</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>POST /api/reviews/add</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Adds a new standard review with more detailed ratings.</p>
+              <div className="mb-2">
+                <h4 className="font-semibold font-patua">Request Body:</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm overflow-auto">
+                    {JSON.stringify(standardReviewExample, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Add Expert Review</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>POST /api/reviews/add</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Adds a new expert review with comprehensive ratings.</p>
+              <div className="mb-2">
+                <h4 className="font-semibold font-patua">Request Body:</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm overflow-auto">
+                    {JSON.stringify(expertReviewExample, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Update Review</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>PATCH /api/reviews/{'{id}'}/update</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Updates an existing review.</p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Delete Review</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>DELETE /api/reviews/{'{id}'}/delete</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Deletes a review from the system.</p>
+              <div>
+                <h4 className="font-semibold font-patua">Response:</h4>
+                <div className="bg-gray-100 p-3 rounded">
+                  <pre className="text-sm overflow-auto">
+                    {JSON.stringify(
+                      {
+                        message: 'Review deleted successfully',
                       },
                       null,
                       2

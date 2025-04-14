@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
-import { beers } from './schema';
+import { beers, reviews } from './schema';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -48,6 +48,25 @@ function initializeDb() {
       brew_date TEXT NOT NULL,
       keg_level INTEGER NOT NULL DEFAULT 100,
       brew_uuid TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Create the reviews table if it doesn't exist
+  sqlite.exec(`
+    CREATE TABLE IF NOT EXISTS reviews (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      review_id TEXT NOT NULL UNIQUE,
+      brew_uuid TEXT NOT NULL,
+      reviewer_id TEXT,
+      reviewer_name TEXT,
+      is_anonymous INTEGER NOT NULL DEFAULT 0,
+      review_date TEXT NOT NULL,
+      review_type TEXT NOT NULL,
+      quick_review TEXT NOT NULL,
+      standard_review TEXT,
+      expert_review TEXT,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
