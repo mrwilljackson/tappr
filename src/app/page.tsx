@@ -31,6 +31,9 @@ export default function Home() {
               <Link href="#testimonials" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
                 Testimonials
               </Link>
+              <Link href="/api/docs" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
+                API
+              </Link>
             </nav>
             <div>
               <Link href="#cta">
@@ -342,6 +345,9 @@ export default function Home() {
               </Link>
               <Link href="#" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
                 Contact
+              </Link>
+              <Link href="/api/docs" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
+                API Docs
               </Link>
             </nav>
             <div className="flex items-center gap-4">
