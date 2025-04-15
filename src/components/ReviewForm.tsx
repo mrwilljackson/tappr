@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ReviewType, QuickReview, StandardReview, ExpertReview } from '@/types/review';
 
 interface ReviewFormProps {
@@ -10,6 +11,7 @@ interface ReviewFormProps {
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError }) => {
+  const router = useRouter();
   const [reviewType, setReviewType] = useState<ReviewType>('quick');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reviewerName, setReviewerName] = useState('');
@@ -144,22 +146,18 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError })
         throw new Error(data.error || 'Failed to submit review');
       }
 
-      // Clear form or show success message
-      setSuccessMessage('Review submitted successfully!');
+      // Show temporary success message
+      setSuccessMessage('Review submitted successfully! Redirecting...');
 
-      // Reset form
-      setQuickReview({ overallRating: 3, comments: '' });
-      setStandardReview({
-        appearance: 3,
-        aroma: 3,
-        taste: 3,
-        mouthfeel: 3,
-        comments: '',
-      });
-
+      // Call onSuccess callback if provided
       if (onSuccess) {
         onSuccess(data);
       }
+
+      // Redirect to the confirmation page after a short delay
+      setTimeout(() => {
+        router.push(`/review-confirmation/${brewUuid}`);
+      }, 1000);
     } catch (error: Error | unknown) {
       console.error('Error submitting review:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to submit review';
