@@ -1,0 +1,10 @@
+{
+  "brewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "reviewerName": "API Test User",
+  "isAnonymous": false,
+  "reviewType": "quick",
+  "quickReview": {
+    "overallRating": 5,
+    "comments": "Testing the remote API functionality"
+  }
+}

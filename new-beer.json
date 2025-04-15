@@ -1,0 +1,10 @@
+{
+  "name": "Test Remote API Beer",
+  "style": "American IPA",
+  "abv": 6.2,
+  "ibu": 55,
+  "description": "A test beer to verify the remote API functionality",
+  "brewDate": "2024-04-15",
+  "kegLevel": 100,
+  "brewUuid": "test-remote-api-uuid-12345"
+}
