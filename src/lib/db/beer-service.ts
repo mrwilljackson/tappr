@@ -1,77 +1,134 @@
-import { eq } from 'drizzle-orm';
-import { getDb } from './index';
-import { beers, Beer, NewBeer } from './schema';
+import supabase from '@/lib/supabase';
 import { BeerCreateInput } from '@/types/beer';
 import { v4 as uuidv4 } from 'uuid';
 
+// Define Beer type based on your Supabase table
+export type Beer = {
+  id: number;
+  name: string;
+  style: string;
+  abv: number;
+  ibu?: number;
+  description?: string;
+  brew_date: string;
+  keg_level: number;
+  brew_uuid: string;
+  created_at: string;
+  updated_at: string;
+};
+
 // Get all beers from the database
 export async function getAllBeers(): Promise<Beer[]> {
-  const db = getDb();
-  return db.select().from(beers).all();
+  const { data, error } = await supabase
+    .from('beers')
+    .select('*')
+    .order('id');
+
+  if (error) {
+    console.error('Error fetching beers:', error);
+    return [];
+  }
+
+  return data || [];
 }
 
 // Get a beer by ID
-export async function getBeerById(id: number): Promise<Beer | undefined> {
-  const db = getDb();
-  const result = db.select().from(beers).where(eq(beers.id, id)).all();
-  return result[0];
+export async function getBeerById(id: number): Promise<Beer | null> {
+  const { data, error } = await supabase
+    .from('beers')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching beer with ID ${id}:`, error);
+    return null;
+  }
+
+  return data;
 }
 
 // Get a beer by brewUuid
-export async function getBeerByBrewUuid(brewUuid: string): Promise<Beer | undefined> {
-  const db = getDb();
-  const result = db.select().from(beers).where(eq(beers.brewUuid, brewUuid)).all();
-  return result[0];
+export async function getBeerByBrewUuid(brewUuid: string): Promise<Beer | null> {
+  const { data, error } = await supabase
+    .from('beers')
+    .select('*')
+    .eq('brew_uuid', brewUuid)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching beer with UUID ${brewUuid}:`, error);
+    return null;
+  }
+
+  return data;
 }
 
 // Create a new beer
-export async function createBeer(data: BeerCreateInput): Promise<Beer> {
-  const db = getDb();
-
-  const newBeer: NewBeer = {
+export async function createBeer(data: BeerCreateInput): Promise<Beer | null> {
+  const newBeer = {
     name: data.name,
     style: data.style,
     abv: data.abv,
     ibu: data.ibu,
     description: data.description,
-    brewDate: data.brewDate || new Date().toISOString().split('T')[0],
-    kegLevel: data.kegLevel || 100,
-    brewUuid: data.brewUuid || uuidv4(), // Use provided UUID or generate a new one
+    brew_date: data.brewDate || new Date().toISOString().split('T')[0],
+    keg_level: data.kegLevel || 100,
+    brew_uuid: data.brewUuid || uuidv4(), // Use provided UUID or generate a new one
   };
 
-  const result = db.insert(beers).values(newBeer).returning().all();
-  return result[0];
+  const { data: result, error } = await supabase
+    .from('beers')
+    .insert([newBeer])
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating beer:', error);
+    return null;
+  }
+
+  return result;
 }
 
 // Update a beer
-export async function updateBeer(id: number, data: Partial<BeerCreateInput>): Promise<Beer | undefined> {
-  const db = getDb();
-
+export async function updateBeer(id: number, data: Partial<BeerCreateInput>): Promise<Beer | null> {
   // First check if the beer exists
   const existingBeer = await getBeerById(id);
   if (!existingBeer) {
-    return undefined;
+    return null;
   }
 
-  // Update the beer
-  const updateData: Partial<NewBeer> = {
-    ...data,
-    updatedAt: new Date().toISOString(),
+  // Prepare update data with proper field names
+  const updateData: any = {
+    updated_at: new Date().toISOString()
   };
 
-  const result = db.update(beers)
-    .set(updateData)
-    .where(eq(beers.id, id))
-    .returning()
-    .all();
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.style !== undefined) updateData.style = data.style;
+  if (data.abv !== undefined) updateData.abv = data.abv;
+  if (data.ibu !== undefined) updateData.ibu = data.ibu;
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.brewDate !== undefined) updateData.brew_date = data.brewDate;
+  if (data.kegLevel !== undefined) updateData.keg_level = data.kegLevel;
 
-  return result[0];
+  const { data: result, error } = await supabase
+    .from('beers')
+    .update(updateData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Error updating beer with ID ${id}:`, error);
+    return null;
+  }
+
+  return result;
 }
 
 // Delete a beer
 export async function deleteBeer(id: number): Promise<boolean> {
-  const db = getDb();
-
   // First check if the beer exists
   const existingBeer = await getBeerById(id);
   if (!existingBeer) {
@@ -79,6 +136,15 @@ export async function deleteBeer(id: number): Promise<boolean> {
   }
 
   // Delete the beer
-  db.delete(beers).where(eq(beers.id, id)).run();
+  const { error } = await supabase
+    .from('beers')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error(`Error deleting beer with ID ${id}:`, error);
+    return false;
+  }
+
   return true;
 }
