@@ -1,14 +1,19 @@
 import { NextResponse } from 'next/server';
 import { getBeerByBrewUuid } from '@/lib/db/beer-service';
 
+// Define the type for the route handler context
+interface RouteContext {
+  params: {
+    brewUuid: string;
+  };
+}
+
 export async function GET(
-  request: Request,
-  context: { params: { brewUuid: string } }
+  _request: Request,
+  context: RouteContext
 ) {
-  const { params } = context;
   try {
-    // Use await to ensure params is fully resolved
-    const { brewUuid } = await params;
+    const { brewUuid } = context.params;
 
     // Get beer by brewUuid
     const beer = await getBeerByBrewUuid(brewUuid);
@@ -22,15 +27,7 @@ export async function GET(
 
     return NextResponse.json(beer);
   } catch (error) {
-    // Use a try-catch block to safely access params.brewUuid
-    let brewUuid;
-    try {
-      brewUuid = params.brewUuid;
-    } catch (e) {
-      brewUuid = 'unknown';
-    }
-
-    console.error(`Error fetching beer with UUID ${brewUuid}:`, error);
+    console.error(`Error fetching beer with UUID ${context.params.brewUuid}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch beer' },
       { status: 500 }

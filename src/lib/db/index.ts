@@ -1,6 +1,5 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
-import { beers, reviews } from './schema';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 

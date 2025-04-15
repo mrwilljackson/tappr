@@ -1,14 +1,19 @@
 import { NextResponse } from 'next/server';
 import { getReviewById } from '@/lib/db/review-service';
 
+// Define the type for the route handler context
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
+
 export async function GET(
-  request: Request,
-  context: { params: { id: string } }
+  _request: Request,
+  context: RouteContext
 ) {
-  const { params } = context;
   try {
-    // Use await to ensure params is fully resolved
-    const { id } = await params;
+    const { id } = context.params;
 
     const review = await getReviewById(id);
 
@@ -21,15 +26,7 @@ export async function GET(
 
     return NextResponse.json(review);
   } catch (error) {
-    // Use a try-catch block to safely access params.id
-    let id;
-    try {
-      id = params.id;
-    } catch (e) {
-      id = 'unknown';
-    }
-
-    console.error(`Error fetching review with ID ${id}:`, error);
+    console.error(`Error fetching review with ID ${context.params.id}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch review' },
       { status: 500 }

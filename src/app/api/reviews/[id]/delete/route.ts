@@ -1,14 +1,19 @@
 import { NextResponse } from 'next/server';
 import { deleteReview } from '@/lib/db/review-service';
 
+// Define the type for the route handler context
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
+
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteContext
 ) {
-  const { params } = context;
   try {
-    // Use await to ensure params is fully resolved
-    const { id } = await params;
+    const { id } = context.params;
 
     // Delete the review
     const success = await deleteReview(id);
@@ -24,15 +29,7 @@ export async function DELETE(
       message: 'Review deleted successfully'
     });
   } catch (error) {
-    // Use a try-catch block to safely access params.id
-    let id;
-    try {
-      id = params.id;
-    } catch (e) {
-      id = 'unknown';
-    }
-
-    console.error(`Error deleting review with ID ${id}:`, error);
+    console.error(`Error deleting review with ID ${context.params.id}:`, error);
     return NextResponse.json(
       { error: 'Failed to delete review' },
       { status: 500 }

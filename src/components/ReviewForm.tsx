@@ -5,8 +5,8 @@ import { ReviewType, QuickReview, StandardReview, ExpertReview } from '@/types/r
 
 interface ReviewFormProps {
   brewUuid: string;
-  onSuccess?: (data: any) => void;
-  onError?: (error: any) => void;
+  onSuccess?: (data: Record<string, unknown>) => void;
+  onError?: (error: Error | unknown) => void;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError }) => {
@@ -107,7 +107,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError })
 
     try {
       // Prepare the review data based on the selected type
-      const reviewData: any = {
+      const reviewData: Record<string, unknown> = {
         brewUuid,
         reviewType,
         quickReview,
@@ -160,9 +160,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError })
       if (onSuccess) {
         onSuccess(data);
       }
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Error submitting review:', error);
-      setErrorMessage(error.message || 'Failed to submit review');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit review';
+      setErrorMessage(errorMessage);
 
       if (onError) {
         onError(error);

@@ -1,15 +1,21 @@
 import { NextResponse } from 'next/server';
 import { getBeerById } from '@/lib/db/beer-service';
 
+// Define the type for the route handler context
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
+
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteContext
 ) {
-  const { params } = context;
   try {
-    // Use await to ensure params is fully resolved
-    const { id: idStr } = await params;
-    const id = parseInt(idStr);
+    // Await params to ensure it's fully resolved
+    const params = await context.params;
+    const id = parseInt(params.id);
 
     if (isNaN(id)) {
       return NextResponse.json(
@@ -29,15 +35,7 @@ export async function GET(
 
     return NextResponse.json(beer);
   } catch (error) {
-    // Use a try-catch block to safely access params.id
-    let id;
-    try {
-      id = params.id;
-    } catch (e) {
-      id = 'unknown';
-    }
-
-    console.error(`Error fetching beer with ID ${id}:`, error);
+    console.error(`Error fetching beer with ID ${context.params.id}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch beer' },
       { status: 500 }
