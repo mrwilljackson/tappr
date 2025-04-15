@@ -18,7 +18,8 @@ export function middleware(request: NextRequest) {
     }
 
     // Get the API key from the request headers
-    const apiKey = request.headers.get('x-api-key');
+    // Try both formats to ensure backward compatibility
+    const apiKey = request.headers.get('x_api_key') || request.headers.get('x-api-key');
 
     // Check if the API key is valid
     if (!validateApiKey(apiKey)) {
