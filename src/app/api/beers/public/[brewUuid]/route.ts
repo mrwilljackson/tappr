@@ -3,8 +3,9 @@ import { getBeerByBrewUuid } from '@/lib/db/beer-service';
 
 export async function GET(
   request: Request,
-  { params }: { params: { brewUuid: string } }
+  context: { params: { brewUuid: string } }
 ) {
+  const { params } = context;
   try {
     // Use await to ensure params is fully resolved
     const { brewUuid } = await params;

@@ -1,0 +1,67 @@
+{
+  "reviewId": "UUID",
+  "brewUuid": "550e8400-e29b-41d4-a716-446655440000",
+  
+  // Reviewer identification (optional)
+  "reviewerId": "UUID",  // Optional - for registered users
+  "reviewerName": "String", // Optional - for one-time reviewers
+  "isAnonymous": boolean,
+  
+  "reviewDate": "2023-11-15T14:30:00Z",
+  "reviewType": "quick|standard|expert", // Indicates which sections are filled
+  
+  // Quick Review (always required)
+  "quickReview": {
+    "overallRating": 4, // Scale 1-5
+    "comments": "Great IPA, would drink again!"
+  },
+  
+  // Standard Review (optional)
+  "standardReview": {
+    "appearance": 4, // Scale 1-5
+    "aroma": 5,      // Scale 1-5
+    "taste": 4,      // Scale 1-5
+    "mouthfeel": 3,  // Scale 1-5
+    "comments": "Nice golden color, strong hop aroma, good balance of flavors"
+  },
+  
+  // Expert Review (optional)
+  "expertReview": {
+    "appearance": {
+      "clarity": 4,
+      "color": 5,
+      "head": 4,
+      "notes": "Golden amber with excellent head retention"
+    },
+    "aroma": {
+      "intensity": 4,
+      "maltiness": 3,
+      "hoppiness": 5,
+      "fruitiness": 4,
+      "otherAromatics": 3,
+      "notes": "Strong citrus and pine hop aroma with supporting malt backbone"
+    },
+    "taste": {
+      "flavorIntensity": 4,
+      "maltCharacter": 3,
+      "hopCharacter": 5,
+      "bitterness": 4,
+      "sweetness": 2,
+      "balance": 4,
+      "notes": "Bold hop flavor with enough malt to support, clean bitterness"
+    },
+    "mouthfeel": {
+      "body": 3,
+      "carbonation": 4,
+      "warmth": 2,
+      "creaminess": 3,
+      "notes": "Medium body with lively carbonation"
+    },
+    "aftertaste": {
+      "duration": 4,
+      "pleasantness": 4,
+      "notes": "Pleasant lingering hop bitterness"
+    },
+    "styleAccuracy": 9
+  }
+}

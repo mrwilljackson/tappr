@@ -3,8 +3,9 @@ import { deleteReview } from '@/lib/db/review-service';
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     // Use await to ensure params is fully resolved
     const { id } = await params;

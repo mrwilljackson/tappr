@@ -4,8 +4,9 @@ import { updateBeer } from '@/lib/db/beer-service';
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     // Use await to ensure params is fully resolved
     const { id: idStr } = await params;
