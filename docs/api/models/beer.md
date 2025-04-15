@@ -10,7 +10,7 @@ The Beer model represents a beer in the TAPPR system.
 | name        | string  | Name of the beer                                | Yes      |
 | style       | string  | Style of the beer (e.g., IPA, Stout)            | Yes      |
 | abv         | number  | Alcohol by volume percentage                     | Yes      |
-| ibu         | integer | International Bitterness Units                   | No       |
+| ibu         | number  | International Bitterness Units (can have decimal values) | No       |
 | description | string  | Description of the beer                          | No       |
 | brew_date   | string  | Date the beer was brewed (ISO 8601 format)       | Yes      |
 | keg_level   | integer | Current level of the keg (0-100)                 | Yes (defaults to 100) |
@@ -45,7 +45,7 @@ When creating a new beer, you can provide the following properties:
 | name        | string  | Name of the beer                                | Yes      |
 | style       | string  | Style of the beer (e.g., IPA, Stout)            | Yes      |
 | abv         | number  | Alcohol by volume percentage                     | Yes      |
-| ibu         | integer | International Bitterness Units                   | No       |
+| ibu         | number  | International Bitterness Units (can have decimal values) | No       |
 | description | string  | Description of the beer                          | No       |
 | brewDate    | string  | Date the beer was brewed (ISO 8601 format)       | No (defaults to current date) |
 | kegLevel    | integer | Current level of the keg (0-100)                 | No (defaults to 100) |
@@ -73,3 +73,22 @@ When creating a new beer, you can provide the following properties:
 - If `brewUuid` is not provided, a new UUID will be generated.
 - If `brewDate` is not provided, the current date will be used.
 - If `kegLevel` is not provided, it will default to 100 (full keg).
+- The `ibu` field can store decimal values (e.g., 45.5) for more precise bitterness measurements.
+
+## Database Mapping
+
+The Beer model maps to the `beers` table in the database. The API uses camelCase property names, while the database uses snake_case column names:
+
+| API Property | Database Column |
+|--------------|------------------|
+| id | id |
+| name | name |
+| style | style |
+| abv | abv |
+| ibu | ibu |
+| description | description |
+| brewDate | brew_date |
+| kegLevel | keg_level |
+| brewUuid | brew_uuid |
+| createdAt | created_at |
+| updatedAt | updated_at |

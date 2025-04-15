@@ -216,3 +216,27 @@ When creating a new review, you can provide the following properties:
 - The `reviewType` property must be one of: "quick", "standard", or "expert".
 - For "standard" reviews, both `quickReview` and `standardReview` are required.
 - For "expert" reviews, `quickReview`, `standardReview`, and `expertReview` are all required.
+
+## Database Mapping
+
+The Review model maps to the `reviews` table in the database. The API uses camelCase property names, while the database uses snake_case column names:
+
+| API Property | Database Column |
+|--------------|------------------|
+| id | id |
+| reviewId | review_id |
+| brewUuid | brew_uuid |
+| reviewerId | reviewer_id |
+| reviewerName | reviewer_name |
+| isAnonymous | is_anonymous |
+| reviewDate | review_date |
+| reviewType | review_type |
+| quickReview | quick_review |
+| standardReview | standard_review |
+| expertReview | expert_review |
+| createdAt | created_at |
+| updatedAt | updated_at |
+
+### JSON Storage
+
+The review data objects (`quickReview`, `standardReview`, and `expertReview`) are stored as JSON in the database using PostgreSQL's `jsonb` type. This allows for efficient storage and querying of the nested review data.

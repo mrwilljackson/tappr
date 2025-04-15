@@ -1,0 +1,173 @@
+# TAPPR Database Schema
+
+This document describes the database schema used by the TAPPR API. The API uses Supabase as its database backend, which is built on PostgreSQL.
+
+## Tables
+
+### beers
+
+The `beers` table stores information about beers in the system.
+
+| Column Name | Data Type | Description | Constraints |
+|-------------|-----------|-------------|-------------|
+| id | integer | Unique identifier for the beer | Primary Key, Auto-increment |
+| name | text | Name of the beer | Not Null |
+| style | text | Style of the beer (e.g., IPA, Stout) | Not Null |
+| abv | real | Alcohol by volume percentage | Not Null |
+| ibu | double precision | International Bitterness Units (can have decimal values) | Nullable |
+| description | text | Description of the beer | Nullable |
+| brew_date | text | Date the beer was brewed (ISO format: YYYY-MM-DD) | Not Null |
+| keg_level | integer | Current keg level percentage (0-100) | Not Null, Default: 100 |
+| brew_uuid | text | UUID for the beer (used as a stable reference) | Not Null, Unique |
+| created_at | timestamp with time zone | Timestamp when the record was created | Not Null, Default: current_timestamp |
+| updated_at | timestamp with time zone | Timestamp when the record was last updated | Not Null, Default: current_timestamp |
+
+### reviews
+
+The `reviews` table stores reviews for beers in the system.
+
+| Column Name | Data Type | Description | Constraints |
+|-------------|-----------|-------------|-------------|
+| id | integer | Unique identifier for the review | Primary Key, Auto-increment |
+| review_id | text | UUID for the review | Not Null, Unique |
+| brew_uuid | text | UUID of the beer being reviewed | Not Null, Foreign Key to beers.brew_uuid |
+| reviewer_id | text | ID of the reviewer (if authenticated) | Nullable |
+| reviewer_name | text | Name of the reviewer | Nullable |
+| is_anonymous | boolean | Whether the review is anonymous | Not Null, Default: false |
+| review_date | text | Date of the review (ISO format) | Not Null |
+| review_type | text | Type of review: "quick", "standard", or "expert" | Not Null |
+| quick_review | jsonb | Quick review data (stored as JSON) | Not Null |
+| standard_review | jsonb | Standard review data (stored as JSON) | Nullable |
+| expert_review | jsonb | Expert review data (stored as JSON) | Nullable |
+| created_at | timestamp with time zone | Timestamp when the record was created | Not Null, Default: current_timestamp |
+| updated_at | timestamp with time zone | Timestamp when the record was last updated | Not Null, Default: current_timestamp |
+
+## Data Mapping
+
+### API to Database Mapping
+
+The API uses camelCase for property names, while the database uses snake_case for column names. Here's how they map:
+
+#### Beer Model
+
+| API Property | Database Column |
+|--------------|-----------------|
+| id | id |
+| name | name |
+| style | style |
+| abv | abv |
+| ibu | ibu |
+| description | description |
+| brewDate | brew_date |
+| kegLevel | keg_level |
+| brewUuid | brew_uuid |
+| createdAt | created_at |
+| updatedAt | updated_at |
+
+#### Review Model
+
+| API Property | Database Column |
+|--------------|-----------------|
+| id | id |
+| reviewId | review_id |
+| brewUuid | brew_uuid |
+| reviewerId | reviewer_id |
+| reviewerName | reviewer_name |
+| isAnonymous | is_anonymous |
+| reviewDate | review_date |
+| reviewType | review_type |
+| quickReview | quick_review |
+| standardReview | standard_review |
+| expertReview | expert_review |
+| createdAt | created_at |
+| updatedAt | updated_at |
+
+### JSON Data Structure
+
+Some fields in the database are stored as JSON. Here's the structure of these fields:
+
+#### quick_review
+
+```json
+{
+  "overallRating": 4,
+  "comments": "Great beer, would drink again!"
+}
+```
+
+#### standard_review
+
+```json
+{
+  "appearance": 4,
+  "aroma": 5,
+  "taste": 4,
+  "mouthfeel": 3,
+  "comments": "Nice golden color, strong hop aroma, good balance of flavors"
+}
+```
+
+#### expert_review
+
+```json
+{
+  "appearance": {
+    "clarity": 4,
+    "color": 5,
+    "head": 4,
+    "notes": "Golden amber with excellent head retention"
+  },
+  "aroma": {
+    "intensity": 4,
+    "maltiness": 3,
+    "hoppiness": 5,
+    "fruitiness": 4,
+    "otherAromatics": 3,
+    "notes": "Strong citrus and pine hop aroma with supporting malt backbone"
+  },
+  "taste": {
+    "flavorIntensity": 4,
+    "maltCharacter": 3,
+    "hopCharacter": 5,
+    "bitterness": 4,
+    "sweetness": 2,
+    "balance": 4,
+    "notes": "Bold hop flavor with enough malt to support, clean bitterness"
+  },
+  "mouthfeel": {
+    "body": 3,
+    "carbonation": 4,
+    "warmth": 2,
+    "creaminess": 3,
+    "notes": "Medium body with lively carbonation"
+  },
+  "aftertaste": {
+    "duration": 4,
+    "pleasantness": 4,
+    "notes": "Pleasant lingering hop bitterness"
+  },
+  "styleAccuracy": 9
+}
+```
+
+## Indexes
+
+The following indexes are recommended for optimal performance:
+
+### beers table
+
+- Primary Key: `id`
+- Unique Index: `brew_uuid`
+
+### reviews table
+
+- Primary Key: `id`
+- Unique Index: `review_id`
+- Index: `brew_uuid` (for faster lookups of reviews by beer)
+
+## Notes
+
+- The `ibu` column is stored as a `double precision` (float8) to allow for decimal values.
+- Date fields are stored as text in ISO format (YYYY-MM-DD) for simplicity and compatibility.
+- JSON fields are stored using PostgreSQL's `jsonb` type for efficient storage and querying.
+- The API handles the conversion between camelCase (API) and snake_case (database) property names.

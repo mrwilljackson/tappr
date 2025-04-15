@@ -404,3 +404,33 @@ Deletes a review from the system.
   "error": "Review not found"
 }
 ```
+
+## Database Mapping
+
+The review endpoints interact with the `reviews` table in the Supabase database. The API handles the conversion between camelCase (used in the API) and snake_case (used in the database) property names.
+
+### Property Mapping
+
+| API Property | Database Column |
+|--------------|------------------|
+| id | id |
+| reviewId | review_id |
+| brewUuid | brew_uuid |
+| reviewerId | reviewer_id |
+| reviewerName | reviewer_name |
+| isAnonymous | is_anonymous |
+| reviewDate | review_date |
+| reviewType | review_type |
+| quickReview | quick_review |
+| standardReview | standard_review |
+| expertReview | expert_review |
+| createdAt | created_at |
+| updatedAt | updated_at |
+
+### JSON Storage
+
+The review data objects (`quickReview`, `standardReview`, and `expertReview`) are stored as JSON in the database using PostgreSQL's `jsonb` type. This allows for efficient storage and querying of the nested review data.
+
+### Foreign Key Relationship
+
+The `brewUuid` field in the reviews table references the `brew_uuid` field in the beers table, establishing a relationship between reviews and the beers they are for.

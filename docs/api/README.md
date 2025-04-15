@@ -63,6 +63,17 @@ The following endpoints do not require authentication:
 - [Beer Model](./models/beer.md)
 - [Review Model](./models/review.md)
 
+## Database Mapping
+
+The API uses Supabase as its database backend. The following tables are used to store data:
+
+- `beers` - Stores beer information
+- `reviews` - Stores beer reviews
+
+For detailed information about how API data is mapped to the database schema, please refer to:
+
+- [Database Schema](./database-schema.md)
+
 ## Error Handling
 
 The API uses standard HTTP status codes to indicate the success or failure of a request.

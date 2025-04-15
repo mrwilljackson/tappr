@@ -23,7 +23,7 @@ Retrieves a list of all beers.
     "name": "Hoppy IPA",
     "style": "India Pale Ale",
     "abv": 6.5,
-    "ibu": 65,
+    "ibu": 65.5,
     "description": "A hoppy IPA with citrus and pine notes",
     "brew_date": "2023-10-15",
     "keg_level": 85,
@@ -118,7 +118,7 @@ Retrieves a specific beer by its UUID. This endpoint is public and does not requ
   "name": "Hoppy IPA",
   "style": "India Pale Ale",
   "abv": 6.5,
-  "ibu": 65,
+  "ibu": 65.5,
   "description": "A hoppy IPA with citrus and pine notes",
   "brew_date": "2023-10-15",
   "keg_level": 85,
@@ -157,7 +157,7 @@ Adds a new beer to the system.
   "name": "New Beer",
   "style": "IPA",
   "abv": 5.5,
-  "ibu": 40,
+  "ibu": 40.5,
   "description": "Description of the beer",
   "brewDate": "2024-04-01",
   "kegLevel": 100,
@@ -176,7 +176,7 @@ Adds a new beer to the system.
     "name": "New Beer",
     "style": "IPA",
     "abv": 5.5,
-    "ibu": 40,
+    "ibu": 40.5,
     "description": "Description of the beer",
     "brew_date": "2024-04-01",
     "keg_level": 100,
@@ -240,7 +240,7 @@ Updates an existing beer.
     "name": "Updated Beer Name",
     "style": "India Pale Ale",
     "abv": 6.5,
-    "ibu": 65,
+    "ibu": 65.5,
     "description": "A hoppy IPA with citrus and pine notes",
     "brew_date": "2023-10-15",
     "keg_level": 75,
@@ -309,3 +309,29 @@ Deletes a beer from the system.
   "error": "Beer not found"
 }
 ```
+
+## Database Mapping
+
+The beer endpoints interact with the `beers` table in the Supabase database. The API handles the conversion between camelCase (used in the API) and snake_case (used in the database) property names.
+
+### Property Mapping
+
+| API Property | Database Column |
+|--------------|------------------|
+| id | id |
+| name | name |
+| style | style |
+| abv | abv |
+| ibu | ibu |
+| description | description |
+| brewDate | brew_date |
+| kegLevel | keg_level |
+| brewUuid | brew_uuid |
+| createdAt | created_at |
+| updatedAt | updated_at |
+
+### Notes
+
+- The `ibu` field is stored as a `double precision` (float8) in the database to allow for decimal values.
+- Date fields are stored as text in ISO format for simplicity and compatibility.
+- The `brew_uuid` field serves as a stable identifier for beers, especially useful for public endpoints.
