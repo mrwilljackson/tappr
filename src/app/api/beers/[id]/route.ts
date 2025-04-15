@@ -33,7 +33,16 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(beer);
+    // Transform the data to include camelCase properties
+    const transformedBeer = {
+      ...beer,
+      // Add camelCase versions of snake_case properties
+      brewDate: beer.brew_date,
+      kegLevel: beer.keg_level,
+      brewUuid: beer.brew_uuid,
+    };
+
+    return NextResponse.json(transformedBeer);
   } catch (error) {
     console.error(`Error fetching beer with ID ${context.params.id}:`, error);
     return NextResponse.json(

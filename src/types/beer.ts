@@ -5,9 +5,15 @@ export interface Beer {
   abv: number;
   ibu?: number;
   description?: string;
-  brewDate: string;
-  kegLevel: number;
-  brewUuid: string;
+  brewDate?: string;
+  kegLevel?: number;
+  brewUuid?: string;
+  // Snake case versions from the database
+  brew_date?: string;
+  keg_level?: number;
+  brew_uuid?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface BeerCreateInput {

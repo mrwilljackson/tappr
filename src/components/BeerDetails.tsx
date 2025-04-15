@@ -54,24 +54,24 @@ const BeerDetails: React.FC<BeerDetailsProps> = ({ beer, isLoading, error }) => 
           </span>
         )}
       </div>
-      
+
       {beer.description && (
         <div className="mb-4">
           <h2 className="text-xl font-semibold mb-2 font-patua">Description</h2>
           <p className="text-gray-700 font-montserrat">{beer.description}</p>
         </div>
       )}
-      
+
       <div className="flex justify-between items-center mt-4 text-sm text-gray-500 font-montserrat">
-        <div>Brewed on: {new Date(beer.brewDate).toLocaleDateString()}</div>
+        <div>Brewed on: {new Date(beer.brewDate || beer.brew_date).toLocaleDateString()}</div>
         <div className="flex items-center">
           <div className="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
-            <div 
-              className="bg-amber-600 h-2.5 rounded-full" 
-              style={{ width: `${beer.kegLevel}%` }}
+            <div
+              className="bg-amber-600 h-2.5 rounded-full"
+              style={{ width: `${beer.kegLevel || beer.keg_level}%` }}
             ></div>
           </div>
-          <span>Keg: {beer.kegLevel}%</span>
+          <span>Keg: {beer.kegLevel || beer.keg_level}%</span>
         </div>
       </div>
     </div>

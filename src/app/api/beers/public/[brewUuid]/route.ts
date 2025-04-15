@@ -13,7 +13,9 @@ export async function GET(
   context: RouteContext
 ) {
   try {
-    const { brewUuid } = context.params;
+    // Await params to ensure it's fully resolved
+    const params = await context.params;
+    const { brewUuid } = params;
 
     // Get beer by brewUuid
     const beer = await getBeerByBrewUuid(brewUuid);
@@ -25,9 +27,18 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(beer);
+    // Transform the data to include camelCase properties
+    const transformedBeer = {
+      ...beer,
+      // Add camelCase versions of snake_case properties
+      brewDate: beer.brew_date,
+      kegLevel: beer.keg_level,
+      brewUuid: beer.brew_uuid,
+    };
+
+    return NextResponse.json(transformedBeer);
   } catch (error) {
-    console.error(`Error fetching beer with UUID ${context.params.brewUuid}:`, error);
+    console.error(`Error fetching beer:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch beer' },
       { status: 500 }

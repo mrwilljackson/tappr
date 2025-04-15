@@ -316,15 +316,16 @@ export default function ApiDocsPage() {
           <div className="mt-4">
             <h3 className="text-xl font-semibold mb-2 font-patua">API Key Authentication</h3>
             <p className="text-gray-600 mb-2 font-montserrat">
-              Include the API key in the <code className="bg-gray-100 px-2 py-1 rounded">X-API-Key</code> header of your requests.
+              Include the API key in the <code className="bg-gray-100 px-2 py-1 rounded">X_API_Key</code> header of your requests.
+              <span className="text-red-500 font-bold">Note:</span> Use underscore (_) instead of dash (-) in the header name.
             </p>
 
             <div className="bg-gray-100 p-3 rounded mb-4">
               <pre className="text-sm overflow-auto">
                 {`// Example using fetch
-fetch('https://your-api-url.com/api/beers', {
+fetch('https://tappr.beer/api/beers', {
   headers: {
-    'X-API-Key': 'your-api-key-here'
+    'X_API_Key': 'your-api-key-here'
   }
 })`}
               </pre>
@@ -333,9 +334,9 @@ fetch('https://your-api-url.com/api/beers', {
             <div className="bg-gray-100 p-3 rounded mb-4">
               <pre className="text-sm overflow-auto">
                 {`// Example using axios
-axios.get('https://your-api-url.com/api/beers', {
+axios.get('https://tappr.beer/api/beers', {
   headers: {
-    'X-API-Key': 'your-api-key-here'
+    'X_API_Key': 'your-api-key-here'
   }
 })`}
               </pre>
@@ -345,8 +346,8 @@ axios.get('https://your-api-url.com/api/beers', {
               <pre className="text-sm overflow-auto">
                 {`// Example using curl
 curl -X GET \
-  -H "X-API-Key: your-api-key-here" \
-  https://your-api-url.com/api/beers`}
+  -H "X_API_Key: your-api-key-here" \
+  https://tappr.beer/api/beers`}
               </pre>
             </div>
           </div>

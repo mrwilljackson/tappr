@@ -1,0 +1,232 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "TAPPR API",
+  "dateExported": "2024-04-15T12:00:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Beers",
+      "id": "f1",
+      "description": "Endpoints for managing beers"
+    },
+    {
+      "name": "Reviews",
+      "id": "f2",
+      "description": "Endpoints for managing reviews"
+    }
+  ],
+  "requests": [
+    {
+      "name": "Get All Beers",
+      "id": "r1",
+      "url": "{{baseUrl}}/beers",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f1",
+      "description": "Retrieves a list of all beers."
+    },
+    {
+      "name": "Get Beer by ID",
+      "id": "r2",
+      "url": "{{baseUrl}}/beers/1",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f1",
+      "description": "Retrieves a specific beer by its ID."
+    },
+    {
+      "name": "Get Beer by UUID (Public)",
+      "id": "r3",
+      "url": "{{baseUrl}}/beers/public/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+      "method": "GET",
+      "folder": "f1",
+      "description": "Retrieves a specific beer by its UUID. This endpoint is public and does not require authentication."
+    },
+    {
+      "name": "Add New Beer",
+      "id": "r4",
+      "url": "{{baseUrl}}/beers/add",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"New Test Beer\",\n  \"style\": \"IPA\",\n  \"abv\": 5.5,\n  \"ibu\": 40,\n  \"description\": \"A test beer created via API\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100\n}"
+      },
+      "folder": "f1",
+      "description": "Adds a new beer to the system."
+    },
+    {
+      "name": "Update Beer",
+      "id": "r5",
+      "url": "{{baseUrl}}/beers/1/update",
+      "method": "PATCH",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Updated Beer Name\",\n  \"kegLevel\": 75\n}"
+      },
+      "folder": "f1",
+      "description": "Updates an existing beer."
+    },
+    {
+      "name": "Delete Beer",
+      "id": "r6",
+      "url": "{{baseUrl}}/beers/1/delete",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f1",
+      "description": "Deletes a beer from the system."
+    },
+    {
+      "name": "Get All Reviews",
+      "id": "r7",
+      "url": "{{baseUrl}}/reviews",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f2",
+      "description": "Retrieves a list of all reviews."
+    },
+    {
+      "name": "Get Review by ID",
+      "id": "r8",
+      "url": "{{baseUrl}}/reviews/1",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f2",
+      "description": "Retrieves a specific review by its ID."
+    },
+    {
+      "name": "Get Reviews by Brew UUID",
+      "id": "r9",
+      "url": "{{baseUrl}}/reviews/brew/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f2",
+      "description": "Retrieves all reviews for a specific brew."
+    },
+    {
+      "name": "Add Review",
+      "id": "r10",
+      "url": "{{baseUrl}}/reviews/add",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"API Tester\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great beer, tested via API!\"\n  }\n}"
+      },
+      "folder": "f2",
+      "description": "Adds a new review."
+    },
+    {
+      "name": "Add Public Review",
+      "id": "r11",
+      "url": "{{baseUrl}}/reviews/public/add",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"Public Reviewer\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Excellent beer, reviewed publicly!\"\n  }\n}"
+      },
+      "folder": "f2",
+      "description": "Adds a new review without requiring authentication. This endpoint is public."
+    },
+    {
+      "name": "Update Review",
+      "id": "r12",
+      "url": "{{baseUrl}}/reviews/1/update",
+      "method": "PATCH",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"reviewerName\": \"Updated Name\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Updated comments after trying it again!\"\n  }\n}"
+      },
+      "folder": "f2",
+      "description": "Updates an existing review."
+    },
+    {
+      "name": "Delete Review",
+      "id": "r13",
+      "url": "{{baseUrl}}/reviews/1/delete",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "X_API_Key",
+          "value": "{{apiKey}}"
+        }
+      ],
+      "folder": "f2",
+      "description": "Deletes a review from the system."
+    }
+  ]
+}

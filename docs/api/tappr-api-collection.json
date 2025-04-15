@@ -1,0 +1,328 @@
+{
+  "info": {
+    "name": "TAPPR API",
+    "description": "API for the TAPPR beer tracking and review system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Beers",
+      "item": [
+        {
+          "name": "Get All Beers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/beers",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers"]
+            },
+            "description": "Retrieves a list of all beers."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Beer by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/beers/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "1"]
+            },
+            "description": "Retrieves a specific beer by its ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Beer by UUID (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/beers/public/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "public", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+            },
+            "description": "Retrieves a specific beer by its UUID. This endpoint is public and does not require authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Add New Beer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Test Beer\",\n  \"style\": \"IPA\",\n  \"abv\": 5.5,\n  \"ibu\": 40,\n  \"description\": \"A test beer created via API\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/beers/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "add"]
+            },
+            "description": "Adds a new beer to the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Beer",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Beer Name\",\n  \"kegLevel\": 75\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/beers/1/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "1", "update"]
+            },
+            "description": "Updates an existing beer."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Beer",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/beers/1/delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "1", "delete"]
+            },
+            "description": "Deletes a beer from the system."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing beers."
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews"]
+            },
+            "description": "Retrieves a list of all reviews."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Review by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "1"]
+            },
+            "description": "Retrieves a specific review by its ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reviews by Brew UUID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/brew/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "brew", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+            },
+            "description": "Retrieves all reviews for a specific brew."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"API Tester\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great beer, tested via API!\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "add"]
+            },
+            "description": "Adds a new review."
+          },
+          "response": []
+        },
+        {
+          "name": "Add Public Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"Public Reviewer\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Excellent beer, reviewed publicly!\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews/public/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "public", "add"]
+            },
+            "description": "Adds a new review without requiring authentication. This endpoint is public."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewerName\": \"Updated Name\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Updated comments after trying it again!\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews/1/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "1", "update"]
+            },
+            "description": "Updates an existing review."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/1/delete",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "1", "delete"]
+            },
+            "description": "Deletes a review from the system."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing reviews."
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tappr.beer/api",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "tappr_api_key_12345",
+      "type": "string"
+    }
+  ]
+}
