@@ -1,21 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getReviewsByBrewUuid } from '@/lib/db/review-service';
+import { getReviewsByApiBrewUuid } from '@/lib/db/review-service';
+import { validateApiKey } from '@/lib/auth';
 
 // Define the type for the route handler context
 interface RouteContext {
   params: {
-    brewUuid: string;
+    apiBrewUuid: string;
   };
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: RouteContext
 ) {
   try {
-    const { brewUuid } = context.params;
+    // Validate API key
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.valid) {
+      return NextResponse.json(
+        { error: apiKeyValidation.error },
+        { status: 401 }
+      );
+    }
 
-    const reviews = await getReviewsByBrewUuid(brewUuid);
+    // Get params from context
+    const { apiBrewUuid } = context.params;
+
+    // Get reviews by API brew UUID
+    const reviews = await getReviewsByApiBrewUuid(apiBrewUuid);
 
     // Transform the reviews to include camelCase properties
     const transformedReviews = reviews.map(review => ({
@@ -37,7 +49,7 @@ export async function GET(
 
     return NextResponse.json(transformedReviews);
   } catch (error) {
-    console.error(`Error fetching reviews for brew UUID ${context.params.brewUuid}:`, error);
+    console.error(`Error fetching reviews:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch reviews' },
       { status: 500 }

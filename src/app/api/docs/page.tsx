@@ -18,11 +18,11 @@ export default function ApiDocsPage() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="text-xl font-semibold mb-2 font-patua">Get All Beers</h3>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get All Brews</h3>
               <div className="bg-gray-100 p-3 rounded mb-2">
                 <code>GET /api/beers</code>
               </div>
-              <p className="text-gray-600 mb-2 font-montserrat">Returns a list of all beers.</p>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns a list of all brews (beers).</p>
               <div className="bg-gray-100 p-3 rounded">
                 <pre className="text-sm overflow-auto">
                   {JSON.stringify([
@@ -39,11 +39,11 @@ export default function ApiDocsPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-2 font-patua">Get Beer by ID</h3>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get Brew by ID</h3>
               <div className="bg-gray-100 p-3 rounded mb-2">
                 <code>GET /api/beers/{'{id}'}</code>
               </div>
-              <p className="text-gray-600 mb-2 font-montserrat">Returns a specific beer by ID.</p>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns a specific brew (beer) by ID.</p>
               <div className="bg-gray-100 p-3 rounded">
                 <pre className="text-sm overflow-auto">
                   {JSON.stringify(
@@ -52,11 +52,12 @@ export default function ApiDocsPage() {
                       name: 'Hoppy IPA',
                       style: 'India Pale Ale',
                       abv: 6.5,
-                      ibu: 65,
+                      ibu: 65.5,
                       description: 'A hoppy IPA with citrus and pine notes',
                       brewDate: '2023-10-15',
                       kegLevel: 85,
                       brewUuid: '550e8400-e29b-41d4-a716-446655440000',
+                      apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434',
                     },
                     null,
                     2
@@ -66,25 +67,53 @@ export default function ApiDocsPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-2 font-patua">Add New Beer</h3>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Get Brew by API UUID</h3>
+              <div className="bg-gray-100 p-3 rounded mb-2">
+                <code>GET /api/beers/api/{'{apiBrewUuid}'}</code>
+              </div>
+              <p className="text-gray-600 mb-2 font-montserrat">Returns a specific brew (beer) by its API-generated UUID.</p>
+              <div className="bg-gray-100 p-3 rounded">
+                <pre className="text-sm overflow-auto">
+                  {JSON.stringify(
+                    {
+                      id: 1,
+                      name: 'Hoppy IPA',
+                      style: 'India Pale Ale',
+                      abv: 6.5,
+                      ibu: 65.5,
+                      description: 'A hoppy IPA with citrus and pine notes',
+                      brewDate: '2023-10-15',
+                      kegLevel: 85,
+                      brewUuid: '550e8400-e29b-41d4-a716-446655440000',
+                      apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434',
+                    },
+                    null,
+                    2
+                  )}
+                </pre>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Add New Brew</h3>
               <div className="bg-gray-100 p-3 rounded mb-2">
                 <code>POST /api/beers/add</code>
               </div>
-              <p className="text-gray-600 mb-2 font-montserrat">Adds a new beer to the system.</p>
+              <p className="text-gray-600 mb-2 font-montserrat">Adds a new brew (beer) to the system.</p>
               <div className="mb-2">
                 <h4 className="font-semibold font-patua">Request Body:</h4>
                 <div className="bg-gray-100 p-3 rounded">
                   <pre className="text-sm overflow-auto">
                     {JSON.stringify(
                       {
-                        name: 'New Beer',
+                        name: 'New Brew',
                         style: 'IPA',
                         abv: 5.5,
-                        ibu: 40,
-                        description: 'Description of the beer',
+                        ibu: 40.5,
+                        description: 'Description of the brew',
                         brewDate: '2024-04-01', // Optional
                         kegLevel: 100, // Optional
-                        brewUuid: '550e8400-e29b-41d4-a716-446655440001' // Optional, will be generated if not provided
+                        brewUuid: '550e8400-e29b-41d4-a716-446655440001' // Optional, UUID from companion app
                       },
                       null,
                       2
@@ -98,17 +127,20 @@ export default function ApiDocsPage() {
                   <pre className="text-sm overflow-auto">
                     {JSON.stringify(
                       {
-                        message: 'Beer added successfully',
-                        beer: {
+                        message: 'Brew added successfully',
+                        brew: {
                           id: 4,
-                          name: 'New Beer',
+                          name: 'New Brew',
                           style: 'IPA',
                           abv: 5.5,
-                          ibu: 40,
-                          description: 'Description of the beer',
+                          ibu: 40.5,
+                          description: 'Description of the brew',
                           brewDate: '2024-04-01',
                           kegLevel: 100,
                           brewUuid: '550e8400-e29b-41d4-a716-446655440001',
+                          apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434',
+                          createdAt: '2024-04-15T14:30:00Z',
+                          updatedAt: '2024-04-15T14:30:00Z'
                         },
                       },
                       null,
@@ -120,11 +152,11 @@ export default function ApiDocsPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-2 font-patua">Update Beer</h3>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Update Brew</h3>
               <div className="bg-gray-100 p-3 rounded mb-2">
                 <code>PATCH /api/beers/{'{id}'}/update</code>
               </div>
-              <p className="text-gray-600 mb-2 font-montserrat">Updates an existing beer.</p>
+              <p className="text-gray-600 mb-2 font-montserrat">Updates an existing brew (beer).</p>
               <div className="mb-2">
                 <h4 className="font-semibold font-patua">Request Body:</h4>
                 <div className="bg-gray-100 p-3 rounded">
@@ -146,17 +178,20 @@ export default function ApiDocsPage() {
                   <pre className="text-sm overflow-auto">
                     {JSON.stringify(
                       {
-                        message: 'Beer updated successfully',
-                        beer: {
+                        message: 'Brew updated successfully',
+                        brew: {
                           id: 1,
-                          name: 'Updated Beer Name',
+                          name: 'Updated Brew Name',
                           style: 'India Pale Ale',
                           abv: 6.5,
-                          ibu: 65,
+                          ibu: 65.5,
                           description: 'A hoppy IPA with citrus and pine notes',
                           brewDate: '2023-10-15',
                           kegLevel: 75,
                           brewUuid: '550e8400-e29b-41d4-a716-446655440000',
+                          apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434',
+                          createdAt: '2023-11-15T14:30:00Z',
+                          updatedAt: '2024-04-15T14:30:00Z'
                         },
                       },
                       null,
@@ -168,18 +203,18 @@ export default function ApiDocsPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold mb-2 font-patua">Delete Beer</h3>
+              <h3 className="text-xl font-semibold mb-2 font-patua">Delete Brew</h3>
               <div className="bg-gray-100 p-3 rounded mb-2">
                 <code>DELETE /api/beers/{'{id}'}/delete</code>
               </div>
-              <p className="text-gray-600 mb-2 font-montserrat">Deletes a beer from the system.</p>
+              <p className="text-gray-600 mb-2 font-montserrat">Deletes a brew (beer) from the system.</p>
               <div>
                 <h4 className="font-semibold font-patua">Response:</h4>
                 <div className="bg-gray-100 p-3 rounded">
                   <pre className="text-sm overflow-auto">
                     {JSON.stringify(
                       {
-                        message: 'Beer deleted successfully',
+                        message: 'Brew deleted successfully',
                       },
                       null,
                       2

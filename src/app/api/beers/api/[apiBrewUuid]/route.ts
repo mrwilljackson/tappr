@@ -1,23 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getBrewByBrewUuid } from '@/lib/db/beer-service';
+import { getBrewByApiBrewUuid } from '@/lib/db/beer-service';
+import { validateApiKey } from '@/lib/auth';
 
 // Define the type for the route handler context
 interface RouteContext {
   params: {
-    brewUuid: string;
+    apiBrewUuid: string;
   };
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: RouteContext
 ) {
   try {
-    // Get params from context
-    const { brewUuid } = context.params;
+    // Validate API key
+    const apiKeyValidation = validateApiKey(request);
+    if (!apiKeyValidation.valid) {
+      return NextResponse.json(
+        { error: apiKeyValidation.error },
+        { status: 401 }
+      );
+    }
 
-    // Get brew by brewUuid
-    const brew = await getBrewByBrewUuid(brewUuid);
+    // Get params from context
+    const { apiBrewUuid } = context.params;
+
+    // Get brew by apiBrewUuid
+    const brew = await getBrewByApiBrewUuid(apiBrewUuid);
 
     if (!brew) {
       return NextResponse.json(

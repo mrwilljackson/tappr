@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ReviewCreateInput } from '@/types/review';
 import { createReview } from '@/lib/db/review-service';
-import { getBeerByBrewUuid } from '@/lib/db/beer-service';
+import { getBrewByBrewUuid } from '@/lib/db/beer-service';
 
 export async function POST(request: Request) {
   try {
@@ -15,6 +15,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // For public endpoints, we accept brewUuid but need to look up the apiBrewUuid
 
     // Validate quick review
     if (!body.quickReview.overallRating || !body.quickReview.comments) {
@@ -39,20 +41,51 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify that the beer exists
-    const beer = await getBeerByBrewUuid(body.brewUuid);
-    if (!beer) {
+    // Verify that the brew exists and get its API UUID
+    const brew = await getBrewByBrewUuid(body.brewUuid);
+    if (!brew) {
       return NextResponse.json(
-        { error: 'Beer not found' },
+        { error: 'Brew not found' },
         { status: 404 }
       );
     }
 
+    // Add the apiBrewUuid to the review data
+    const reviewData = {
+      ...body,
+      apiBrewUuid: brew.api_brew_uuid
+    };
+
     // Save to the database
-    const newReview = await createReview(body);
+    const newReview = await createReview(reviewData);
+
+    if (!newReview) {
+      return NextResponse.json(
+        { error: 'Failed to add review' },
+        { status: 500 }
+      );
+    }
+
+    // Transform the response to include camelCase properties
+    const transformedReview = {
+      id: newReview.id,
+      reviewId: newReview.review_id,
+      apiBrewUuid: newReview.api_brew_uuid,
+      brewUuid: newReview.brew_uuid,
+      reviewerId: newReview.reviewer_id,
+      reviewerName: newReview.reviewer_name,
+      isAnonymous: newReview.is_anonymous,
+      reviewDate: newReview.review_date,
+      reviewType: newReview.review_type,
+      quickReview: newReview.quick_review,
+      standardReview: newReview.standard_review,
+      expertReview: newReview.expert_review,
+      createdAt: newReview.created_at,
+      updatedAt: newReview.updated_at
+    };
 
     return NextResponse.json(
-      { message: 'Review added successfully', review: newReview },
+      { message: 'Review added successfully', review: transformedReview },
       { status: 201 }
     );
   } catch (error) {

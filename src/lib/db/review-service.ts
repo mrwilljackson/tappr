@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 export type Review = {
   id: number;
   review_id: string;
-  brew_uuid: string;
+  api_brew_uuid: string;  // Primary reference to the brew in the API database
+  brew_uuid?: string;     // Optional reference to the brew in the companion app
   reviewer_id?: string;
   reviewer_name?: string;
   is_anonymous: boolean;
@@ -50,7 +51,23 @@ export async function getReviewById(reviewId: string): Promise<Review | null> {
   return data;
 }
 
-// Get reviews by brew UUID
+// Get reviews by API brew UUID (primary reference)
+export async function getReviewsByApiBrewUuid(apiBrewUuid: string): Promise<Review[]> {
+  const { data, error } = await supabase
+    .from('reviews')
+    .select('*')
+    .eq('api_brew_uuid', apiBrewUuid)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching reviews for API brew UUID ${apiBrewUuid}:`, error);
+    return [];
+  }
+
+  return data || [];
+}
+
+// Get reviews by companion app brew UUID (for backward compatibility)
 export async function getReviewsByBrewUuid(brewUuid: string): Promise<Review[]> {
   const { data, error } = await supabase
     .from('reviews')
@@ -59,7 +76,7 @@ export async function getReviewsByBrewUuid(brewUuid: string): Promise<Review[]> 
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error(`Error fetching reviews for brew UUID ${brewUuid}:`, error);
+    console.error(`Error fetching reviews for companion app brew UUID ${brewUuid}:`, error);
     return [];
   }
 
@@ -71,7 +88,8 @@ export async function createReview(data: ReviewCreateInput): Promise<Review | nu
   // Prepare the review object with proper field names for Supabase
   const newReview = {
     review_id: uuidv4(),
-    brew_uuid: data.brewUuid,
+    api_brew_uuid: data.apiBrewUuid,  // Primary reference to the brew
+    brew_uuid: data.brewUuid,         // Optional reference for the companion app
     reviewer_id: data.reviewerId,
     reviewer_name: data.reviewerName,
     is_anonymous: data.isAnonymous || false,

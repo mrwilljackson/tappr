@@ -76,16 +76,17 @@ export type ReviewType = 'quick' | 'standard' | 'expert';
 // Complete Review interface
 export interface Review {
   reviewId: string;
-  brewUuid: string;
-  
+  apiBrewUuid: string;  // Primary reference to the brew in the API database
+  brewUuid?: string;    // Optional reference to the brew in the companion app
+
   // Reviewer identification (optional)
   reviewerId?: string;
   reviewerName?: string;
   isAnonymous: boolean;
-  
+
   reviewDate: string;
   reviewType: ReviewType;
-  
+
   // Review sections
   quickReview: QuickReview;
   standardReview?: StandardReview;
@@ -94,15 +95,16 @@ export interface Review {
 
 // Input for creating a new review
 export interface ReviewCreateInput {
-  brewUuid: string;
-  
+  apiBrewUuid: string;  // Primary reference to the brew in the API database
+  brewUuid?: string;    // Optional reference to the brew in the companion app
+
   // Reviewer identification (optional)
   reviewerId?: string;
   reviewerName?: string;
   isAnonymous?: boolean;
-  
+
   reviewType: ReviewType;
-  
+
   // Review sections
   quickReview: QuickReview;
   standardReview?: StandardReview;
