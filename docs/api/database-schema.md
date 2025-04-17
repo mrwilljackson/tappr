@@ -1,5 +1,7 @@
 # TAPPR Database Schema
 
+> **NOTE**: This documentation has been migrated to Confluence on 17-04-2024. Please refer to the [TAPPr API Documentation](https://mrwilljackson-projects.atlassian.net/wiki/spaces/API) for the most up-to-date information.
+
 This document describes the database schema used by the TAPPR API. The API uses Supabase as its database backend, which is built on PostgreSQL.
 
 ## Tables

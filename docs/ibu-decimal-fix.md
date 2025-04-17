@@ -1,5 +1,7 @@
 # IBU Decimal Value Fix
 
+> **NOTE**: This documentation has been migrated to Confluence on 17-04-2024. Please refer to the [TAPPr API Documentation](https://mrwilljackson-projects.atlassian.net/wiki/spaces/API) for the most up-to-date information.
+
 ## Issue
 
 The International Bitterness Units (IBU) field in the beer database was originally defined as an integer. However, IBU values can have decimal points, as they are often measured with precision (e.g., 45.5 IBU).
@@ -40,7 +42,7 @@ A SQL migration script has been created to update the column type in the Supabas
 
 ```sql
 -- Update the column type to double precision (float8)
-ALTER TABLE beers 
+ALTER TABLE beers
 ALTER COLUMN ibu TYPE double precision USING ibu::double precision;
 ```
 
