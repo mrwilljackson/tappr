@@ -10,8 +10,8 @@ console.log('- NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL || 'Not set'
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // The email address to send waitlist notifications to
-// For testing, we need to use the verified email address
-const NOTIFICATION_EMAIL = 'mrwilljackson@gmail.com'; // Use the verified email for testing
+// Now that the domain is verified, we can use the environment variable
+const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'tappr.beer@protonmail.com';
 
 console.log('Using notification email:', NOTIFICATION_EMAIL);
 
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Send email notification using Resend
     try {
       const { error } = await resend.emails.send({
-      from: 'TAPPr Waitlist <onboarding@resend.dev>',
+      from: 'TAPPr Waitlist <waitlist@tappr.beer>',
       to: [NOTIFICATION_EMAIL],
       subject: 'New TAPPr Waitlist Signup',
       html: `
