@@ -64,7 +64,7 @@ export function PhoneFrame({
         {/* Screen */}
         <div className="absolute inset-0 overflow-hidden rounded-[2.3rem] bg-white">
           <Image
-            src={src}
+            src={src || "/placeholder.svg"}
             alt={alt}
             width={width}
             height={height}
