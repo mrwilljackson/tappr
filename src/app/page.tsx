@@ -31,9 +31,6 @@ export default function Home() {
               <Link href="#testimonials" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
                 Testimonials
               </Link>
-              <Link href="/api/docs" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
-                API
-              </Link>
             </nav>
             <div>
               <Link href="#cta">
