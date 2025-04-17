@@ -1,7 +1,5 @@
 # Brew Model
 
-> **NOTE**: This documentation has been migrated to Confluence on 17-04-2024. Please refer to the [TAPPr API Documentation](https://mrwilljackson-projects.atlassian.net/wiki/spaces/API) for the most up-to-date information.
-
 The Brew model represents a beer in the TAPPR system.
 
 ## Properties
