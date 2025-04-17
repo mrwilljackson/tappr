@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import axios from 'axios';
 
 // Debug environment variables
 console.log('Environment variables:');
@@ -13,13 +14,42 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Now that the domain is verified, we can use the environment variable
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'tappr.beer@protonmail.com';
 
+// reCAPTCHA secret key
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+
 console.log('Using notification email:', NOTIFICATION_EMAIL);
+
+/**
+ * Verify the reCAPTCHA token with Google's API
+ *
+ * @param token The reCAPTCHA token to verify
+ * @returns A boolean indicating whether the token is valid
+ */
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  try {
+    const response = await axios.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      null,
+      {
+        params: {
+          secret: RECAPTCHA_SECRET_KEY,
+          response: token
+        }
+      }
+    );
+
+    return response.data.success === true;
+  } catch (error) {
+    console.error('Error verifying reCAPTCHA:', error);
+    return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const body = await request.json();
-    const { email } = body;
+    const { email, captchaToken } = body;
 
     // Validate email
     if (!email || typeof email !== 'string') {
@@ -34,6 +64,23 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { success: false, message: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Validate reCAPTCHA token
+    if (!captchaToken) {
+      return NextResponse.json(
+        { success: false, message: 'reCAPTCHA verification is required' },
+        { status: 400 }
+      );
+    }
+
+    // Verify the reCAPTCHA token
+    const isValidCaptcha = await verifyRecaptcha(captchaToken);
+    if (!isValidCaptcha) {
+      return NextResponse.json(
+        { success: false, message: 'reCAPTCHA verification failed. Please try again.' },
         { status: 400 }
       );
     }
