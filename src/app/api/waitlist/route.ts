@@ -10,10 +10,16 @@ console.log('- NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL || 'Not set'
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // The email address to send waitlist notifications to
-const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'mrwilljackson@gmail.com';
+// Use the environment variable if available, otherwise use a default
+let NOTIFICATION_EMAIL = 'tappr.beer@protonmail.com'; // Default to the correct email
 
-// Log the actual email being used
-console.log('Using notification email:', NOTIFICATION_EMAIL);
+// Check if the environment variable is set
+if (process.env.NOTIFICATION_EMAIL) {
+  NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL;
+  console.log('Using environment variable for notification email:', NOTIFICATION_EMAIL);
+} else {
+  console.log('Environment variable NOTIFICATION_EMAIL not set, using default:', NOTIFICATION_EMAIL);
+}
 
 export async function POST(request: NextRequest) {
   try {
