@@ -10,6 +10,7 @@ import { Testimonial } from "@/components/testimonial"
 import { FeatureCard } from "@/components/feature-card"
 import { AppScreenshot } from "@/components/app-screenshot"
 import { SiteContainer } from "@/components/site-container"
+import { WaitlistForm } from "@/components/waitlist-form"
 
 export default function Home() {
   return (
@@ -272,22 +273,7 @@ export default function Home() {
                   Join our waitlist to get early access and exclusive updates about our launch.
                 </p>
               </div>
-              <div className="w-full max-w-sm space-y-2">
-                <form className="flex flex-col gap-2 sm:flex-row">
-                  <Input
-                    className="max-w-lg flex-1 bg-white text-black"
-                    placeholder="Enter your email"
-                    type="email"
-                    required
-                  />
-                  <Button type="submit" className="bg-white text-amber-600 hover:bg-amber-50">
-                    Join Waitlist
-                  </Button>
-                </form>
-                <p className="text-xs text-amber-100 font-montserrat">
-                  We respect your privacy. Unsubscribe at any time.
-                </p>
-              </div>
+              <WaitlistForm />
             </div>
           </SiteContainer>
         </section>
