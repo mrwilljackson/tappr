@@ -10,16 +10,10 @@ console.log('- NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL || 'Not set'
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // The email address to send waitlist notifications to
-// Use the environment variable if available, otherwise use a default
-let NOTIFICATION_EMAIL = 'tappr.beer@protonmail.com'; // Default to the correct email
+// For testing, we need to use the verified email address
+const NOTIFICATION_EMAIL = 'mrwilljackson@gmail.com'; // Use the verified email for testing
 
-// Check if the environment variable is set
-if (process.env.NOTIFICATION_EMAIL) {
-  NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL;
-  console.log('Using environment variable for notification email:', NOTIFICATION_EMAIL);
-} else {
-  console.log('Environment variable NOTIFICATION_EMAIL not set, using default:', NOTIFICATION_EMAIL);
-}
+console.log('Using notification email:', NOTIFICATION_EMAIL);
 
 export async function POST(request: NextRequest) {
   try {
@@ -46,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     // Send email notification using Resend
     try {
-      const { data, error } = await resend.emails.send({
+      const { error } = await resend.emails.send({
       from: 'TAPPr Waitlist <onboarding@resend.dev>',
       to: [NOTIFICATION_EMAIL],
       subject: 'New TAPPr Waitlist Signup',
