@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+// Debug environment variables
+console.log('Environment variables:');
+console.log('- RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'Set (length: ' + process.env.RESEND_API_KEY.length + ')' : 'Not set');
+console.log('- NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL || 'Not set');
+
 // Initialize Resend with API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // The email address to send waitlist notifications to
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'mrwilljackson@gmail.com';
+
+// Log the actual email being used
+console.log('Using notification email:', NOTIFICATION_EMAIL);
 
 export async function POST(request: NextRequest) {
   try {
