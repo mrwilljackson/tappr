@@ -13,8 +13,9 @@ export async function GET(
   context: RouteContext
 ) {
   try {
-    // Get params from context
-    const { brewUuid } = context.params;
+    // Await params to ensure it's fully resolved
+    const params = await context.params;
+    const { brewUuid } = params;
 
     // Get brew by brewUuid
     const brew = await getBrewByBrewUuid(brewUuid);
@@ -26,14 +27,18 @@ export async function GET(
       );
     }
 
-    // Transform the data to include camelCase properties
+    // Transform the data to include standardized properties
     const transformedBrew = {
-      ...brew,
-      // Add camelCase versions of snake_case properties
+      id: brew.id,
+      name: brew.name,
+      style: brew.style,
+      abv: brew.abv,
+      ibu: brew.ibu,
+      description: brew.description,
       brewDate: brew.brew_date,
       kegLevel: brew.keg_level,
       brewUuid: brew.brew_uuid,
-      apiBrewUuid: brew.api_brew_uuid,
+      api_brew_uuid: brew.api_brew_uuid,
       createdAt: brew.created_at,
       updatedAt: brew.updated_at
     };

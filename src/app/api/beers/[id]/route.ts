@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getBeerById } from '@/lib/db/beer-service';
+import { getBrewById } from '@/lib/db/beer-service';
 
 // Define the type for the route handler context
 interface RouteContext {
@@ -24,29 +24,36 @@ export async function GET(
       );
     }
 
-    const beer = await getBeerById(id);
+    const brew = await getBrewById(id);
 
-    if (!beer) {
+    if (!brew) {
       return NextResponse.json(
-        { error: 'Beer not found' },
+        { error: 'Brew not found' },
         { status: 404 }
       );
     }
 
-    // Transform the data to include camelCase properties
-    const transformedBeer = {
-      ...beer,
-      // Add camelCase versions of snake_case properties
-      brewDate: beer.brew_date,
-      kegLevel: beer.keg_level,
-      brewUuid: beer.brew_uuid,
+    // Transform the data to include standardized properties
+    const transformedBrew = {
+      id: brew.id,
+      name: brew.name,
+      style: brew.style,
+      abv: brew.abv,
+      ibu: brew.ibu,
+      description: brew.description,
+      brewDate: brew.brew_date,
+      kegLevel: brew.keg_level,
+      brewUuid: brew.brew_uuid,
+      api_brew_uuid: brew.api_brew_uuid,
+      createdAt: brew.created_at,
+      updatedAt: brew.updated_at
     };
 
-    return NextResponse.json(transformedBeer);
+    return NextResponse.json(transformedBrew);
   } catch (error) {
-    console.error(`Error fetching beer with ID ${context.params.id}:`, error);
+    console.error(`Error fetching brew with ID ${context.params.id}:`, error);
     return NextResponse.json(
-      { error: 'Failed to fetch beer' },
+      { error: 'Failed to fetch brew' },
       { status: 500 }
     );
   }

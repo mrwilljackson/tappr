@@ -23,17 +23,18 @@ export async function GET(
       );
     }
 
-    // Get params from context
-    const { apiBrewUuid } = context.params;
+    // Await params to ensure it's fully resolved
+    const params = await context.params;
+    const { apiBrewUuid } = params;
 
     // Get reviews by API brew UUID
     const reviews = await getReviewsByApiBrewUuid(apiBrewUuid);
 
-    // Transform the reviews to include camelCase properties
+    // Transform the reviews to include standardized properties
     const transformedReviews = reviews.map(review => ({
       id: review.id,
       reviewId: review.review_id,
-      apiBrewUuid: review.api_brew_uuid,
+      api_brew_uuid: review.api_brew_uuid,
       brewUuid: review.brew_uuid,
       reviewerId: review.reviewer_id,
       reviewerName: review.reviewer_name,

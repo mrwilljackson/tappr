@@ -13,15 +13,17 @@ export async function GET(
   context: RouteContext
 ) {
   try {
-    const { brewUuid } = context.params;
+    // Await params to ensure it's fully resolved
+    const params = await context.params;
+    const { brewUuid } = params;
 
     const reviews = await getReviewsByBrewUuid(brewUuid);
 
-    // Transform the reviews to include camelCase properties
+    // Transform the reviews to include standardized properties
     const transformedReviews = reviews.map(review => ({
       id: review.id,
       reviewId: review.review_id,
-      apiBrewUuid: review.api_brew_uuid,
+      api_brew_uuid: review.api_brew_uuid,
       brewUuid: review.brew_uuid,
       reviewerId: review.reviewer_id,
       reviewerName: review.reviewer_name,

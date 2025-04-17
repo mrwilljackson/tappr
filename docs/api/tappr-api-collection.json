@@ -1,15 +1,15 @@
 {
   "info": {
     "name": "TAPPR API",
-    "description": "API for the TAPPR beer tracking and review system",
+    "description": "API for the TAPPR beer tracking and review system with dual UUID system",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Beers",
+      "name": "Brews",
       "item": [
         {
-          "name": "Get All Beers",
+          "name": "Get All Brews",
           "request": {
             "method": "GET",
             "header": [
@@ -24,12 +24,12 @@
               "host": ["{{baseUrl}}"],
               "path": ["beers"]
             },
-            "description": "Retrieves a list of all beers."
+            "description": "Retrieves a list of all brews (beers)."
           },
           "response": []
         },
         {
-          "name": "Get Beer by ID",
+          "name": "Get Brew by ID",
           "request": {
             "method": "GET",
             "header": [
@@ -44,26 +44,46 @@
               "host": ["{{baseUrl}}"],
               "path": ["beers", "1"]
             },
-            "description": "Retrieves a specific beer by its ID."
+            "description": "Retrieves a specific brew (beer) by its ID."
           },
           "response": []
         },
         {
-          "name": "Get Beer by UUID (Public)",
+          "name": "Get Brew by Companion App UUID (Public)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/beers/public/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "raw": "{{baseUrl}}/beers/public/550e8400-e29b-41d4-a716-446655440000",
               "host": ["{{baseUrl}}"],
-              "path": ["beers", "public", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+              "path": ["beers", "public", "550e8400-e29b-41d4-a716-446655440000"]
             },
-            "description": "Retrieves a specific beer by its UUID. This endpoint is public and does not require authentication."
+            "description": "Retrieves a specific brew by its companion app UUID. This endpoint is public and does not require authentication."
           },
           "response": []
         },
         {
-          "name": "Add New Beer",
+          "name": "Get Brew by API UUID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/beers/api/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "host": ["{{baseUrl}}"],
+              "path": ["beers", "api", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+            },
+            "description": "Retrieves a specific brew by its API-generated UUID. This is the primary reference for brews in the API database."
+          },
+          "response": []
+        },
+        {
+          "name": "Add New Brew",
           "request": {
             "method": "POST",
             "header": [
@@ -80,19 +100,19 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"New Test Beer\",\n  \"style\": \"IPA\",\n  \"abv\": 5.5,\n  \"ibu\": 40,\n  \"description\": \"A test beer created via API\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100\n}"
+              "raw": "{\n  \"name\": \"New Test Brew\",\n  \"style\": \"IPA\",\n  \"abv\": 5.5,\n  \"ibu\": 40.5,\n  \"description\": \"A test brew created via API\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100,\n  \"brewUuid\": \"550e8400-e29b-41d4-a716-446655440001\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/beers/add",
               "host": ["{{baseUrl}}"],
               "path": ["beers", "add"]
             },
-            "description": "Adds a new beer to the system."
+            "description": "Adds a new brew to the system. The API will generate an apiBrewUuid and return both UUIDs in the response."
           },
           "response": []
         },
         {
-          "name": "Update Beer",
+          "name": "Update Brew",
           "request": {
             "method": "PATCH",
             "header": [
@@ -109,19 +129,19 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated Beer Name\",\n  \"kegLevel\": 75\n}"
+              "raw": "{\n  \"name\": \"Updated Brew Name\",\n  \"kegLevel\": 75\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/beers/1/update",
               "host": ["{{baseUrl}}"],
               "path": ["beers", "1", "update"]
             },
-            "description": "Updates an existing beer."
+            "description": "Updates an existing brew. Note that the UUIDs cannot be updated as they are immutable identifiers."
           },
           "response": []
         },
         {
-          "name": "Delete Beer",
+          "name": "Delete Brew",
           "request": {
             "method": "DELETE",
             "header": [
@@ -136,12 +156,12 @@
               "host": ["{{baseUrl}}"],
               "path": ["beers", "1", "delete"]
             },
-            "description": "Deletes a beer from the system."
+            "description": "Deletes a brew from the system."
           },
           "response": []
         }
       ],
-      "description": "Endpoints for managing beers."
+      "description": "Endpoints for managing brews (beers) with dual UUID system."
     },
     {
       "name": "Reviews",
@@ -187,7 +207,7 @@
           "response": []
         },
         {
-          "name": "Get Reviews by Brew UUID",
+          "name": "Get Reviews by Companion App Brew UUID",
           "request": {
             "method": "GET",
             "header": [
@@ -198,11 +218,31 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/reviews/brew/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "raw": "{{baseUrl}}/reviews/brew/550e8400-e29b-41d4-a716-446655440000",
               "host": ["{{baseUrl}}"],
-              "path": ["reviews", "brew", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+              "path": ["reviews", "brew", "550e8400-e29b-41d4-a716-446655440000"]
             },
-            "description": "Retrieves all reviews for a specific brew."
+            "description": "Retrieves all reviews for a specific brew using the companion app UUID (for backward compatibility)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reviews by API Brew UUID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/api-brew/7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "api-brew", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434"]
+            },
+            "description": "Retrieves all reviews for a specific brew using the API-generated UUID (primary reference)."
           },
           "response": []
         },
@@ -224,14 +264,14 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"API Tester\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great beer, tested via API!\"\n  }\n}"
+              "raw": "{\n  \"apiBrewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"brewUuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"reviewerName\": \"API Tester\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great brew, tested via API!\"\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/reviews/add",
               "host": ["{{baseUrl}}"],
               "path": ["reviews", "add"]
             },
-            "description": "Adds a new review."
+            "description": "Adds a new review. The apiBrewUuid is required as it's the primary reference to the brew in the API database."
           },
           "response": []
         },
@@ -248,14 +288,14 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"brewUuid\": \"7dfb14c4-d288-4b1e-ae69-ec2d733aa434\",\n  \"reviewerName\": \"Public Reviewer\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Excellent beer, reviewed publicly!\"\n  }\n}"
+              "raw": "{\n  \"brewUuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"reviewerName\": \"Public Reviewer\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Excellent brew, reviewed publicly!\"\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/reviews/public/add",
               "host": ["{{baseUrl}}"],
               "path": ["reviews", "public", "add"]
             },
-            "description": "Adds a new review without requiring authentication. This endpoint is public."
+            "description": "Adds a new review without requiring authentication. This endpoint is public and only requires the companion app UUID. The API will look up the corresponding apiBrewUuid."
           },
           "response": []
         },
@@ -309,7 +349,7 @@
           "response": []
         }
       ],
-      "description": "Endpoints for managing reviews."
+      "description": "Endpoints for managing reviews with references to brews using the API-generated UUID."
     }
   ],
   "event": [],
