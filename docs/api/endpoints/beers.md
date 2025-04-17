@@ -1,8 +1,8 @@
-# Beer Endpoints
+# Brew Endpoints
 
-## Get All Beers
+## Get All Brews
 
-Retrieves a list of all beers.
+Retrieves a list of all brews.
 
 **URL**: `/beers`
 
@@ -27,7 +27,8 @@ Retrieves a list of all beers.
     "description": "A hoppy IPA with citrus and pine notes",
     "brew_date": "2023-10-15",
     "keg_level": 85,
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "created_at": "2023-11-15T14:30:00Z",
     "updated_at": "2023-11-15T14:30:00Z"
   },
@@ -44,9 +45,9 @@ Retrieves a list of all beers.
 }
 ```
 
-## Get Beer by ID
+## Get Brew by ID
 
-Retrieves a specific beer by its ID.
+Retrieves a specific brew by its ID.
 
 **URL**: `/beers/{id}`
 
@@ -58,7 +59,7 @@ Retrieves a specific beer by its ID.
 - `X_API_Key`: Your API key
 
 **URL Parameters**:
-- `id`: The ID of the beer to retrieve
+- `id`: The ID of the brew to retrieve
 
 **Success Response**:
 - **Code**: 200 OK
@@ -73,7 +74,8 @@ Retrieves a specific beer by its ID.
   "description": "A hoppy IPA with citrus and pine notes",
   "brew_date": "2023-10-15",
   "keg_level": 85,
-  "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
   "created_at": "2023-11-15T14:30:00Z",
   "updated_at": "2023-11-15T14:30:00Z"
 }
@@ -92,13 +94,13 @@ Retrieves a specific beer by its ID.
 - **Content**:
 ```json
 {
-  "error": "Beer not found"
+  "error": "Brew not found"
 }
 ```
 
-## Get Beer by UUID (Public)
+## Get Brew by UUID (Public)
 
-Retrieves a specific beer by its UUID. This endpoint is public and does not require authentication.
+Retrieves a specific brew by its UUID. This endpoint is public and does not require authentication.
 
 **URL**: `/beers/public/{brewUuid}`
 
@@ -107,7 +109,7 @@ Retrieves a specific beer by its UUID. This endpoint is public and does not requ
 **Authentication Required**: No
 
 **URL Parameters**:
-- `brewUuid`: The UUID of the beer to retrieve
+- `brewUuid`: The UUID of the brew to retrieve (companion app UUID)
 
 **Success Response**:
 - **Code**: 200 OK
@@ -122,7 +124,8 @@ Retrieves a specific beer by its UUID. This endpoint is public and does not requ
   "description": "A hoppy IPA with citrus and pine notes",
   "brew_date": "2023-10-15",
   "keg_level": 85,
-  "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
   "created_at": "2023-11-15T14:30:00Z",
   "updated_at": "2023-11-15T14:30:00Z"
 }
@@ -133,13 +136,55 @@ Retrieves a specific beer by its UUID. This endpoint is public and does not requ
 - **Content**:
 ```json
 {
-  "error": "Beer not found"
+  "error": "Brew not found"
 }
 ```
 
-## Add New Beer
+## Get Brew by API UUID (Public)
 
-Adds a new beer to the system.
+Retrieves a specific brew by its API-generated UUID. This endpoint is public and does not require authentication.
+
+**URL**: `/beers/public/api/{apiBrewUuid}`
+
+**Method**: `GET`
+
+**Authentication Required**: No
+
+**URL Parameters**:
+- `apiBrewUuid`: The API-generated UUID of the brew to retrieve
+
+**Success Response**:
+- **Code**: 200 OK
+- **Content**:
+```json
+{
+  "id": 1,
+  "name": "Hoppy IPA",
+  "style": "India Pale Ale",
+  "abv": 6.5,
+  "ibu": 65.5,
+  "description": "A hoppy IPA with citrus and pine notes",
+  "brew_date": "2023-10-15",
+  "keg_level": 85,
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
+  "created_at": "2023-11-15T14:30:00Z",
+  "updated_at": "2023-11-15T14:30:00Z"
+}
+```
+
+**Error Response**:
+- **Code**: 404 Not Found
+- **Content**:
+```json
+{
+  "error": "Brew not found"
+}
+```
+
+## Add New Brew
+
+Adds a new brew to the system.
 
 **URL**: `/beers/add`
 
@@ -154,11 +199,11 @@ Adds a new beer to the system.
 **Request Body**:
 ```json
 {
-  "name": "New Beer",
+  "name": "New Brew",
   "style": "IPA",
   "abv": 5.5,
   "ibu": 40.5,
-  "description": "Description of the beer",
+  "description": "Description of the brew",
   "brewDate": "2024-04-01",
   "kegLevel": 100,
   "brewUuid": "550e8400-e29b-41d4-a716-446655440001"
@@ -170,16 +215,17 @@ Adds a new beer to the system.
 - **Content**:
 ```json
 {
-  "message": "Beer added successfully",
-  "beer": {
+  "message": "Brew added successfully",
+  "brew": {
     "id": 4,
-    "name": "New Beer",
+    "name": "New Brew",
     "style": "IPA",
     "abv": 5.5,
     "ibu": 40.5,
-    "description": "Description of the beer",
+    "description": "Description of the brew",
     "brew_date": "2024-04-01",
     "keg_level": 100,
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
     "brew_uuid": "550e8400-e29b-41d4-a716-446655440001",
     "created_at": "2024-04-15T14:30:00Z",
     "updated_at": "2024-04-15T14:30:00Z"
@@ -204,9 +250,9 @@ Adds a new beer to the system.
 }
 ```
 
-## Update Beer
+## Update Brew
 
-Updates an existing beer.
+Updates an existing brew.
 
 **URL**: `/beers/{id}/update`
 
@@ -219,7 +265,7 @@ Updates an existing beer.
 - `Content-Type`: application/json
 
 **URL Parameters**:
-- `id`: The ID of the beer to update
+- `id`: The ID of the brew to update
 
 **Request Body**:
 ```json
@@ -234,17 +280,18 @@ Updates an existing beer.
 - **Content**:
 ```json
 {
-  "message": "Beer updated successfully",
-  "beer": {
+  "message": "Brew updated successfully",
+  "brew": {
     "id": 1,
-    "name": "Updated Beer Name",
+    "name": "Updated Brew Name",
     "style": "India Pale Ale",
     "abv": 6.5,
     "ibu": 65.5,
     "description": "A hoppy IPA with citrus and pine notes",
     "brew_date": "2023-10-15",
     "keg_level": 75,
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "created_at": "2023-11-15T14:30:00Z",
     "updated_at": "2024-04-15T14:30:00Z"
   }
@@ -264,13 +311,13 @@ Updates an existing beer.
 - **Content**:
 ```json
 {
-  "error": "Beer not found"
+  "error": "Brew not found"
 }
 ```
 
-## Delete Beer
+## Delete Brew
 
-Deletes a beer from the system.
+Deletes a brew from the system.
 
 **URL**: `/beers/{id}/delete`
 
@@ -282,14 +329,14 @@ Deletes a beer from the system.
 - `X_API_Key`: Your API key
 
 **URL Parameters**:
-- `id`: The ID of the beer to delete
+- `id`: The ID of the brew to delete
 
 **Success Response**:
 - **Code**: 200 OK
 - **Content**:
 ```json
 {
-  "message": "Beer deleted successfully"
+  "message": "Brew deleted successfully"
 }
 ```
 
@@ -306,7 +353,7 @@ Deletes a beer from the system.
 - **Content**:
 ```json
 {
-  "error": "Beer not found"
+  "error": "Brew not found"
 }
 ```
 

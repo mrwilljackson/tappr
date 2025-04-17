@@ -21,7 +21,8 @@ Retrieves a list of all reviews.
   {
     "id": 1,
     "review_id": "550e8400-e29b-41d4-a716-446655440002",
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "reviewer_name": "John Doe",
     "is_anonymous": false,
     "review_date": "2023-11-15T14:30:00Z",
@@ -69,7 +70,8 @@ Retrieves a specific review by its ID.
 {
   "id": 1,
   "review_id": "550e8400-e29b-41d4-a716-446655440002",
-  "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewer_name": "John Doe",
   "is_anonymous": false,
   "review_date": "2023-11-15T14:30:00Z",
@@ -124,7 +126,8 @@ Retrieves all reviews for a specific brew.
   {
     "id": 1,
     "review_id": "550e8400-e29b-41d4-a716-446655440002",
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "reviewer_name": "John Doe",
     "is_anonymous": false,
     "review_date": "2023-11-15T14:30:00Z",
@@ -166,7 +169,8 @@ Adds a new review.
 **Request Body**:
 ```json
 {
-  "brewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brewUuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewerName": "John Doe",
   "isAnonymous": false,
   "reviewType": "quick",
@@ -186,7 +190,8 @@ Adds a new review.
   "review": {
     "id": 1,
     "review_id": "550e8400-e29b-41d4-a716-446655440002",
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "reviewer_name": "John Doe",
     "is_anonymous": false,
     "review_date": "2023-11-15T14:30:00Z",
@@ -206,7 +211,7 @@ Adds a new review.
 - **Content**:
 ```json
 {
-  "error": "Missing required fields: brewUuid, reviewType, and quickReview are required"
+  "error": "Missing required fields: api_brew_uuid, reviewType, and quickReview are required"
 }
 ```
 
@@ -242,7 +247,8 @@ Adds a new review without requiring authentication. This endpoint is public.
 **Request Body**:
 ```json
 {
-  "brewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brewUuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewerName": "John Doe",
   "isAnonymous": false,
   "reviewType": "quick",
@@ -262,7 +268,8 @@ Adds a new review without requiring authentication. This endpoint is public.
   "review": {
     "id": 1,
     "review_id": "550e8400-e29b-41d4-a716-446655440002",
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "reviewer_name": "John Doe",
     "is_anonymous": false,
     "review_date": "2023-11-15T14:30:00Z",
@@ -282,7 +289,7 @@ Adds a new review without requiring authentication. This endpoint is public.
 - **Content**:
 ```json
 {
-  "error": "Missing required fields: brewUuid, reviewType, and quickReview are required"
+  "error": "Missing required fields: api_brew_uuid, reviewType, and quickReview are required"
 }
 ```
 
@@ -331,7 +338,8 @@ Updates an existing review.
   "review": {
     "id": 1,
     "review_id": "550e8400-e29b-41d4-a716-446655440002",
-    "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
     "reviewer_name": "Updated Name",
     "is_anonymous": false,
     "review_date": "2023-11-15T14:30:00Z",
@@ -415,6 +423,7 @@ The review endpoints interact with the `reviews` table in the Supabase database.
 |--------------|------------------|
 | id | id |
 | reviewId | review_id |
+| api_brew_uuid | api_brew_uuid |
 | brewUuid | brew_uuid |
 | reviewerId | reviewer_id |
 | reviewerName | reviewer_name |
@@ -433,4 +442,4 @@ The review data objects (`quickReview`, `standardReview`, and `expertReview`) ar
 
 ### Foreign Key Relationship
 
-The `brewUuid` field in the reviews table references the `brew_uuid` field in the beers table, establishing a relationship between reviews and the beers they are for.
+The `api_brew_uuid` field in the reviews table references the `api_brew_uuid` field in the brews table, establishing a relationship between reviews and the brews they are for.

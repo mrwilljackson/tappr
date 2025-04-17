@@ -8,7 +8,8 @@ The Review model represents a review of a beer in the TAPPR system.
 |----------------|---------|--------------------------------------------------|----------|
 | id             | integer | Unique identifier for the review                 | Yes (auto-generated) |
 | review_id      | string  | UUID for the review                              | Yes (auto-generated) |
-| brew_uuid      | string  | UUID of the beer being reviewed                  | Yes      |
+| api_brew_uuid  | string  | UUID of the brew being reviewed (API-generated)  | Yes      |
+| brew_uuid      | string  | UUID of the brew in the companion app            | No       |
 | reviewer_id    | string  | ID of the reviewer (if authenticated)            | No       |
 | reviewer_name  | string  | Name of the reviewer                             | No       |
 | is_anonymous   | boolean | Whether the review is anonymous                  | Yes (defaults to false) |
@@ -114,7 +115,8 @@ A comprehensive review with detailed ratings for various aspects of the beer.
 {
   "id": 1,
   "review_id": "550e8400-e29b-41d4-a716-446655440002",
-  "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewer_name": "John Doe",
   "is_anonymous": false,
   "review_date": "2023-11-15T14:30:00Z",
@@ -134,7 +136,8 @@ A comprehensive review with detailed ratings for various aspects of the beer.
 {
   "id": 2,
   "review_id": "9d7f25e7-7b3c-4d1a-b6e8-f8a9b5c7d6e5",
-  "brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brew_uuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewer_name": "Jane Smith",
   "is_anonymous": false,
   "review_date": "2023-11-16T10:15:00Z",
@@ -161,7 +164,8 @@ When creating a new review, you can provide the following properties:
 
 | Property       | Type    | Description                                      | Required |
 |----------------|---------|--------------------------------------------------|----------|
-| brewUuid       | string  | UUID of the beer being reviewed                  | Yes      |
+| api_brew_uuid  | string  | UUID of the brew being reviewed (API-generated)  | Yes      |
+| brewUuid       | string  | UUID of the brew in the companion app            | No       |
 | reviewerId     | string  | ID of the reviewer (if authenticated)            | No       |
 | reviewerName   | string  | Name of the reviewer                             | No       |
 | isAnonymous    | boolean | Whether the review is anonymous                  | No (defaults to false) |
@@ -176,7 +180,8 @@ When creating a new review, you can provide the following properties:
 
 ```json
 {
-  "brewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brewUuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewerName": "John Doe",
   "isAnonymous": false,
   "reviewType": "quick",
@@ -191,7 +196,8 @@ When creating a new review, you can provide the following properties:
 
 ```json
 {
-  "brewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "brewUuid": "550e8400-e29b-41d4-a716-446655440000",
   "reviewerName": "Jane Smith",
   "isAnonymous": false,
   "reviewType": "standard",
@@ -225,6 +231,7 @@ The Review model maps to the `reviews` table in the database. The API uses camel
 |--------------|------------------|
 | id | id |
 | reviewId | review_id |
+| api_brew_uuid | api_brew_uuid |
 | brewUuid | brew_uuid |
 | reviewerId | reviewer_id |
 | reviewerName | reviewer_name |
