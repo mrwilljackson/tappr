@@ -3,7 +3,7 @@ import { patuaOne, montserrat } from "./fonts"
 import "./globals.css"
 
 export const metadata = {
-  title: "TAPPR - The Ultimate Homebrewer's Companion",
+  title: "TAPPr - The Ultimate Homebrewer's Companion",
   description:
     "Track your kegs, bottles, and brews with precision. Monitor, taste, and share your homebrew with friends.",
 }

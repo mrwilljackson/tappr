@@ -6,7 +6,7 @@ import { getBrewByApiBrewUuid } from '@/lib/db/beer-service';
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: 'Review Submitted - TAPPR',
+  title: 'Review Submitted - TAPPr',
   description: 'Thank you for submitting your review',
 };
 

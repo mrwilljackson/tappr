@@ -16,7 +16,7 @@ export default function ReviewPage() {
       <header className="bg-amber-800 text-white py-4">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold font-patua">TAPPR</Link>
+            <Link href="/" className="text-2xl font-bold font-patua">TAPPr</Link>
             <div className="text-sm font-montserrat">Rate Your Beer Experience</div>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function ReviewPage() {
       <footer className="bg-gray-900 text-gray-300 py-8 mt-12">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <p className="font-montserrat">&copy; {new Date().getFullYear()} TAPPR. All rights reserved.</p>
+            <p className="font-montserrat">&copy; {new Date().getFullYear()} TAPPr. All rights reserved.</p>
           </div>
         </div>
       </footer>

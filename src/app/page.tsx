@@ -19,7 +19,7 @@ export default function Home() {
           <div className="flex h-16 items-center justify-between">
             <Link href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Beer className="h-6 w-6 text-amber-600 transform rotate-15" />
-              <span className="text-xl font-bold tracking-tight font-patua">TAPPR</span>
+              <span className="text-xl font-bold tracking-tight font-patua">TAPPr</span>
             </Link>
             <nav className="hidden md:flex gap-6">
               <Link href="#features" className="text-sm font-medium hover:text-amber-600 transition-colors font-montserrat">
@@ -50,7 +50,7 @@ export default function Home() {
                     Never Lose Track of Your Homebrew Again
                   </h1>
                   <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 font-montserrat">
-                    TAPPR helps you monitor your kegs, bottles, and brews with precision. Track, taste, and share your
+                    TAPPr helps you monitor your kegs, bottles, and brews with precision. Track, taste, and share your
                     homebrewing journey with friends.
                   </p>
                 </div>
@@ -71,7 +71,7 @@ export default function Home() {
                       src="/images/app/api_list.png"
                       width={300}
                       height={600}
-                      alt="TAPPR App Screenshot"
+                      alt="TAPPr App Screenshot"
                       rotate={20}
                       shadow={true}
                       shadowOffset={15}
@@ -92,7 +92,7 @@ export default function Home() {
                   Everything You Need to Brew Better
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  TAPPR combines precision tracking with social features to elevate your homebrewing experience.
+                  TAPPr combines precision tracking with social features to elevate your homebrewing experience.
                 </p>
               </div>
             </div>
@@ -136,9 +136,9 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-amber-100 px-3 py-1 text-sm">App Preview</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-patua">See TAPPR in Action</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-patua">See TAPPr in Action</h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  Take a peek at how TAPPR will revolutionize your homebrewing experience.
+                  Take a peek at how TAPPr will revolutionize your homebrewing experience.
                 </p>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function Home() {
                 <TabsContent value="dashboard" className="mt-0">
                   <AppScreenshot
                     src="/images/app/brew_list.png"
-                    alt="TAPPR Dashboard"
+                    alt="TAPPr Dashboard"
                     title="Your Brewing Dashboard"
                     description="Get a quick overview of all your active brews, keg levels, and recent ratings."
                   />
@@ -162,7 +162,7 @@ export default function Home() {
                 <TabsContent value="tracking" className="mt-0">
                   <AppScreenshot
                     src="/images/app/keg_list.png"
-                    alt="TAPPR Keg Tracking"
+                    alt="TAPPr Keg Tracking"
                     title="Real-time Keg Monitoring"
                     description="See exactly how much beer is left in each keg and estimate when you&apos;ll need to brew again."
                   />
@@ -170,7 +170,7 @@ export default function Home() {
                 <TabsContent value="tasting" className="mt-0">
                   <AppScreenshot
                     src="/images/app/serving_list.png"
-                    alt="TAPPR Tasting Notes"
+                    alt="TAPPr Tasting Notes"
                     title="Detailed Tasting Notes"
                     description="Record and share comprehensive tasting notes with flavor profiles and ratings."
                   />
@@ -189,7 +189,7 @@ export default function Home() {
                   Simple Setup, Powerful Results
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  Get started with TAPPR in just a few simple steps.
+                  Get started with TAPPr in just a few simple steps.
                 </p>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold font-patua">Connect Your Scale</h3>
                 <p className="text-gray-500 dark:text-gray-400 font-montserrat">
-                  Pair your Bluetooth scale with TAPPR or set up custom serving sizes.
+                  Pair your Bluetooth scale with TAPPr or set up custom serving sizes.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-2 text-center">
@@ -234,13 +234,13 @@ export default function Home() {
                   What Our Beta Testers Say
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  Hear from homebrewers who&apos;ve already experienced the TAPPR difference.
+                  Hear from homebrewers who&apos;ve already experienced the TAPPr difference.
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
               <Testimonial
-                quote="TAPPR has completely changed how I manage my homebrew. No more guessing how much beer is left!"
+                quote="TAPPr has completely changed how I manage my homebrew. No more guessing how much beer is left!"
                 author="Mike Johnson"
                 role="Homebrewer for 8 years"
                 avatarSrc="/images/testimonials/mike-johnson.png"
@@ -266,7 +266,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center text-white">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-patua">
-                  Be the First to Experience TAPPR
+                  Be the First to Experience TAPPr
                 </h2>
                 <p className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed font-montserrat">
                   Join our waitlist to get early access and exclusive updates about our launch.
@@ -297,9 +297,9 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-amber-100 px-3 py-1 text-sm">Coming Soon</div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-patua">Download TAPPR</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-patua">Download TAPPr</h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 font-montserrat">
-                  TAPPR will be available on iOS and Android soon. Join our waitlist to be notified when we launch.
+                  TAPPr will be available on iOS and Android soon. Join our waitlist to be notified when we launch.
                 </p>
               </div>
               <div className="flex flex-col gap-4 min-[400px]:flex-row justify-center items-center">
@@ -331,7 +331,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
             <Link href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Beer className="h-6 w-6 text-amber-500 transform rotate-15" />
-              <span className="text-xl font-bold tracking-tight font-patua text-gray-200">TAPPR</span>
+              <span className="text-xl font-bold tracking-tight font-patua text-gray-200">TAPPr</span>
             </Link>
             <nav className="flex gap-4 sm:gap-6">
               <Link href="#" className="text-sm font-medium text-gray-300 hover:text-gray-100 hover:underline underline-offset-4 font-montserrat">
@@ -349,7 +349,7 @@ export default function Home() {
             </nav>
             <div className="flex items-center gap-4">
               <p className="text-sm text-gray-400 font-montserrat">
-                © 2024 TAPPR. All rights reserved.
+                © 2024 TAPPr. All rights reserved.
               </p>
             </div>
           </div>
