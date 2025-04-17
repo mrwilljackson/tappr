@@ -25,19 +25,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#d97706" />
-        <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Version: 2.0
-            window.Brevo = window.Brevo || [];
-            Brevo.push([
-              "init",
-              {
-                client_key: "ih2vx58j3tcofky9h3yjn8be"
-              }
-            ]);
-          `
-        }}></script>
       </head>
       <body className="font-montserrat">{children}</body>
     </html>
