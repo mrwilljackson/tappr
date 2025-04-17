@@ -5,10 +5,11 @@ import { Beer } from '@/types/beer';
 import BeerDetails from './BeerDetails';
 
 interface BeerDetailsClientProps {
-  brewUuid: string;
+  apiBrewUuid: string;
+  brewUuid?: string; // For backward compatibility
 }
 
-const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ brewUuid }) => {
+const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ apiBrewUuid, brewUuid }) => {
   const [beer, setBeer] = useState<Beer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,10 +20,11 @@ const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ brewUuid }) => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(`/api/beers/public/${brewUuid}`);
+        // Use the public API brew UUID endpoint
+        const response = await fetch(`/api/beers/public/api/${apiBrewUuid}`);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch beer: ${response.statusText}`);
+          throw new Error(`Failed to fetch brew: ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -37,7 +39,7 @@ const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ brewUuid }) => {
     }
 
     fetchBeer();
-  }, [brewUuid]);
+  }, [apiBrewUuid]);
 
   return <BeerDetails beer={beer as Beer} isLoading={isLoading} error={error || undefined} />;
 };

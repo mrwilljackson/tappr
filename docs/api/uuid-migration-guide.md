@@ -73,7 +73,7 @@ When creating a new brew, you can provide a `brewUuid` from the companion app. T
     "brewDate": "2024-04-01",
     "kegLevel": 100,
     "brewUuid": "550e8400-e29b-41d4-a716-446655440001",
-    "apiBrewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+    "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
     "createdAt": "2024-04-15T14:30:00Z",
     "updatedAt": "2024-04-15T14:30:00Z"
   }
@@ -109,7 +109,7 @@ When creating a review, you must now provide the `apiBrewUuid` of the brew being
 **After:**
 ```json
 {
-  "apiBrewUuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
   "brewUuid": "550e8400-e29b-41d4-a716-446655440001",
   "reviewerName": "John Doe",
   "reviewType": "quick",
@@ -149,8 +149,8 @@ Both endpoints will return the reviews with both UUIDs.
 ## Migration Steps
 
 1. **Update API Calls**:
-   - When creating a new brew, store both the `brewUuid` and `apiBrewUuid` returned in the response.
-   - When creating a review, use the `apiBrewUuid` as the primary reference to the brew.
+   - When creating a new brew, store both the `brewUuid` and `api_brew_uuid` returned in the response.
+   - When creating a review, use the `api_brew_uuid` as the primary reference to the brew.
    - Update your code to handle both UUIDs in the responses.
 
 2. **Update Database Queries**:
@@ -158,7 +158,7 @@ Both endpoints will return the reviews with both UUIDs.
    - Use the `api_brew_uuid` field as the primary reference for brews in the database.
 
 3. **Update Client Code**:
-   - Update your client code to store and use the `apiBrewUuid` for future queries.
+   - Update your client code to store and use the `api_brew_uuid` for future queries.
    - For backward compatibility, you can continue to use the `brewUuid` for public endpoints.
 
 ## Backward Compatibility
@@ -173,7 +173,7 @@ For backward compatibility, the API still supports:
 
 1. **Clear Separation of Concerns**:
    - `api_brew_uuid`: Internal, immutable database identifier controlled by the API
-   - `brew_uuid`: External reference ID used by the companion app
+   - `brewUuid`: External reference ID used by the companion app
 
 2. **Improved Data Sovereignty**:
    - The API generates and controls its own primary identifiers

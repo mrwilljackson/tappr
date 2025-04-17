@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import BeerDetails from '@/components/BeerDetails';
-import { getBeerByBrewUuid } from '@/lib/db/beer-service';
+import { getBrewByApiBrewUuid } from '@/lib/db/beer-service';
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 // Define the props for the page component
 interface ReviewConfirmationPageProps {
   params: {
-    brewUuid: string;
+    brewUuid: string; // This is actually the api_brew_uuid in the URL (for backward compatibility)
   };
 }
 
@@ -21,8 +21,8 @@ interface ReviewConfirmationPageProps {
 export default async function ReviewConfirmationPage({ params }: ReviewConfirmationPageProps) {
   // Await params to ensure it's fully resolved
   const resolvedParams = await params;
-  const { brewUuid } = resolvedParams;
-  const beer = await getBeerByBrewUuid(brewUuid);
+  const { brewUuid: apiBrewUuid } = resolvedParams; // This is actually the api_brew_uuid
+  const beer = await getBrewByApiBrewUuid(apiBrewUuid);
 
   if (!beer) {
     notFound();

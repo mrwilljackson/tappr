@@ -1,7 +1,7 @@
 // Example review data for API documentation
 
 export const quickReviewExample = {
-  apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
+  api_brew_uuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
   brewUuid: '550e8400-e29b-41d4-a716-446655440000',     // Optional reference to the brew in the companion app
   reviewerName: 'John Doe',
   isAnonymous: false,
@@ -13,7 +13,7 @@ export const quickReviewExample = {
 };
 
 export const standardReviewExample = {
-  apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
+  api_brew_uuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
   brewUuid: '550e8400-e29b-41d4-a716-446655440000',     // Optional reference to the brew in the companion app
   reviewerName: 'Jane Smith',
   isAnonymous: false,
@@ -32,7 +32,7 @@ export const standardReviewExample = {
 };
 
 export const expertReviewExample = {
-  apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
+  api_brew_uuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
   brewUuid: '550e8400-e29b-41d4-a716-446655440000',     // Optional reference to the brew in the companion app
   reviewerId: '123e4567-e89b-12d3-a456-426614174000',
   isAnonymous: false,
@@ -93,7 +93,7 @@ export const reviewResponseExample = {
   review: {
     id: 1,
     reviewId: '550e8400-e29b-41d4-a716-446655440002',
-    apiBrewUuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
+    api_brew_uuid: '7dfb14c4-d288-4b1e-ae69-ec2d733aa434', // Primary reference to the brew in the API database
     brewUuid: '550e8400-e29b-41d4-a716-446655440000',     // Optional reference to the brew in the companion app
     reviewerName: 'John Doe',
     isAnonymous: false,

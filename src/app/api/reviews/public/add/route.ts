@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ReviewCreateInput } from '@/types/review';
 import { createReview } from '@/lib/db/review-service';
-import { getBrewByBrewUuid } from '@/lib/db/beer-service';
+import { getBrewByApiBrewUuid } from '@/lib/db/beer-service';
 
 export async function POST(request: Request) {
   try {
@@ -9,14 +9,14 @@ export async function POST(request: Request) {
     const body = await request.json() as ReviewCreateInput;
 
     // Validate the request body (basic validation)
-    if (!body.brewUuid || !body.reviewType || !body.quickReview) {
+    if (!body.api_brew_uuid || !body.reviewType || !body.quickReview) {
       return NextResponse.json(
-        { error: 'Missing required fields: brewUuid, reviewType, and quickReview are required' },
+        { error: 'Missing required fields: api_brew_uuid, reviewType, and quickReview are required' },
         { status: 400 }
       );
     }
 
-    // For public endpoints, we accept brewUuid but need to look up the apiBrewUuid
+    // For public endpoints, we use api_brew_uuid as the primary reference
 
     // Validate quick review
     if (!body.quickReview.overallRating || !body.quickReview.comments) {
@@ -41,8 +41,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify that the brew exists and get its API UUID
-    const brew = await getBrewByBrewUuid(body.brewUuid);
+    // Verify that the brew exists using the api_brew_uuid
+    const brew = await getBrewByApiBrewUuid(body.api_brew_uuid);
+
     if (!brew) {
       return NextResponse.json(
         { error: 'Brew not found' },
@@ -50,10 +51,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Add the apiBrewUuid to the review data
+    // Prepare the review data with standardized field names
     const reviewData = {
       ...body,
-      apiBrewUuid: brew.api_brew_uuid
+      apiBrewUuid: body.api_brew_uuid, // For backward compatibility with the review service
+      brewUuid: brew.brew_uuid // Include the companion app UUID for reference
     };
 
     // Save to the database
@@ -66,11 +68,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Transform the response to include camelCase properties
+    // Transform the response to include standardized properties
     const transformedReview = {
       id: newReview.id,
       reviewId: newReview.review_id,
-      apiBrewUuid: newReview.api_brew_uuid,
+      api_brew_uuid: newReview.api_brew_uuid,
       brewUuid: newReview.brew_uuid,
       reviewerId: newReview.reviewer_id,
       reviewerName: newReview.reviewer_name,

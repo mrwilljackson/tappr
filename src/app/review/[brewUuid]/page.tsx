@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 export default function ReviewPage() {
-  // Get brewUuid from params
+  // Get api_brew_uuid from params (still named brewUuid in the URL for backward compatibility)
   const params = useParams();
-  const brewUuid = params.brewUuid as string;
+  const apiBrewUuid = params.brewUuid as string;
 
   return (
     <div className="min-h-screen bg-amber-50">
@@ -27,10 +27,10 @@ export default function ReviewPage() {
           <h1 className="text-3xl font-bold mb-6 font-patua">Submit a Review</h1>
 
           <div className="mb-8">
-            <BeerDetailsClient brewUuid={brewUuid} />
+            <BeerDetailsClient apiBrewUuid={apiBrewUuid} />
           </div>
 
-          <ReviewForm brewUuid={brewUuid} />
+          <ReviewForm apiBrewUuid={apiBrewUuid} />
         </div>
       </main>
 

@@ -66,7 +66,7 @@ export default function ReviewTestPage() {
                 <p className="text-gray-600 mb-2 font-montserrat">{beer.style}</p>
                 <p className="text-gray-600 mb-4 font-montserrat">ABV: {beer.abv}%</p>
                 <Link
-                  href={`/review/${beer.brewUuid || beer.brew_uuid}`}
+                  href={`/review/${beer.api_brew_uuid}`}
                   className="inline-block bg-amber-600 text-white py-2 px-4 rounded hover:bg-amber-700 font-montserrat"
                 >
                   Review this beer

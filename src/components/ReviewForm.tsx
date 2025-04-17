@@ -5,12 +5,13 @@ import { useRouter } from 'next/navigation';
 import { ReviewType, QuickReview, StandardReview, ExpertReview } from '@/types/review';
 
 interface ReviewFormProps {
-  brewUuid: string;
+  apiBrewUuid: string;
+  brewUuid?: string; // For backward compatibility
   onSuccess?: (data: Record<string, unknown>) => void;
   onError?: (error: Error | unknown) => void;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSuccess, onError }) => {
   const router = useRouter();
   const [reviewType, setReviewType] = useState<ReviewType>('quick');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,7 +111,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError })
     try {
       // Prepare the review data based on the selected type
       const reviewData: Record<string, unknown> = {
-        brewUuid,
+        api_brew_uuid: apiBrewUuid,
+        brewUuid,  // Include for backward compatibility
         reviewType,
         quickReview,
         isAnonymous,
@@ -156,7 +158,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ brewUuid, onSuccess, onError })
 
       // Redirect to the confirmation page after a short delay
       setTimeout(() => {
-        router.push(`/review-confirmation/${brewUuid}`);
+        router.push(`/review-confirmation/${apiBrewUuid}`);
       }, 1000);
     } catch (error: Error | unknown) {
       console.error('Error submitting review:', error);
