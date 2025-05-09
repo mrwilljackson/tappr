@@ -13,6 +13,7 @@ export interface StandardReview {
   taste: number; // Scale 1-5
   mouthfeel: number; // Scale 1-5
   comments: string;
+  calculatedScore?: number; // Calculated overall score with two decimal places
 }
 
 // Expert Review - Appearance section
@@ -68,6 +69,8 @@ export interface ExpertReview {
   mouthfeel: ExpertMouthfeel;
   aftertaste: ExpertAftertaste;
   styleAccuracy: number;
+  calculatedScore?: number; // Calculated overall score with two decimal places (excluding styleAccuracy)
+  comments?: string; // Optional comments field for expert reviews
 }
 
 // Review type enum

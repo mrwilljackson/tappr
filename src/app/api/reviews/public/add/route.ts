@@ -19,12 +19,14 @@ export async function POST(request: Request) {
     // For public endpoints, we use api_brew_uuid as the primary reference
 
     // Validate quick review
-    if (!body.quickReview.overallRating || !body.quickReview.comments) {
+    if (!body.quickReview.overallRating) {
       return NextResponse.json(
-        { error: 'Quick review must include overallRating and comments' },
+        { error: 'Quick review must include overallRating' },
         { status: 400 }
       );
     }
+
+    // Comments are now optional, so we don't validate them
 
     // Validate review type and corresponding data
     if (body.reviewType === 'standard' && !body.standardReview) {
@@ -34,9 +36,17 @@ export async function POST(request: Request) {
       );
     }
 
-    if (body.reviewType === 'expert' && (!body.standardReview || !body.expertReview)) {
+    if (body.reviewType === 'expert' && !body.expertReview) {
       return NextResponse.json(
-        { error: 'Expert review type requires both standardReview and expertReview data' },
+        { error: 'Expert review type requires expertReview data' },
+        { status: 400 }
+      );
+    }
+
+    // For expert reviews, we also need standardReview
+    if (body.reviewType === 'expert' && !body.standardReview) {
+      return NextResponse.json(
+        { error: 'Expert review type also requires standardReview data' },
         { status: 400 }
       );
     }
