@@ -413,6 +413,50 @@ Deletes a review from the system.
 }
 ```
 
+## Get Average Review Score
+
+Retrieves the average review score for a specific brew.
+
+**URL**: `/reviews/api-brew/{apiBrewUuid}/average`
+
+**Method**: `GET`
+
+**Authentication Required**: Yes
+
+**Headers**:
+- `X_API_Key`: Your API key
+
+**URL Parameters**:
+- `apiBrewUuid`: The API UUID of the brew to get the average review score for
+
+**Success Response**:
+- **Code**: 200 OK
+- **Content**:
+```json
+{
+  "api_brew_uuid": "7dfb14c4-d288-4b1e-ae69-ec2d733aa434",
+  "averageScore": 4.25,
+  "reviewCount": 8
+}
+```
+
+**Error Responses**:
+- **Code**: 401 Unauthorized
+- **Content**:
+```json
+{
+  "error": "Unauthorized: Invalid or missing API key"
+}
+```
+
+- **Code**: 404 Not Found
+- **Content**:
+```json
+{
+  "error": "No reviews found for this brew"
+}
+```
+
 ## Database Mapping
 
 The review endpoints interact with the `reviews` table in the Supabase database. The API handles the conversion between camelCase (used in the API) and snake_case (used in the database) property names.

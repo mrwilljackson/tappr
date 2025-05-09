@@ -57,6 +57,7 @@ The following endpoints do not require authentication:
 - [Add New Brew](./endpoints/beers.md#add-new-brew)
 - [Update Brew](./endpoints/beers.md#update-brew)
 - [Delete Brew](./endpoints/beers.md#delete-brew)
+- [Link Brew to Recipe](./endpoints/recipes.md#link-brew-to-recipe)
 
 ### Review Endpoints
 
@@ -64,15 +65,29 @@ The following endpoints do not require authentication:
 - [Get Review by ID](./endpoints/reviews.md#get-review-by-id)
 - [Get Reviews by Companion App Brew UUID](./endpoints/reviews.md#get-reviews-by-companion-app-brew-uuid)
 - [Get Reviews by API Brew UUID](./endpoints/reviews.md#get-reviews-by-api-brew-uuid)
+- [Get Average Review Score](./endpoints/reviews.md#get-average-review-score)
 - [Add Review](./endpoints/reviews.md#add-review)
 - [Add Public Review](./endpoints/reviews.md#add-public-review)
 - [Update Review](./endpoints/reviews.md#update-review)
 - [Delete Review](./endpoints/reviews.md#delete-review)
 
+### Recipe Endpoints
+
+- [Get All Recipes](./endpoints/recipes.md#get-all-recipes)
+- [Get Recipe by ID](./endpoints/recipes.md#get-recipe-by-id)
+- [Get Recipe by Recipe ID](./endpoints/recipes.md#get-recipe-by-recipe-id)
+- [Search Recipes](./endpoints/recipes.md#search-recipes)
+- [Add New Recipe](./endpoints/recipes.md#add-new-recipe)
+- [Update Recipe](./endpoints/recipes.md#update-recipe)
+- [Delete Recipe](./endpoints/recipes.md#delete-recipe)
+- [Get Brews by Recipe ID](./endpoints/recipes.md#get-brews-by-recipe-id)
+- [Get Reviews by Recipe ID](./endpoints/recipes.md#get-reviews-by-recipe-id)
+
 ## Data Models
 
 - [Brew Model](./models/beer.md)
 - [Review Model](./models/review.md)
+- [Recipe Model](./models/recipe.md)
 
 ## Database Mapping
 
@@ -80,6 +95,7 @@ The API uses Supabase as its database backend. The following tables are used to 
 
 - `brews` - Stores brew (beer) information with both `api_brew_uuid` and `brew_uuid` fields
 - `reviews` - Stores brew reviews with references to brews using the `api_brew_uuid` field
+- `recipes` - Stores recipe information with deterministic UUIDs generated from platform, author, and name
 
 For detailed information about how API data is mapped to the database schema, please refer to:
 

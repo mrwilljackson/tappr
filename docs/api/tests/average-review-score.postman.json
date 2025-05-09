@@ -1,0 +1,227 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+    "name": "TAPPr API - Average Review Score Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Average Review Score",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test for successful response",
+              "pm.test(\"Status code is 200 OK\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Test response structure",
+              "pm.test(\"Response has correct structure\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData).to.be.an('object');",
+              "    pm.expect(responseData).to.have.property('api_brew_uuid');",
+              "    pm.expect(responseData).to.have.property('averageScore');",
+              "    pm.expect(responseData).to.have.property('reviewCount');",
+              "});",
+              "",
+              "// Test data types",
+              "pm.test(\"Response has correct data types\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData.api_brew_uuid).to.be.a('string');",
+              "    pm.expect(responseData.averageScore).to.be.a('number');",
+              "    pm.expect(responseData.reviewCount).to.be.a('number');",
+              "});",
+              "",
+              "// Test that average score is within valid range (1-5)",
+              "pm.test(\"Average score is within valid range\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData.averageScore).to.be.at.least(1);",
+              "    pm.expect(responseData.averageScore).to.be.at.most(5);",
+              "});",
+              "",
+              "// Test that review count is a positive integer",
+              "pm.test(\"Review count is a positive integer\", function () {",
+              "    const responseData = pm.response.json();",
+              "    pm.expect(responseData.reviewCount).to.be.at.least(1);",
+              "    pm.expect(Number.isInteger(responseData.reviewCount)).to.be.true;",
+              "});",
+              "",
+              "// Test that the returned API brew UUID matches the requested one",
+              "pm.test(\"API brew UUID matches request\", function () {",
+              "    const responseData = pm.response.json();",
+              "    const requestedUuid = pm.request.url.path[4]; // Extract UUID from URL path",
+              "    pm.expect(responseData.api_brew_uuid).to.equal(requestedUuid);",
+              "});",
+              "",
+              "// Save values to environment variables for use in other requests",
+              "const responseData = pm.response.json();",
+              "pm.environment.set(\"lastAverageScore\", responseData.averageScore);",
+              "pm.environment.set(\"lastReviewCount\", responseData.reviewCount);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X_API_Key",
+            "value": "tappr_api_key_12345",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/reviews/api-brew/b687e021-dfe7-4fac-865f-518b9adb9abd/average",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "reviews",
+            "api-brew",
+            "b687e021-dfe7-4fac-865f-518b9adb9abd",
+            "average"
+          ]
+        },
+        "description": "Gets the average review score for a specific brew identified by its API brew UUID."
+      },
+      "response": [
+        {
+          "name": "Successful Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "tappr_api_key_12345",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/api-brew/b687e021-dfe7-4fac-865f-518b9adb9abd/average",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "api-brew",
+                "b687e021-dfe7-4fac-865f-518b9adb9abd",
+                "average"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"api_brew_uuid\": \"b687e021-dfe7-4fac-865f-518b9adb9abd\",\n    \"averageScore\": 3.8,\n    \"reviewCount\": 5\n}"
+        },
+        {
+          "name": "Unauthorized Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/api-brew/b687e021-dfe7-4fac-865f-518b9adb9abd/average",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "api-brew",
+                "b687e021-dfe7-4fac-865f-518b9adb9abd",
+                "average"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized: Invalid or missing API key\"\n}"
+        },
+        {
+          "name": "Not Found Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "tappr_api_key_12345",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/api-brew/00000000-0000-0000-0000-000000000000/average",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "api-brew",
+                "00000000-0000-0000-0000-000000000000",
+                "average"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Brew not found\"\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://tappr.beer",
+      "type": "string"
+    }
+  ]
+}

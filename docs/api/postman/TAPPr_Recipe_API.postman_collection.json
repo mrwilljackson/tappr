@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "a5e7c8f9-b6d7-4e89-a3c2-1f2d3e4f5a6b",
+		"name": "TAPPr Recipe API",
+		"description": "A collection for testing the TAPPr Recipe API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Recipes",
+			"item": [
+				{
+					"name": "Get All Recipes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes"
+							]
+						},
+						"description": "Retrieves a list of all recipes."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recipe by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"1"
+							]
+						},
+						"description": "Retrieves a specific recipe by its ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recipe by Recipe ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/recipe-id/{{recipe_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"recipe-id",
+								"{{recipe_id}}"
+							]
+						},
+						"description": "Retrieves a specific recipe by its deterministic UUID (recipe_id)."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Recipes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/search?name=Helles&author=Jamil&platform=grainfather&style=German",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Helles",
+									"description": "Recipe name to search for"
+								},
+								{
+									"key": "author",
+									"value": "Jamil",
+									"description": "Author name to search for"
+								},
+								{
+									"key": "platform",
+									"value": "grainfather",
+									"description": "Platform to filter by"
+								},
+								{
+									"key": "style",
+									"value": "German",
+									"description": "Style to filter by"
+								}
+							]
+						},
+						"description": "Searches for recipes based on name, author, platform, or style."
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Helles Lager\",\n  \"author\": \"Jamil Zainasheff\",\n  \"platform\": \"grainfather\",\n  \"description\": \"A classic German lager with a clean, malty profile\",\n  \"style\": \"German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"add"
+							]
+						},
+						"description": "Adds a new recipe to the system."
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Recipe (Find or Create)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Helles Lager\",\n  \"author\": \"Jamil Zainasheff\",\n  \"platform\": \"grainfather\",\n  \"description\": \"A classic German lager with a clean, malty profile\",\n  \"style\": \"German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/add?findOrCreate=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"add"
+							],
+							"query": [
+								{
+									"key": "findOrCreate",
+									"value": "true",
+									"description": "Find an existing recipe or create a new one"
+								}
+							]
+						},
+						"description": "Finds an existing recipe with the same platform, author, and name, or creates a new one if it doesn't exist."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"An updated description for the recipe\",\n  \"style\": \"Updated German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/1/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"1",
+								"update"
+							]
+						},
+						"description": "Updates an existing recipe."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/1/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"1",
+								"delete"
+							]
+						},
+						"description": "Deletes a recipe."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Brews by Recipe ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/recipe-id/{{recipe_id}}/brews",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"recipe-id",
+								"{{recipe_id}}",
+								"brews"
+							]
+						},
+						"description": "Retrieves all brews associated with a specific recipe."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing recipes."
+		},
+		{
+			"name": "Brews",
+			"item": [
+				{
+					"name": "Link Brew to Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"recipeId\": \"{{recipe_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/brews/1/link-recipe",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"brews",
+								"1",
+								"link-recipe"
+							]
+						},
+						"description": "Links a brew to a recipe."
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Brew with Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Helles Lager\",\n  \"style\": \"German Helles\",\n  \"abv\": 5.2,\n  \"ibu\": 20.5,\n  \"description\": \"My version of a classic German lager\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100,\n  \"recipeId\": \"{{recipe_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/beers/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers",
+								"add"
+							]
+						},
+						"description": "Adds a new brew with a reference to a recipe."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing brews with recipe references."
+		},
+		{
+			"name": "Utility",
+			"item": [
+				{
+					"name": "Generate Recipe ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"platform\": \"grainfather\",\n  \"author\": \"Jamil Zainasheff\",\n  \"name\": \"Helles Lager\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/utility/generate-recipe-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"utility",
+								"generate-recipe-id"
+							]
+						},
+						"description": "Generates a deterministic recipe ID from platform, author, and name."
+					},
+					"response": []
+				}
+			],
+			"description": "Utility endpoints for recipe identification."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://tappr.beer/api",
+			"type": "string",
+			"description": "Base URL for the TAPPr API"
+		},
+		{
+			"key": "api_key",
+			"value": "your-api-key-here",
+			"type": "string",
+			"description": "Your TAPPr API key"
+		},
+		{
+			"key": "recipe_id",
+			"value": "",
+			"type": "string",
+			"description": "Recipe ID for testing"
+		}
+	]
+}

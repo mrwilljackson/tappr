@@ -14,6 +14,7 @@ export type BrewDB = {
   keg_level: number;
   brew_uuid: string;
   api_brew_uuid: string;
+  recipe_id?: string;  // Reference to the recipe
   created_at: string;
   updated_at: string;
 };
@@ -111,6 +112,7 @@ export async function createBrew(data: BrewCreateInput): Promise<BrewDB | null> 
     keg_level: data.kegLevel || 100,
     brew_uuid: data.brewUuid || uuidv4(), // Use provided UUID from companion app or generate a new one
     api_brew_uuid: uuidv4(), // Always generate a new API UUID
+    recipe_id: data.recipeId, // Reference to the recipe (if provided)
   };
 
   const { data: result, error } = await supabase
@@ -152,6 +154,7 @@ export async function updateBrew(id: number, data: Partial<BrewCreateInput>): Pr
   if (data.description !== undefined) updateData.description = data.description;
   if (data.brewDate !== undefined) updateData.brew_date = data.brewDate;
   if (data.kegLevel !== undefined) updateData.keg_level = data.kegLevel;
+  if (data.recipeId !== undefined) updateData.recipe_id = data.recipeId;
   // Note: We don't allow updating the brew_uuid or api_brew_uuid as they are immutable identifiers
 
   const { data: result, error } = await supabase

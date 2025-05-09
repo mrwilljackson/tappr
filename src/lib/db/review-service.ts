@@ -171,3 +171,66 @@ export async function deleteReview(reviewId: string): Promise<boolean> {
 
   return true;
 }
+
+// Get average review score for a specific brew
+export async function getAverageReviewScore(apiBrewUuid: string): Promise<{ averageScore: number; reviewCount: number } | null> {
+  try {
+    // Get all reviews for the brew
+    const reviews = await getReviewsByApiBrewUuid(apiBrewUuid);
+
+    // If no reviews, return null
+    if (!reviews || reviews.length === 0) {
+      return null;
+    }
+
+    // Calculate the average score
+    let totalScore = 0;
+
+    // Process each review based on its type
+    for (const review of reviews) {
+      let reviewScore = 0;
+
+      // For quick reviews, use the overallRating
+      if (review.review_type === 'quick' && review.quick_review) {
+        reviewScore = review.quick_review.overallRating;
+      }
+      // For standard reviews, calculate the average of all rating fields or use calculatedScore if available
+      else if (review.review_type === 'standard' && review.standard_review) {
+        if (review.standard_review.calculatedScore !== undefined) {
+          reviewScore = review.standard_review.calculatedScore;
+        } else {
+          const standardReview = review.standard_review;
+          reviewScore = (
+            standardReview.appearance +
+            standardReview.aroma +
+            standardReview.taste +
+            standardReview.mouthfeel
+          ) / 4;
+        }
+      }
+      // For expert reviews, use a more complex calculation or use calculatedScore if available
+      else if (review.review_type === 'expert' && review.expert_review) {
+        if (review.expert_review.calculatedScore !== undefined) {
+          reviewScore = review.expert_review.calculatedScore;
+        } else {
+          // For expert reviews without calculatedScore, we'll use the quick review's overallRating
+          // as a fallback since the expert calculation is complex
+          reviewScore = review.quick_review ? review.quick_review.overallRating : 0;
+        }
+      }
+
+      totalScore += reviewScore;
+    }
+
+    // Calculate the average score with two decimal places
+    const averageScore = Math.round((totalScore / reviews.length) * 100) / 100;
+
+    return {
+      averageScore,
+      reviewCount: reviews.length
+    };
+  } catch (error) {
+    console.error(`Error calculating average review score for brew ${apiBrewUuid}:`, error);
+    return null;
+  }
+}

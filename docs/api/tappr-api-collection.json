@@ -347,6 +347,26 @@
             "description": "Deletes a review from the system."
           },
           "response": []
+        },
+        {
+          "name": "Get Average Review Score",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X_API_Key",
+                "value": "{{apiKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviews/api-brew/7dfb14c4-d288-4b1e-ae69-ec2d733aa434/average",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews", "api-brew", "7dfb14c4-d288-4b1e-ae69-ec2d733aa434", "average"]
+            },
+            "description": "Retrieves the average review score for a specific brew identified by its API brew UUID."
+          },
+          "response": []
         }
       ],
       "description": "Endpoints for managing reviews with references to brews using the API-generated UUID."

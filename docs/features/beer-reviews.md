@@ -80,6 +80,17 @@ The TAPPr beer review system allows users to submit reviews for beers in three d
 - For Expert reviews, all individual ratings and the calculated overall score are sent
 - All scores are stored with two decimal places precision
 
+### Average Review Score
+- The API provides an endpoint to retrieve the average review score for a specific brew
+- The average is calculated across all review types (Quick, Standard, Expert)
+- For Quick reviews, the `overallRating` is used
+- For Standard reviews, the calculated average of all rating fields is used
+- For Expert reviews, the calculated average of all rating fields is used
+- The response includes:
+  - The API brew UUID
+  - The average score (with two decimal places)
+  - The total number of reviews
+
 ## Implementation Details
 
 ### State Management
@@ -91,18 +102,18 @@ The TAPPr beer review system allows users to submit reviews for beers in three d
 ```javascript
 // Standard Review score calculation
 const calculateOverallScore = (review: StandardReview): number => {
-  const totalScore = 
-    review.appearance + 
-    review.aroma + 
-    review.taste + 
+  const totalScore =
+    review.appearance +
+    review.aroma +
+    review.taste +
     review.mouthfeel;
-  
+
   return Math.round((totalScore / 4) * 100) / 100;
 };
 
 // Expert Review score calculation
 const calculateExpertOverallScore = (review: ExpertReview): number => {
-  const totalScore = 
+  const totalScore =
     // Sum of all 20 criteria (excluding styleAccuracy)
     // Appearance section (3 sliders)
     review.appearance.clarity +
@@ -129,7 +140,7 @@ const calculateExpertOverallScore = (review: ExpertReview): number => {
     // Aftertaste section (2 sliders)
     review.aftertaste.duration +
     review.aftertaste.pleasantness;
-  
+
   return Math.round((totalScore / 20) * 100) / 100;
 };
 ```

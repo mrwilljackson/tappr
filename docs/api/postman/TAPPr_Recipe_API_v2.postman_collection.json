@@ -1,0 +1,1018 @@
+{
+	"info": {
+		"_postman_id": "a5e7c8f9-b6d7-4e89-a3c2-1f2d3e4f5a6b",
+		"name": "TAPPr Recipe API",
+		"description": "A collection for testing the TAPPr Recipe API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Recipe Workflow",
+			"item": [
+				{
+					"name": "1.1 Add New Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"recipe_id\", jsonData.recipe.recipeId);",
+									"pm.collectionVariables.set(\"recipe_db_id\", jsonData.recipe.id);",
+									"console.log(\"Recipe ID set to: \" + jsonData.recipe.recipeId);",
+									"console.log(\"Recipe DB ID set to: \" + jsonData.recipe.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Helles Lager\",\n  \"author\": \"Jamil Zainasheff\",\n  \"platform\": \"grainfather\",\n  \"description\": \"A classic German lager with a clean, malty profile\",\n  \"style\": \"German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"add"
+							]
+						},
+						"description": "Adds a new recipe to the system. The recipe ID is automatically saved to the collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Add New Brew with Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"brew_id\", jsonData.brew.id);",
+									"pm.collectionVariables.set(\"api_brew_uuid\", jsonData.brew.apiBrewUuid);",
+									"pm.collectionVariables.set(\"brew_uuid\", jsonData.brew.brewUuid);",
+									"console.log(\"Brew ID set to: \" + jsonData.brew.id);",
+									"console.log(\"API Brew UUID set to: \" + jsonData.brew.apiBrewUuid);",
+									"console.log(\"Brew UUID set to: \" + jsonData.brew.brewUuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Helles Lager\",\n  \"style\": \"German Helles\",\n  \"abv\": 5.2,\n  \"ibu\": 20.5,\n  \"description\": \"My version of a classic German lager\",\n  \"brewDate\": \"2024-04-15\",\n  \"kegLevel\": 100,\n  \"recipeId\": \"{{recipe_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/beers/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers",
+								"add"
+							]
+						},
+						"description": "Adds a new brew with a reference to the recipe. The brew ID, API brew UUID, and brew UUID are automatically saved to the collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Add Review for Brew",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"review_id\", jsonData.review.reviewId);",
+									"console.log(\"Review ID set to: \" + jsonData.review.reviewId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"apiBrewUuid\": \"{{api_brew_uuid}}\",\n  \"brewUuid\": \"{{brew_uuid}}\",\n  \"reviewerName\": \"John Doe\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great Helles Lager, would drink again!\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"add"
+							]
+						},
+						"description": "Adds a review for the brew. The review ID is automatically saved to the collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "1.4 Get Reviews by Brew UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/api-brew/{{api_brew_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"api-brew",
+								"{{api_brew_uuid}}"
+							]
+						},
+						"description": "Retrieves all reviews for a specific brew using the API brew UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "1.5 Get Brews by Recipe ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/recipe-id/{{recipe_id}}/brews",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"recipe-id",
+								"{{recipe_id}}",
+								"brews"
+							]
+						},
+						"description": "Retrieves all brews associated with a specific recipe."
+					},
+					"response": []
+				},
+				{
+					"name": "1.6 Add Standard Review for Brew",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"apiBrewUuid\": \"{{api_brew_uuid}}\",\n  \"brewUuid\": \"{{brew_uuid}}\",\n  \"reviewerName\": \"Jane Smith\",\n  \"isAnonymous\": false,\n  \"reviewType\": \"standard\",\n  \"quickReview\": {\n    \"overallRating\": 4,\n    \"comments\": \"Great Helles Lager, would drink again!\"\n  },\n  \"standardReview\": {\n    \"appearance\": 4,\n    \"aroma\": 5,\n    \"taste\": 4,\n    \"mouthfeel\": 3,\n    \"comments\": \"Nice golden color, strong malt aroma, good balance of flavors\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"add"
+							]
+						},
+						"description": "Adds a standard review for the brew with more detailed ratings."
+					},
+					"response": []
+				},
+				{
+					"name": "1.7 Get All Reviews for Recipe",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/recipe-id/{{recipe_id}}/reviews",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"recipe-id",
+								"{{recipe_id}}",
+								"reviews"
+							]
+						},
+						"description": "Retrieves all reviews for a specific recipe, including brew information for each review. This endpoint uses the api_brew_uuid field to establish the relationship between brews and reviews."
+					},
+					"response": []
+				}
+			],
+			"description": "Complete workflow for creating a recipe, adding a brew, and adding reviews."
+		},
+		{
+			"name": "2. Alternative Workflows",
+			"item": [
+				{
+					"name": "2.1 Find or Create Recipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"recipe_id\", jsonData.recipe.recipeId);",
+									"console.log(\"Recipe ID set to: \" + jsonData.recipe.recipeId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Helles Lager\",\n  \"author\": \"Jamil Zainasheff\",\n  \"platform\": \"grainfather\",\n  \"description\": \"A classic German lager with a clean, malty profile\",\n  \"style\": \"German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/add?findOrCreate=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"add"
+							],
+							"query": [
+								{
+									"key": "findOrCreate",
+									"value": "true",
+									"description": "Find an existing recipe or create a new one"
+								}
+							]
+						},
+						"description": "Finds an existing recipe with the same platform, author, and name, or creates a new one if it doesn't exist."
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Link Existing Brew to Recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"recipeId\": \"{{recipe_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/brews/api/{{api_brew_uuid}}/link-recipe",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"brews",
+								"api",
+								"{{api_brew_uuid}}",
+								"link-recipe"
+							]
+						},
+						"description": "Links an existing brew to a recipe using the API brew UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Add Public Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"apiBrewUuid\": \"{{api_brew_uuid}}\",\n  \"brewUuid\": \"{{brew_uuid}}\",\n  \"reviewerName\": \"Public Reviewer\",\n  \"isAnonymous\": true,\n  \"reviewType\": \"quick\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Excellent beer, highly recommended!\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews/public/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"public",
+								"add"
+							]
+						},
+						"description": "Adds a public review for a brew without requiring API key authentication."
+					},
+					"response": []
+				}
+			],
+			"description": "Alternative workflows for recipe and review management."
+		},
+		{
+			"name": "3. Recipe Management",
+			"item": [
+				{
+					"name": "3.1 Get All Recipes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes"
+							]
+						},
+						"description": "Retrieves a list of all recipes."
+					},
+					"response": []
+				},
+				{
+					"name": "3.2 Get Recipe by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/{{recipe_db_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{recipe_db_id}}"
+							]
+						},
+						"description": "Retrieves a specific recipe by its database ID."
+					},
+					"response": []
+				},
+				{
+					"name": "3.3 Get Recipe by Recipe ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/recipe-id/{{recipe_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"recipe-id",
+								"{{recipe_id}}"
+							]
+						},
+						"description": "Retrieves a specific recipe by its deterministic UUID (recipe_id)."
+					},
+					"response": []
+				},
+				{
+					"name": "3.4 Search Recipes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/search?name=Helles&author=Jamil&platform=grainfather&style=German",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Helles",
+									"description": "Recipe name to search for"
+								},
+								{
+									"key": "author",
+									"value": "Jamil",
+									"description": "Author name to search for"
+								},
+								{
+									"key": "platform",
+									"value": "grainfather",
+									"description": "Platform to filter by"
+								},
+								{
+									"key": "style",
+									"value": "German",
+									"description": "Style to filter by"
+								}
+							]
+						},
+						"description": "Searches for recipes based on name, author, platform, or style."
+					},
+					"response": []
+				},
+				{
+					"name": "3.5 Update Recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"An updated description for the recipe\",\n  \"style\": \"Updated German Helles\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/recipes/{{recipe_db_id}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{recipe_db_id}}",
+								"update"
+							]
+						},
+						"description": "Updates an existing recipe."
+					},
+					"response": []
+				},
+				{
+					"name": "3.6 Delete Recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/recipes/{{recipe_db_id}}/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"recipes",
+								"{{recipe_db_id}}",
+								"delete"
+							]
+						},
+						"description": "Deletes a recipe."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing recipes."
+		},
+		{
+			"name": "4. Brew Management",
+			"item": [
+				{
+					"name": "4.1 Get All Brews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/beers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers"
+							]
+						},
+						"description": "Retrieves a list of all brews."
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 Get Brew by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/beers/{{brew_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers",
+								"{{brew_id}}"
+							]
+						},
+						"description": "Retrieves a specific brew by its ID."
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 Get Brew by API UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/beers/api/{{api_brew_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers",
+								"api",
+								"{{api_brew_uuid}}"
+							]
+						},
+						"description": "Retrieves a specific brew by its API UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "4.4 Update Brew",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Helles Lager\",\n  \"description\": \"An updated description for the brew\",\n  \"kegLevel\": 80\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/beers/{{brew_id}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"beers",
+								"{{brew_id}}",
+								"update"
+							]
+						},
+						"description": "Updates an existing brew."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing brews."
+		},
+		{
+			"name": "5. Review Management",
+			"item": [
+				{
+					"name": "5.1 Get All Reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews"
+							]
+						},
+						"description": "Retrieves a list of all reviews."
+					},
+					"response": []
+				},
+				{
+					"name": "5.2 Get Review by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/{{review_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"{{review_id}}"
+							]
+						},
+						"description": "Retrieves a specific review by its ID."
+					},
+					"response": []
+				},
+				{
+					"name": "5.3 Get Reviews by Brew UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/brew/{{brew_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"brew",
+								"{{brew_uuid}}"
+							]
+						},
+						"description": "Retrieves all reviews for a specific brew using the companion app brew UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "5.4 Get Reviews by API Brew UUID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/api-brew/{{api_brew_uuid}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"api-brew",
+								"{{api_brew_uuid}}"
+							]
+						},
+						"description": "Retrieves all reviews for a specific brew using the API brew UUID."
+					},
+					"response": []
+				},
+				{
+					"name": "5.5 Update Review",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reviewerName\": \"Updated Reviewer Name\",\n  \"quickReview\": {\n    \"overallRating\": 5,\n    \"comments\": \"Updated comments for the review\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reviews/{{review_id}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"{{review_id}}",
+								"update"
+							]
+						},
+						"description": "Updates an existing review."
+					},
+					"response": []
+				},
+				{
+					"name": "5.6 Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/{{review_id}}/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"{{review_id}}",
+								"delete"
+							]
+						},
+						"description": "Deletes a review."
+					},
+					"response": []
+				},
+				{
+					"name": "5.7 Get Average Review Score",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/reviews/api-brew/{{api_brew_uuid}}/average",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reviews",
+								"api-brew",
+								"{{api_brew_uuid}}",
+								"average"
+							]
+						},
+						"description": "Retrieves the average review score for a specific brew identified by its API brew UUID."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing reviews."
+		},
+		{
+			"name": "6. Utility",
+			"item": [
+				{
+					"name": "6.1 Generate Recipe ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X_API_Key",
+								"value": "{{api_key}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"platform\": \"grainfather\",\n  \"author\": \"Jamil Zainasheff\",\n  \"name\": \"Helles Lager\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/utility/generate-recipe-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"utility",
+								"generate-recipe-id"
+							]
+						},
+						"description": "Generates a deterministic recipe ID from platform, author, and name."
+					},
+					"response": []
+				}
+			],
+			"description": "Utility endpoints for recipe identification."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://tappr.beer/api",
+			"type": "string",
+			"description": "Base URL for the TAPPr API"
+		},
+		{
+			"key": "api_key",
+			"value": "tappr_api_key_12345",
+			"type": "string",
+			"description": "Your TAPPr API key"
+		},
+		{
+			"key": "recipe_id",
+			"value": "",
+			"type": "string",
+			"description": "Recipe ID for testing"
+		},
+		{
+			"key": "recipe_db_id",
+			"value": "1",
+			"type": "string",
+			"description": "Database ID of the recipe"
+		},
+		{
+			"key": "brew_id",
+			"value": "",
+			"type": "string",
+			"description": "Brew ID for testing"
+		},
+		{
+			"key": "api_brew_uuid",
+			"value": "",
+			"type": "string",
+			"description": "API Brew UUID for testing"
+		},
+		{
+			"key": "brew_uuid",
+			"value": "",
+			"type": "string",
+			"description": "Brew UUID for testing"
+		},
+		{
+			"key": "review_id",
+			"value": "",
+			"type": "string",
+			"description": "Review ID for testing"
+		}
+	]
+}
