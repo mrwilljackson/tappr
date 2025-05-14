@@ -69,7 +69,7 @@
         "header": [
           {
             "key": "X_API_Key",
-            "value": "tappr_api_key_12345",
+            "value": "{{apiKey}}",
             "type": "text"
           }
         ],
@@ -96,7 +96,7 @@
             "header": [
               {
                 "key": "X_API_Key",
-                "value": "tappr_api_key_12345",
+                "value": "{{apiKey}}",
                 "type": "text"
               }
             ],
@@ -164,7 +164,7 @@
             "header": [
               {
                 "key": "X_API_Key",
-                "value": "tappr_api_key_12345",
+                "value": "{{apiKey}}",
                 "type": "text"
               }
             ],

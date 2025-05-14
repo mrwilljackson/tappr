@@ -1,5 +1,14 @@
 // Simple script to test the beer addition API
 const fetch = require('node-fetch');
+require('dotenv').config(); // Load environment variables from .env file
+
+// Get API key from environment variables
+const API_KEY = process.env.TAPPR_DEV_API_KEY || process.env.TAPPR_API_KEY || '';
+
+if (!API_KEY) {
+  console.error('Error: No API key found. Please set TAPPR_DEV_API_KEY or TAPPR_API_KEY in your .env file.');
+  process.exit(1);
+}
 
 async function testAddBeer() {
   try {
@@ -7,7 +16,7 @@ async function testAddBeer() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X_API_Key': 'tappr_api_key_12345'
+        'X_API_Key': API_KEY
       },
       body: JSON.stringify({
         name: 'Test Beer ' + new Date().toISOString(),

@@ -1,5 +1,14 @@
 // Script to test adding a beer with decimal IBU
 const fetch = require('node-fetch');
+require('dotenv').config(); // Load environment variables from .env file
+
+// Get API key from environment variables
+const API_KEY = process.env.TAPPR_DEV_API_KEY || process.env.TAPPR_API_KEY || '';
+
+if (!API_KEY) {
+  console.error('Error: No API key found. Please set TAPPR_DEV_API_KEY or TAPPR_API_KEY in your .env file.');
+  process.exit(1);
+}
 
 async function testAddBeerWithDecimalIBU() {
   try {
@@ -7,7 +16,7 @@ async function testAddBeerWithDecimalIBU() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X_API_Key': 'tappr_api_key_12345'
+        'X_API_Key': API_KEY
       },
       body: JSON.stringify({
         name: 'Decimal IBU Test Beer',
@@ -26,15 +35,15 @@ async function testAddBeerWithDecimalIBU() {
 
     if (response.ok) {
       console.log('Beer added successfully with decimal IBU!');
-      
+
       // Now fetch the beer to verify the IBU was stored correctly
       if (data.beer && data.beer.id) {
         const getBeerResponse = await fetch(`http://localhost:3001/api/beers/${data.beer.id}`, {
           headers: {
-            'X_API_Key': 'tappr_api_key_12345'
+            'X_API_Key': API_KEY
           }
         });
-        
+
         const beerData = await getBeerResponse.json();
         console.log('Retrieved beer data:', JSON.stringify(beerData, null, 2));
         console.log('IBU value type:', typeof beerData.ibu);

@@ -7,7 +7,7 @@ This Postman collection contains requests for testing the TAPPr Recipe API endpo
 1. Import the `TAPPr_Recipe_API_v2.postman_collection.json` file into Postman (this is the updated version with the complete workflow).
 2. The collection includes the following variables that will be automatically populated during testing:
    - `base_url`: The base URL for the TAPPr API (default: `https://tappr.beer/api`)
-   - `api_key`: Your TAPPr API key (default: `tappr_api_key_12345`)
+   - `api_key`: Your TAPPr API key (set this to your actual API key)
    - `recipe_id`: Recipe ID (populated after creating a recipe)
    - `recipe_db_id`: Database ID of the recipe (default: `1`)
    - `brew_id`: Brew ID (populated after creating a brew)

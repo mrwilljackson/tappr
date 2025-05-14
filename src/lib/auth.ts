@@ -2,8 +2,11 @@
  * Simple API key validation for the TAPPR API
  */
 
-// In a real-world application, this would be stored in a database or environment variable
-const API_KEY = 'tappr_api_key_12345';
+// Get the API key from environment variables
+const API_KEY = process.env.TAPPR_API_KEY || '';
+
+// Add development API key if in development mode
+const DEV_API_KEY = process.env.NODE_ENV === 'development' ? (process.env.TAPPR_DEV_API_KEY || '') : '';
 
 /**
  * Validates the API key from the request headers
@@ -19,8 +22,8 @@ export function validateApiKey(request: Request): { valid: boolean; error?: stri
     return { valid: false, error: 'Unauthorized: Missing API key' };
   }
 
-  // Check if the API key is valid
-  if (apiKey !== API_KEY) {
+  // Check if the API key is valid (either production or development key)
+  if (apiKey !== API_KEY && (DEV_API_KEY === '' || apiKey !== DEV_API_KEY)) {
     return { valid: false, error: 'Unauthorized: Invalid API key' };
   }
 

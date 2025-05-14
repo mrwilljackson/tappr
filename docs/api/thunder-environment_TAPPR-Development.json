@@ -10,7 +10,7 @@
     },
     {
       "name": "apiKey",
-      "value": "tappr_api_key_12345"
+      "value": "your_development_api_key_here"
     }
   ]
 }

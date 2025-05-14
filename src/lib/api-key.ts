@@ -1,9 +1,14 @@
 // List of valid API keys
-const VALID_API_KEYS = ['tappr_api_key_12345'];
+const VALID_API_KEYS: string[] = [];
 
 // Add the API key from environment variables if it exists
 if (process.env.TAPPR_API_KEY) {
   VALID_API_KEYS.push(process.env.TAPPR_API_KEY);
+}
+
+// Add development API key if in development mode
+if (process.env.NODE_ENV === 'development' && process.env.TAPPR_DEV_API_KEY) {
+  VALID_API_KEYS.push(process.env.TAPPR_DEV_API_KEY);
 }
 
 /**

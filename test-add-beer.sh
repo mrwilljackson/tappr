@@ -1,9 +1,22 @@
 #!/bin/bash
 
+# Load environment variables from .env file if it exists
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# Use the development API key if available, otherwise use the production API key
+API_KEY=${TAPPR_DEV_API_KEY:-${TAPPR_API_KEY}}
+
+if [ -z "$API_KEY" ]; then
+  echo "Error: No API key found. Please set TAPPR_DEV_API_KEY or TAPPR_API_KEY in your .env file."
+  exit 1
+fi
+
 # Test adding a beer via the API
 curl -X POST \
   -H "Content-Type: application/json" \
-  -H "X_API_Key: tappr_api_key_12345" \
+  -H "X_API_Key: $API_KEY" \
   -d '{
     "name": "Curl Test Beer",
     "style": "API Test",
