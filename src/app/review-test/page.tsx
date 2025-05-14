@@ -13,11 +13,9 @@ export default function ReviewTestPage() {
     async function fetchBeers() {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/beers', {
-          headers: {
-            'X-API-Key': 'tappr_api_key_12345'
-          }
-        });
+
+        // Use our proxy endpoint which handles the API key on the server side
+        const response = await fetch('/api/proxy/beers');
 
         if (!response.ok) {
           throw new Error('Failed to fetch beers');

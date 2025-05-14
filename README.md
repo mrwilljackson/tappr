@@ -1,4 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TAPPr - The Ultimate Homebrewer's Companion
+
+This is the repository for the TAPPr website and API, built with [Next.js](https://nextjs.org).
+
+## Project Overview
+
+TAPPr is a platform for homebrewers to track, manage, and share their brewing experiences. The project consists of:
+
+- A public website for users to learn about TAPPr
+- A public API for accessing beer, recipe, and review data
+- A review system for users to rate and review beers
+
+## Documentation
+
+- [API Documentation](./docs/api/README.md) - Documentation for the TAPPr API
+- [Security Best Practices](./docs/security/api-key-security.md) - Security guidelines for API usage
+- [Feature Documentation](./docs/features/) - Documentation for specific features
 
 ## Getting Started
 

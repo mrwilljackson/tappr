@@ -39,6 +39,18 @@ fetch('https://tappr.beer/api/beers', {
 })
 ```
 
+### Client-Side Security
+
+For client-side applications, **never expose API keys in your code**. Instead, use a server-side proxy pattern to make authenticated API requests. See our [API Key Security Best Practices](../security/api-key-security.md) for details on implementing this pattern.
+
+```javascript
+// Secure pattern for client-side code
+// Uses a server-side proxy that adds the API key
+fetch('/api/proxy/beers')
+  .then(response => response.json())
+  .then(data => console.log(data));
+```
+
 ## Public Endpoints
 
 The following endpoints do not require authentication:
