@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { validateApiKey } from '@/lib/api-key';
+import { validateApiKey } from '@/lib/api-key'; // This is the correct import
 
 export function middleware(request: NextRequest) {
   // Only run on API routes
@@ -20,10 +20,21 @@ export function middleware(request: NextRequest) {
 
     // Get the API key from the request headers
     // Try all formats to ensure backward compatibility
-    const apiKey = request.headers.get('X_API_Key') || request.headers.get('x_api_key') || request.headers.get('x-api-key');
+    // Include both uppercase and lowercase variants with both underscore and hyphen
+    const apiKey = request.headers.get('X_API_Key') ||
+                  request.headers.get('x_api_key') ||
+                  request.headers.get('X-API-Key') ||
+                  request.headers.get('x-api-key');
+
+    // Debug logging
+    console.log(`[API] Received API key: ${apiKey}`);
+    console.log(`[API] Valid API keys: ${process.env.TAPPR_API_KEY}, ${process.env.TAPPR_DEV_API_KEY}`);
 
     // Check if the API key is valid
-    if (!validateApiKey(apiKey)) {
+    const isValid = validateApiKey(apiKey);
+    console.log(`[API] API key validation result: ${isValid}`);
+
+    if (!isValid) {
       return NextResponse.json(
         { error: 'Unauthorized: Invalid or missing API key' },
         { status: 401 }

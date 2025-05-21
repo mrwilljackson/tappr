@@ -15,7 +15,11 @@ const DEV_API_KEY = process.env.NODE_ENV === 'development' ? (process.env.TAPPR_
  */
 export function validateApiKey(request: Request): { valid: boolean; error?: string } {
   // Get the API key from the headers
-  const apiKey = request.headers.get('X_API_Key');
+  // Try all formats to ensure backward compatibility
+  const apiKey = request.headers.get('X_API_Key') ||
+                request.headers.get('x_api_key') ||
+                request.headers.get('X-API-Key') ||
+                request.headers.get('x-api-key');
 
   // Check if the API key is missing
   if (!apiKey) {
