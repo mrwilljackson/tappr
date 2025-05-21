@@ -9,7 +9,7 @@ export async function GET() {
   try {
     // Use the server-side environment variable
     const apiKey = process.env.TAPPR_API_KEY;
-    
+
     if (!apiKey) {
       console.error('TAPPR_API_KEY environment variable is not set');
       return NextResponse.json(
@@ -21,7 +21,7 @@ export async function GET() {
     // Make the request to the beers API using the server-side API key
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/beers`, {
       headers: {
-        'X-API-Key': apiKey
+        'X_API_Key': apiKey
       }
     });
 
