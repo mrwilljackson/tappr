@@ -26,13 +26,8 @@ export function middleware(request: NextRequest) {
                   request.headers.get('X-API-Key') ||
                   request.headers.get('x-api-key');
 
-    // Debug logging
-    console.log(`[API] Received API key: ${apiKey}`);
-    console.log(`[API] Valid API keys: ${process.env.TAPPR_API_KEY}, ${process.env.TAPPR_DEV_API_KEY}`);
-
     // Check if the API key is valid
     const isValid = validateApiKey(apiKey);
-    console.log(`[API] API key validation result: ${isValid}`);
 
     if (!isValid) {
       return NextResponse.json(

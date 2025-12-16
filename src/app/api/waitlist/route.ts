@@ -2,11 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import axios from 'axios';
 
-// Debug environment variables
-console.log('Environment variables:');
-console.log('- RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'Set (length: ' + process.env.RESEND_API_KEY.length + ')' : 'Not set');
-console.log('- NOTIFICATION_EMAIL:', process.env.NOTIFICATION_EMAIL || 'Not set');
-
 // Initialize Resend with API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -16,8 +11,6 @@ const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'tappr.beer@protonm
 
 // reCAPTCHA secret key
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-
-console.log('Using notification email:', NOTIFICATION_EMAIL);
 
 /**
  * Verify the reCAPTCHA token with Google's API
