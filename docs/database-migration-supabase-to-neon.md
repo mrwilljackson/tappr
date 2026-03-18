@@ -773,41 +773,41 @@ Neon's tagged template handles JS arrays natively with `ANY(${array})` — no ma
 ### 4.1 Local Testing
 - [x] Start local development server: `npm run dev`
 - [x] Test GET `/api/beers` endpoint (should return all brews)
-- [ ] Test GET `/api/beers/[id]` endpoint with a valid ID
-- [ ] Test GET `/api/beers/public/[brewUuid]` endpoint
-- [ ] Test GET `/api/beers/api/[apiBrewUuid]` endpoint
+- [x] Test GET `/api/beers/[id]` endpoint with a valid ID
+- [x] Test GET `/api/beers/public/[brewUuid]` endpoint
+- [x] Test GET `/api/beers/api/[apiBrewUuid]` endpoint
 - [x] Test POST `/api/beers/add` endpoint (create a test brew)
-- [ ] Test PUT `/api/beers/[id]/update` endpoint
+- [x] Test PATCH `/api/beers/[id]/update` endpoint (note: route uses PATCH not PUT)
 - [x] Test DELETE `/api/beers/[id]/delete` endpoint
 - [x] Verify the test brew appears in the database
 
 ### 4.2 Test Recipe Endpoints
 - [x] Test GET `/api/recipes` endpoint (should return all recipes)
-- [ ] Test GET `/api/recipes/[id]` endpoint with a valid ID
-- [ ] Test GET `/api/recipes/recipe-id/[recipeId]` endpoint
+- [x] Test GET `/api/recipes/[id]` endpoint with a valid ID
+- [x] Test GET `/api/recipes/recipe-id/[recipeId]` endpoint
 - [x] Test GET `/api/recipes/recipe-id/[recipeId]/brews` endpoint
-- [ ] Test POST `/api/recipes/add` endpoint (create a test recipe)
-- [ ] Test PUT `/api/recipes/[id]/update` endpoint
-- [ ] Test DELETE `/api/recipes/[id]/delete` endpoint
-- [ ] Verify recipe ID generation is deterministic
+- [x] Test POST `/api/recipes/add` endpoint (create a test recipe)
+- [x] Test PATCH `/api/recipes/[id]/update` endpoint (note: route uses PATCH not PUT)
+- [x] Test DELETE `/api/recipes/[id]/delete` endpoint
+- [x] Verify recipe ID generation is deterministic (`?findOrCreate=true` returns same recipeId for identical inputs)
 - [x] Test linking a brew to a recipe
 
 ### 4.3 Test Review Endpoints
 - [x] Test GET `/api/reviews` endpoint (should return all reviews)
-- [ ] Test GET `/api/reviews/[id]` endpoint with a valid ID
+- [x] Test GET `/api/reviews/[id]` endpoint with a valid ID
 - [x] Test GET `/api/reviews/api-brew/[apiBrewUuid]` endpoint
-- [ ] Test GET `/api/reviews/brew/[brewUuid]` endpoint
+- [x] Test GET `/api/reviews/brew/[brewUuid]` endpoint
 - [x] Test POST `/api/reviews/add` endpoint (create a test review)
-- [ ] Test POST `/api/reviews/public/add` endpoint (public review submission)
-- [ ] Test PUT `/api/reviews/[id]/update` endpoint
+- [x] Test POST `/api/reviews/public/add` endpoint (note: expects `api_brew_uuid` snake_case, not camelCase)
+- [x] Test PATCH `/api/reviews/[id]/update` endpoint
 - [x] Test DELETE `/api/reviews/[id]/delete` endpoint
 - [x] Verify JSONB fields (quick_review, standard_review, expert_review) work correctly
 
 ### 4.4 Test API Authentication
 - [x] Test protected endpoints WITHOUT API key (should return 401)
 - [x] Test protected endpoints WITH valid API key (should return 200)
-- [ ] Test protected endpoints WITH invalid API key (should return 401)
-- [ ] Test public endpoints without API key (should work)
+- [x] Test protected endpoints WITH invalid API key (should return 401)
+- [x] Test public endpoints without API key (should work)
 
 ### 4.5 Build and Production Test
 - [x] Run production build: `npm run build`
