@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import supabase from '@/lib/supabase';
+import sql from '@/lib/neon';
 import { getBrewByApiBrewUuid } from '@/lib/db/beer-service';
 import { getRecipeByRecipeId } from '@/lib/db/recipe-service';
 import { validateApiKey } from '@/lib/auth';
@@ -63,15 +63,15 @@ export async function POST(
     }
 
     // Update the brew with the recipe ID
-    const { data: updatedBrew, error } = await supabase
-      .from('brews')
-      .update({ recipe_id: body.recipeId, updated_at: new Date().toISOString() })
-      .eq('api_brew_uuid', apiBrewUuid)
-      .select()
-      .single();
+    const result = await sql`
+      UPDATE brews SET recipe_id = ${body.recipeId}, updated_at = NOW()
+      WHERE api_brew_uuid = ${apiBrewUuid}
+      RETURNING *
+    `;
+    const updatedBrew = result[0];
 
-    if (error) {
-      console.error(`Error linking brew to recipe:`, error);
+    if (!updatedBrew) {
+      console.error('Error linking brew to recipe: no row returned');
       return NextResponse.json(
         { error: 'Failed to link brew to recipe' },
         { status: 500 }

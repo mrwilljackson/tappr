@@ -1,8 +1,7 @@
-import supabase from '@/lib/supabase';
+import sql from '@/lib/neon';
 import { RecipeCreateInput } from '@/types/recipe';
 import { createHash } from 'crypto';
 
-// Define Recipe type based on your Supabase table
 export type RecipeDB = {
   id: number;
   recipe_id: string;
@@ -17,238 +16,148 @@ export type RecipeDB = {
   updated_at: string;
 };
 
-// Normalize a string for consistent matching
-// Removes special characters, converts to lowercase, and trims whitespace
 export function normalizeString(str: string): string {
   return str
     .toLowerCase()
-    .replace(/[^\w\s]/g, '') // Remove special characters
-    .replace(/\s+/g, ' ')    // Replace multiple spaces with a single space
+    .replace(/[^\w\s]/g, '')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
-// Generate a deterministic UUID from platform, author, and recipe name
 export function generateRecipeId(platform: string, author: string, name: string): string {
-  // Normalize inputs for consistency
   const normalizedPlatform = normalizeString(platform);
-  const normalizedAuthor = normalizeString(author);
-  const normalizedName = normalizeString(name);
-  
-  // Create a string to hash in the format "platform:author:name"
+  const normalizedAuthor   = normalizeString(author);
+  const normalizedName     = normalizeString(name);
   const stringToHash = `${normalizedPlatform}:${normalizedAuthor}:${normalizedName}`;
-  
-  // Generate a SHA-256 hash and take the first 32 characters
   const hash = createHash('sha256').update(stringToHash).digest('hex').substring(0, 32);
-  
-  // Format as a UUID (8-4-4-4-12)
   return `${hash.substring(0, 8)}-${hash.substring(8, 12)}-${hash.substring(12, 16)}-${hash.substring(16, 20)}-${hash.substring(20, 32)}`;
 }
 
-// Get all recipes from the database
 export async function getAllRecipes(): Promise<RecipeDB[]> {
-  const { data, error } = await supabase
-    .from('recipes')
-    .select('*')
-    .order('name');
-
-  if (error) {
+  try {
+    const result = await sql`SELECT * FROM recipes ORDER BY name`;
+    return result as RecipeDB[];
+  } catch (error) {
     console.error('Error fetching recipes:', error);
     return [];
   }
-
-  return data || [];
 }
 
-// Get a recipe by ID
 export async function getRecipeById(id: number): Promise<RecipeDB | null> {
-  const { data, error } = await supabase
-    .from('recipes')
-    .select('*')
-    .eq('id', id)
-    .single();
-
-  if (error) {
+  try {
+    const result = await sql`SELECT * FROM recipes WHERE id = ${id}`;
+    return (result[0] as RecipeDB) || null;
+  } catch (error) {
     console.error(`Error fetching recipe with ID ${id}:`, error);
     return null;
   }
-
-  return data;
 }
 
-// Get a recipe by recipe_id (deterministic UUID)
 export async function getRecipeByRecipeId(recipeId: string): Promise<RecipeDB | null> {
-  const { data, error } = await supabase
-    .from('recipes')
-    .select('*')
-    .eq('recipe_id', recipeId)
-    .single();
-
-  if (error) {
+  try {
+    const result = await sql`SELECT * FROM recipes WHERE recipe_id = ${recipeId}`;
+    return (result[0] as RecipeDB) || null;
+  } catch (error) {
     console.error(`Error fetching recipe with recipe_id ${recipeId}:`, error);
     return null;
   }
-
-  return data;
 }
 
-// Search for recipes by name, author, platform, or style
 export async function searchRecipes(
   name?: string,
   author?: string,
   platform?: string,
   style?: string
 ): Promise<RecipeDB[]> {
-  let query = supabase.from('recipes').select('*');
+  const namePat   = name   ? '%' + normalizeString(name)   + '%' : null;
+  const authorPat = author ? '%' + normalizeString(author) + '%' : null;
+  const stylePat  = style  ? '%' + style + '%'                   : null;
+  const platformVal = platform ?? null;
 
-  // Add filters if provided
-  if (name) {
-    const normalizedName = normalizeString(name);
-    query = query.ilike('normalized_name', `%${normalizedName}%`);
-  }
-  
-  if (author) {
-    const normalizedAuthor = normalizeString(author);
-    query = query.ilike('normalized_author', `%${normalizedAuthor}%`);
-  }
-  
-  if (platform) {
-    query = query.eq('platform', platform);
-  }
-  
-  if (style) {
-    query = query.ilike('style', `%${style}%`);
-  }
-
-  // Execute the query
-  const { data, error } = await query.order('name');
-
-  if (error) {
+  try {
+    const result = await sql`
+      SELECT * FROM recipes
+      WHERE (${namePat}    IS NULL OR normalized_name   ILIKE ${namePat})
+        AND (${authorPat}  IS NULL OR normalized_author ILIKE ${authorPat})
+        AND (${platformVal} IS NULL OR platform = ${platformVal})
+        AND (${stylePat}   IS NULL OR style ILIKE ${stylePat})
+      ORDER BY name
+    `;
+    return result as RecipeDB[];
+  } catch (error) {
     console.error('Error searching recipes:', error);
     return [];
   }
-
-  return data || [];
 }
 
-// Find or create a recipe based on platform, author, and name
 export async function findOrCreateRecipe(data: RecipeCreateInput): Promise<RecipeDB | null> {
-  // Generate the deterministic recipe ID
   const recipeId = generateRecipeId(data.platform, data.author, data.name);
-  
-  // Check if the recipe already exists
-  const existingRecipe = await getRecipeByRecipeId(recipeId);
-  if (existingRecipe) {
-    return existingRecipe;
-  }
-  
-  // If not, create a new recipe
+  const existing = await getRecipeByRecipeId(recipeId);
+  if (existing) return existing;
   return createRecipe(data);
 }
 
-// Create a new recipe
 export async function createRecipe(data: RecipeCreateInput): Promise<RecipeDB | null> {
-  // Normalize the name and author for consistent matching
-  const normalizedName = normalizeString(data.name);
+  const normalizedName   = normalizeString(data.name);
   const normalizedAuthor = normalizeString(data.author);
-  
-  // Generate a deterministic recipe ID
-  const recipeId = generateRecipeId(data.platform, data.author, data.name);
-  
-  const newRecipe = {
-    recipe_id: recipeId,
-    name: data.name,
-    normalized_name: normalizedName,
-    author: data.author,
-    normalized_author: normalizedAuthor,
-    platform: data.platform,
-    description: data.description,
-    style: data.style,
-  };
+  const recipeId         = generateRecipeId(data.platform, data.author, data.name);
+  const description      = data.description ?? null;
+  const style            = data.style       ?? null;
 
-  const { data: result, error } = await supabase
-    .from('recipes')
-    .insert([newRecipe])
-    .select()
-    .single();
-
-  if (error) {
+  try {
+    const result = await sql`
+      INSERT INTO recipes (recipe_id, name, normalized_name, author, normalized_author, platform, description, style)
+      VALUES (${recipeId}, ${data.name}, ${normalizedName}, ${data.author}, ${normalizedAuthor},
+              ${data.platform}, ${description}, ${style})
+      RETURNING *
+    `;
+    return (result[0] as RecipeDB) || null;
+  } catch (error) {
     console.error('Error creating recipe:', error);
     return null;
   }
-
-  return result;
 }
 
-// Update a recipe
 export async function updateRecipe(id: number, data: Partial<RecipeCreateInput>): Promise<RecipeDB | null> {
-  // First check if the recipe exists
   const existingRecipe = await getRecipeById(id);
-  if (!existingRecipe) {
-    return null;
-  }
+  if (!existingRecipe) return null;
 
-  // Prepare update data with proper field names
-  const updateData: any = {
-    updated_at: new Date().toISOString()
-  };
+  const name     = data.name     ?? existingRecipe.name;
+  const author   = data.author   ?? existingRecipe.author;
+  const platform = data.platform ?? existingRecipe.platform;
 
-  // Only update fields that are provided
-  if (data.name !== undefined) {
-    updateData.name = data.name;
-    updateData.normalized_name = normalizeString(data.name);
-  }
-  
-  if (data.author !== undefined) {
-    updateData.author = data.author;
-    updateData.normalized_author = normalizeString(data.author);
-  }
-  
-  if (data.platform !== undefined) updateData.platform = data.platform;
-  if (data.description !== undefined) updateData.description = data.description;
-  if (data.style !== undefined) updateData.style = data.style;
+  const normalizedName   = normalizeString(name);
+  const normalizedAuthor = normalizeString(author);
+  const recipeId         = generateRecipeId(platform, author, name);
+  const description      = data.description ?? existingRecipe.description ?? null;
+  const style            = data.style       ?? existingRecipe.style       ?? null;
 
-  // If any of the key fields (platform, author, name) are updated, we need to regenerate the recipe_id
-  if (data.platform !== undefined || data.author !== undefined || data.name !== undefined) {
-    const platform = data.platform || existingRecipe.platform;
-    const author = data.author || existingRecipe.author;
-    const name = data.name || existingRecipe.name;
-    
-    updateData.recipe_id = generateRecipeId(platform, author, name);
-  }
-
-  const { data: result, error } = await supabase
-    .from('recipes')
-    .update(updateData)
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) {
+  try {
+    const result = await sql`
+      UPDATE recipes
+      SET recipe_id = ${recipeId}, name = ${name}, normalized_name = ${normalizedName},
+          author = ${author}, normalized_author = ${normalizedAuthor},
+          platform = ${platform}, description = ${description}, style = ${style},
+          updated_at = NOW()
+      WHERE id = ${id}
+      RETURNING *
+    `;
+    return (result[0] as RecipeDB) || null;
+  } catch (error) {
     console.error(`Error updating recipe with ID ${id}:`, error);
     return null;
   }
-
-  return result;
 }
 
-// Delete a recipe
 export async function deleteRecipe(id: number): Promise<boolean> {
-  // First check if the recipe exists
   const existingRecipe = await getRecipeById(id);
-  if (!existingRecipe) {
-    return false;
-  }
+  if (!existingRecipe) return false;
 
-  // Delete the recipe
-  const { error } = await supabase
-    .from('recipes')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
+  try {
+    await sql`DELETE FROM recipes WHERE id = ${id}`;
+    return true;
+  } catch (error) {
     console.error(`Error deleting recipe with ID ${id}:`, error);
     return false;
   }
-
-  return true;
 }

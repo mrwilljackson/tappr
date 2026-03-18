@@ -36,6 +36,14 @@ Track code implementation progress across sessions. Check off each item as it is
 - [ ] `npm run lint` passes clean
 - [ ] All API endpoints tested locally against Neon (see Phase 4)
 
+### Security (pre-deployment)
+- [ ] `npm audit` — review all vulnerabilities, resolve any high or critical before deploying
+- [ ] No secrets or credentials committed to git (`git log --all --full-history -- .env*`)
+- [ ] `DATABASE_URL` added to Vercel environment variables (not hardcoded anywhere in code)
+- [ ] Confirm `src/db/backups/` is gitignored and not present in remote (`git ls-files src/db/backups/`)
+- [ ] Review Neon dashboard — restrict database user permissions if possible (read/write only, no DDL)
+- [ ] Confirm `sslmode=require` is present in `DATABASE_URL` (already set)
+
 ---
 
 ## Prerequisites
@@ -116,9 +124,9 @@ grep -c "^[0-9]" reviews_backup.sql || grep "COPY" reviews_backup.sql
 - [x] Save the connection details securely (do not commit to git)
 
 ### 1.3 Install Required Dependencies
-- [ ] Run: `npm install @neondatabase/serverless`
-- [ ] Run: `npm uninstall @supabase/supabase-js`
-- [ ] Verify installation: `npm list @neondatabase/serverless`
+- [x] Run: `npm install @neondatabase/serverless`
+- [x] Run: `npm uninstall @supabase/supabase-js`
+- [x] Verify installation: `npm list @neondatabase/serverless` → `@neondatabase/serverless@1.0.2`
 
 ---
 

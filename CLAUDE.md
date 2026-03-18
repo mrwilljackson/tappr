@@ -47,13 +47,20 @@ Environment keys: `TAPPR_API_KEY` (production), `TAPPR_DEV_API_KEY` (development
 
 ### Database
 
-Direct Supabase JS client (no ORM). All DB access goes through service functions in `src/lib/db/`. No Prisma, no Drizzle.
+Raw SQL via `@neondatabase/serverless` tagged template literals (no ORM). Neon client initialised in `src/lib/neon.ts`. All DB access goes through service functions in `src/lib/db/`. No Prisma, no Drizzle.
+
+```ts
+// Query pattern
+const result = await sql`SELECT * FROM brews WHERE id = ${id}`;
+return result[0] || null;  // result is always an array
+```
+
+JSONB fields (`quick_review`, `standard_review`, `expert_review`) require `JSON.stringify()` on write; Neon returns them as already-parsed objects on read.
 
 ### Environment Variables
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+DATABASE_URL=                 # Neon PostgreSQL connection string (sslmode=require)
 TAPPR_API_KEY=
 TAPPR_DEV_API_KEY=
 RESEND_API_KEY=
