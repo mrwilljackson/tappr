@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import supabase from '@/lib/supabase';
+import sql from '@/lib/neon';
 import { validateApiKey } from '@/lib/auth';
+import { BrewDB } from '@/lib/db/beer-service';
+import { Review } from '@/lib/db/review-service';
 
 interface RouteContext {
   params: {
@@ -27,43 +29,21 @@ export async function GET(
     const { recipeId } = params;
 
     // First, get all brews associated with the recipe
-    const { data: brews, error: brewsError } = await supabase
-      .from('brews')
-      .select('*')
-      .eq('recipe_id', recipeId);
-
-    if (brewsError) {
-      console.error(`Error fetching brews for recipe ${recipeId}:`, brewsError);
-      return NextResponse.json(
-        { error: 'Failed to fetch brews for recipe' },
-        { status: 500 }
-      );
-    }
+    const brews = await sql`SELECT * FROM brews WHERE recipe_id = ${recipeId}`;
 
     if (!brews || brews.length === 0) {
       return NextResponse.json([]);
     }
 
     // Get the API brew UUIDs for all brews
-    const apiBrewUuids = brews.map(brew => brew.api_brew_uuid);
+    const apiBrewUuids = (brews as BrewDB[]).map((brew) => brew.api_brew_uuid);
 
     // Get all reviews for these brews
-    const { data: reviews, error: reviewsError } = await supabase
-      .from('reviews')
-      .select('*')
-      .in('api_brew_uuid', apiBrewUuids);
-
-    if (reviewsError) {
-      console.error(`Error fetching reviews for recipe ${recipeId}:`, reviewsError);
-      return NextResponse.json(
-        { error: 'Failed to fetch reviews for recipe' },
-        { status: 500 }
-      );
-    }
+    const reviews = await sql`SELECT * FROM reviews WHERE api_brew_uuid = ANY(${apiBrewUuids})`;
 
     // Transform the reviews to include brew information
-    const transformedReviews = reviews.map(review => {
-      const brew = brews.find(b => b.api_brew_uuid === review.api_brew_uuid);
+    const transformedReviews = (reviews as Review[]).map((review) => {
+      const brew = (brews as BrewDB[]).find((b) => b.api_brew_uuid === review.api_brew_uuid);
       return {
         reviewId: review.id,
         reviewerName: review.reviewer_name,

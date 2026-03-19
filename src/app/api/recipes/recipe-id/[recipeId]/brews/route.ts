@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import supabase from '@/lib/supabase';
+import sql from '@/lib/neon';
 import { validateApiKey } from '@/lib/auth';
+import { BrewDB } from '@/lib/db/beer-service';
 
 // Define the type for the route handler context
 interface RouteContext {
@@ -28,14 +29,11 @@ export async function GET(
     const { recipeId } = params;
 
     // Get brews by recipe ID
-    const { data, error } = await supabase
-      .from('brews')
-      .select('*')
-      .eq('recipe_id', recipeId)
-      .order('created_at', { ascending: false });
+    const data = await sql`
+      SELECT * FROM brews WHERE recipe_id = ${recipeId} ORDER BY created_at DESC
+    `;
 
-    if (error) {
-      console.error(`Error fetching brews for recipe ${recipeId}:`, error);
+    if (!data) {
       return NextResponse.json(
         { error: 'Failed to fetch brews' },
         { status: 500 }
@@ -43,7 +41,7 @@ export async function GET(
     }
 
     // Transform the data to include standardized properties
-    const transformedBrews = data.map(brew => ({
+    const transformedBrews = (data as BrewDB[]).map((brew) => ({
       id: brew.id,
       name: brew.name,
       style: brew.style,
@@ -61,7 +59,7 @@ export async function GET(
 
     return NextResponse.json(transformedBrews);
   } catch (error) {
-    console.error(`Error fetching brews for recipe:`, error);
+    console.error('Error fetching brews for recipe:', error);
     return NextResponse.json(
       { error: 'Failed to fetch brews' },
       { status: 500 }
