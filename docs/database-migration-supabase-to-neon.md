@@ -251,9 +251,9 @@ psql "$NEON_DB" -c "SELECT COUNT(*) FROM brews b LEFT JOIN recipes r ON b.recipe
 
 ### 3.1 Update Environment Variables
 - [x] Add to `.env.local`: `DATABASE_URL=<your-neon-connection-string>`
-- [ ] Add to Vercel environment variables: `DATABASE_URL` (production value)
-- [ ] Remove: `NEXT_PUBLIC_SUPABASE_URL`
-- [ ] Remove: `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- [x] Add to Vercel environment variables: `DATABASE_URL` (production value)
+- [x] Remove: `NEXT_PUBLIC_SUPABASE_URL`
+- [x] Remove: `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 ### 3.2 Create Neon Database Client
 
@@ -814,23 +814,23 @@ Neon's tagged template handles JS arrays natively with `ANY(${array})` — no ma
 - [x] Verify build completes without errors
 - [x] Check for any TypeScript errors
 - [x] Check for any linting errors: `npm run lint`
-- [ ] Test the production build locally: `npm start`
+- [x] Test the production build locally: `npm start`
 
 ---
 
 ## Phase 5: Deployment
 
 ### 5.1 Deploy to Vercel
-- [ ] Commit all code changes to git
-- [ ] Push to GitHub: `git push origin <branch-name>`
-- [ ] Verify Vercel auto-deployment starts
-- [ ] Monitor deployment logs for errors
-- [ ] Wait for deployment to complete
+- [x] Commit all code changes to git
+- [x] Push to GitHub: `git push origin <branch-name>`
+- [x] Verify Vercel auto-deployment starts
+- [x] Monitor deployment logs for errors
+- [x] Wait for deployment to complete
 
 ### 5.2 Verify Production Deployment
-- [ ] Test production API: `curl https://www.tappr.beer/api/beers -H "X-API-Key: <your-key>"`
-- [ ] Verify response contains expected data
-- [ ] Test all critical endpoints in production
+- [x] Test production API: `curl https://www.tappr.beer/api/beers -H "X-API-Key: <your-key>"`
+- [x] Verify response contains expected data
+- [x] Test all critical endpoints in production
 - [ ] Check Vercel logs for any database connection errors
 - [ ] Verify response times are acceptable (< 1 second)
 
@@ -848,8 +848,8 @@ Neon's tagged template handles JS arrays natively with `ANY(${array})` — no ma
 ### 6.1 Remove Supabase Dependencies
 - [ ] Verify `@supabase/supabase-js` has been uninstalled from `package.json`
 - [ ] Confirm `src/lib/supabase.ts` has been deleted
-- [ ] Remove Supabase environment variables from `.env.local`
-- [ ] Remove Supabase environment variables from Vercel (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+- [x] Remove Supabase environment variables from `.env.local`
+- [x] Remove Supabase environment variables from Vercel (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
 - [ ] Run `npm audit` to check for vulnerabilities
 - [ ] Commit cleanup changes
 
