@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import axios from 'axios';
 
 // Initialize Resend with API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -12,26 +11,21 @@ const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || 'tappr.beer@protonm
 // reCAPTCHA secret key
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
 
-/**
- * Verify the reCAPTCHA token with Google's API
- *
- * @param token The reCAPTCHA token to verify
- * @returns A boolean indicating whether the token is valid
- */
 async function verifyRecaptcha(token: string): Promise<boolean> {
   try {
-    const response = await axios.post(
-      'https://www.google.com/recaptcha/api/siteverify',
-      null,
-      {
-        params: {
-          secret: RECAPTCHA_SECRET_KEY,
-          response: token
-        }
-      }
-    );
+    const params = new URLSearchParams({
+      secret: RECAPTCHA_SECRET_KEY,
+      response: token,
+    });
 
-    return response.data.success === true;
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params,
+    });
+
+    const data = await response.json();
+    return data.success === true;
   } catch (error) {
     console.error('Error verifying reCAPTCHA:', error);
     return false;
