@@ -3,7 +3,6 @@ import Link from "next/link"
 import { ArrowRight, Beer, BookOpen, Download, MessageSquare, Scale, Share2, Smartphone } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { PhoneFrame } from "@/components/phone-frame"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Testimonial } from "@/components/testimonial"

@@ -12,11 +12,8 @@ export type Review = {
   is_anonymous: boolean;
   review_date: string;
   review_type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   quick_review: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   standard_review?: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   expert_review?: any;
   created_at: string;
   updated_at: string;

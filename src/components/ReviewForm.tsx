@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ReviewType, QuickReview, StandardReview, ExpertReview } from '@/types/review';
 
@@ -75,7 +75,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
 
   // Quick review state
   const [quickReview, setQuickReview] = useState<QuickReview>({
-    overallRating: 0, // Start with no stars highlighted
+    overallRating: 1, // Mirrors the default standard review (all sliders at 1)
     comments: '', // Will be populated from shared comments on submit
   });
 
@@ -163,52 +163,52 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
     setComments(e.target.value);
   };
 
-  // Calculate the overall score whenever standardReview changes or when review type changes to standard
-  useEffect(() => {
-    if (reviewType === 'standard') {
-      const overallScore = calculateOverallScore(standardReview);
-      setQuickReview(prev => ({
-        ...prev,
-        overallRating: overallScore
-      }));
-    }
-  }, [standardReview, reviewType]);
+  // Switch review type and sync the derived overall score for the newly selected type.
+  // Standard and expert scores are calculated from their sliders; quick keeps the user's stars.
+  const selectReviewType = (type: ReviewType) => {
+    setReviewType(type);
 
-  // Calculate the expert review score whenever expertReview changes or when review type changes to expert
-  useEffect(() => {
-    if (reviewType === 'expert') {
+    if (type === 'standard') {
+      setQuickReview({
+        ...quickReview,
+        overallRating: calculateOverallScore(standardReview)
+      });
+    } else if (type === 'expert') {
       const expertScore = calculateExpertOverallScore(expertReview);
-
-      // Update the expertReview with the calculated score
-      setExpertReview(prev => ({
-        ...prev,
+      setExpertReview({
+        ...expertReview,
         calculatedScore: expertScore
-      }));
-
-      // Also update the quickReview overall rating for API compatibility
-      setQuickReview(prev => ({
-        ...prev,
+      });
+      setQuickReview({
+        ...quickReview,
         overallRating: expertScore
-      }));
+      });
     }
-  }, [
-    expertReview.appearance,
-    expertReview.aroma,
-    expertReview.taste,
-    expertReview.mouthfeel,
-    expertReview.aftertaste,
-    reviewType
-  ]);
+  };
 
-  // Simplified expert review change handler
+  // Expert review change handler; recalculates the expert score and mirrors it
+  // into the quick review overall rating for API compatibility
   const handleExpertReviewChange = (section: keyof ExpertReview, field: string, value: string | number) => {
-    setExpertReview({
+    const updatedExpertReview = {
       ...expertReview,
       [section]: {
         ...expertReview[section],
         [field]: typeof value === 'string' ? value : parseInt(value as string),
       },
+    };
+    const expertScore = calculateExpertOverallScore(updatedExpertReview);
+
+    setExpertReview({
+      ...updatedExpertReview,
+      calculatedScore: expertScore
     });
+
+    if (reviewType === 'expert') {
+      setQuickReview({
+        ...quickReview,
+        overallRating: expertScore
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -223,13 +223,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
         return;
       }
 
-      // For expert reviews, we need to ensure we have a valid overall rating
-      // Instead of just updating the state (which might not be reflected immediately),
-      // we'll create a local copy with a valid rating to use in the submission
-      if (quickReview.overallRating === 0) {
-        // Force a default value of 1 for expert reviews
-        quickReview.overallRating = 1;
-      }
+      // Expert reviews with a zero overall rating fall back to 1 when the payload is built below
     } else {
       // For quick and standard reviews, validate the overall rating
       if (quickReview.overallRating === 0) {
@@ -387,7 +381,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
                     ? 'bg-amber-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
-                onClick={() => setReviewType('quick')}
+                onClick={() => selectReviewType('quick')}
               >
                 <span className="font-semibold">Quick</span>
               </button>
@@ -404,7 +398,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
                     ? 'bg-amber-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
-                onClick={() => setReviewType('standard')}
+                onClick={() => selectReviewType('standard')}
               >
                 <span className="font-semibold">Standard</span>
               </button>
@@ -421,7 +415,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ apiBrewUuid, brewUuid, onSucces
                     ? 'bg-amber-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
-                onClick={() => setReviewType('expert')}
+                onClick={() => selectReviewType('expert')}
               >
                 <span className="font-semibold">Expert</span>
               </button>

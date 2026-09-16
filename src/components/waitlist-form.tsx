@@ -17,9 +17,6 @@ export function WaitlistForm() {
     isSubmitting: false,
   });
 
-  // State to track if the form has been successfully submitted
-  const [submitted, setSubmitted] = useState(false);
-
   // Reference to the reCAPTCHA component
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -75,10 +72,8 @@ export function WaitlistForm() {
           recaptchaRef.current.reset();
           setCaptchaToken(null);
         }
-        // Set submitted to true to show the thank you message
-        setSubmitted(true);
       }
-    } catch (error) {
+    } catch {
       setStatus({
         message: 'An error occurred. Please try again.',
         success: false,

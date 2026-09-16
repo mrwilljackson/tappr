@@ -9,7 +9,7 @@ interface BeerDetailsClientProps {
   brewUuid?: string; // For backward compatibility
 }
 
-const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ apiBrewUuid, brewUuid }) => {
+const BeerDetailsClient: React.FC<BeerDetailsClientProps> = ({ apiBrewUuid }) => {
   const [beer, setBeer] = useState<Beer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
