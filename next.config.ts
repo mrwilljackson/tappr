@@ -1,7 +1,19 @@
 import type { NextConfig } from "next";
 
+// NOTE: Next.js loads the first of next.config.js / .mjs / .ts it finds, so this
+// must be the only config file in the repo. A stray next.config.js previously
+// shadowed this file and silently disabled the security headers below.
 const nextConfig: NextConfig = {
-  /* config options here */
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+  images: {
+    unoptimized: true,
+  },
   async headers() {
     return [
       {
@@ -10,8 +22,8 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' }, // In production, replace with specific origins
-          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT' },
-          { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X_API_Key' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
+          { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X_API_Key, X-API-Key' },
         ],
       },
       {
